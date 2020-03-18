@@ -3,7 +3,7 @@
 ML deploy CICD pipeline
 
 Short instructions: 
-1) Install Cookiecutter
+1) Install [Cookiecutter](https://github.com/cookiecutter/cookiecutter)
 2) cookiecutter  https://github.com/databricks/mlflow-deployments.git (or the SSH equivalent)
 3) Create new GitHub repo and push created project files there
 4) Add DATABRICKS_HOST and DATABRICKS_TOKEN as Secrets to the newly created repo
