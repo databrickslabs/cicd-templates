@@ -4,7 +4,7 @@ ML deploy CICD pipeline
 
 Short instructions: 
 1) Install Cookiecutter
-2) cookiecutter  https://github.com/ThunderShiviah/ml-deploy-pipeline 
+2) cookiecutter  https://github.com/databricks/mlflow-deployments.git (or the SSH equivalent)
 3) Create new GitHub repo and push created project files there
 4) Add DATABRICKS_HOST and DATABRICKS_TOKEN as Secrets to the newly created repo
 5) Implement DEV tests in dev-tests folder. These pipelines will be run on every push
