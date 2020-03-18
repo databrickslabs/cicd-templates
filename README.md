@@ -4,7 +4,7 @@ ML deploy CICD pipeline
 
 Short instructions: 
 1) Install [Cookiecutter](https://github.com/cookiecutter/cookiecutter)
-2) cookiecutter  https://github.com/databricks/mlflow-deployments.git (or the SSH equivalent)
+2) cookiecutter git@github.com:databricks/mlflow-deployments.git (or the HTTPS equivalent)
 3) Create new GitHub repo and push created project files there
 4) Add DATABRICKS_HOST and DATABRICKS_TOKEN as Secrets to the newly created repo
 5) Implement DEV tests in dev-tests folder. These pipelines will be run on every push
@@ -13,52 +13,70 @@ Short instructions:
 
 Project Organization
 ------------
+.
+├── deployment
+│   ├── __init__.py
+│   ├── deployment.py
+│   ├── dev_cicd_pipeline.py
+│   └── release_cicd_pipeline.py
+├── deployment.yaml
+├── dev-tests
+│   ├── pipeline1
+│   │   ├── job_spec_aws.json
+│   │   ├── job_spec_azure.json
+│   │   └── pipeline_runner.py
+│   └── pipeline2
+│       ├── job_spec_aws.json
+│       ├── job_spec_azure.json
+│       └── pipeline_runner.py
+├── docs
+│   ├── Makefile
+│   ├── commands.rst
+│   ├── conf.py
+│   ├── getting-started.rst
+│   ├── index.rst
+│   └── make.bat
+├── integration-tests
+│   ├── pipeline1
+│   │   ├── job_spec_aws.json
+│   │   ├── job_spec_azure.json
+│   │   └── pipeline_runner.py
+│   └── pipeline2
+│       ├── job_spec_aws.json
+│       ├── job_spec_azure.json
+│       └── pipeline_runner.py
+├── mlflow_deployments_sample_project
+│   ├── __init__.py
+│   ├── data
+│   │   ├── __init__.py
+│   │   └── make_dataset.py
+│   ├── features
+│   │   ├── __init__.py
+│   │   └── build_features.py
+│   ├── models
+│   │   ├── __init__.py
+│   │   ├── predict_model.py
+│   │   └── train_model.py
+│   └── visualization
+│       ├── __init__.py
+│       └── visualize.py
+├── notebooks
+├── pipelines
+│   ├── pipeline1
+│   │   ├── job_spec_aws.json
+│   │   ├── job_spec_azure.json
+│   │   └── pipeline_runner.py
+│   └── pipeline2
+│       ├── job_spec_aws.json
+│       ├── job_spec_azure.json
+│       └── pipeline_runner.py
+├── requirements.txt
+├── runtime_requirements.txt
+├── setup.py
+└── tests
+    └── test_smth.py
 
-    ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
-    ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
-    │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-    │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
-    │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
-    │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
-    │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
-    │   │
-    │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
-    │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
-    │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
-    │
-    └── tox.ini            <- tox file with settings for running tox; see tox.testrun.org
-
+18 directories, 43 files
 
 --------
 
