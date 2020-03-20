@@ -27,6 +27,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        pip install deployment/mlflowdepl-0.1.0-py3-none-any.whl
     - name: Test with pytest
       run: |
         pip install pytest
@@ -37,4 +38,5 @@ jobs:
         python setup.py bdist_wheel
     - name: Deploy artifact
       run: |
-        python deployment/dev_cicd_pipeline.py
+        python -c "from mlflowdepl import dev_cicd_pipeline; dev_cicd_pipeline.main('dev-tests');"
+
