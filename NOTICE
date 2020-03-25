@@ -8,4 +8,8 @@ This Software includes software developed at Databricks (https://www.databricks.
 
 Additionally, this Software contains code from the following open source projects:
 
+1) MLflow - https://mlflow.org/
+2) Databricks CLI - https://github.com/databricks/databricks-cli
+3) Cookiecutter Data Sciense - https://github.com/drivendata/cookiecutter-data-science
+
 [mlflow-deployments - License]
