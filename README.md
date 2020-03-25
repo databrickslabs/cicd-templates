@@ -1,6 +1,6 @@
 
 
-ML deploy CICD pipeline
+# *mlflow-deployments*: Automated Databricks CICD pipeline creation and deployment
 
 [![asciicast](https://asciinema.org/a/yltp4nutLlqUSQJJF6NnzTq9s.svg)](https://asciinema.org/a/yltp4nutLlqUSQJJF6NnzTq9s)
 
