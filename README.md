@@ -4,6 +4,8 @@
 
 [![asciicast](https://asciinema.org/a/yltp4nutLlqUSQJJF6NnzTq9s.svg)](https://asciinema.org/a/yltp4nutLlqUSQJJF6NnzTq9s)
 
+[Enterprise SME presentation](https://drive.google.com/file/d/16iZtYaVluhin1gWH76Gmht7ZL00QKuRG/view)
+
 Short instructions: 
 1) Install [Cookiecutter](https://github.com/cookiecutter/cookiecutter)
 2) `cookiecutter git@github.com:databricks/mlflow-deployments.git` (or the HTTPS equivalent)
