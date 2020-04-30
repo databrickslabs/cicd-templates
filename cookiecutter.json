@@ -1,7 +1,7 @@
 {
-  "project_name": "MLflow Deployments Sample Project",
+  "project_name": "Databricks Labs CICD Templates Sample Project",
   "version": "0.1.0",
-  "description": "MLflow Deployments Sample Project",
+  "description": "Databricks Labs CICD Templates Sample Project",
   "author": "Thunder Shiviah, Michael Shtelma",
   "license": "",
   "mlflow_experiment_path": "/Users/....",
