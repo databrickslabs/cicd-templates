@@ -1,6 +1,5 @@
 # *Databricks Labs CI/CD Templates* Tutorial
 
+##Work in progress
 
-Work in progress
-
-Comming soon!
+##Comming soon!
