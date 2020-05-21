@@ -27,7 +27,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install deployment/databrickslabs_mlflowdepl-0.2.1-py3-none-any.whl
+        pip install deployment/databrickslabs_cicdtemplates-0.2.2-py3-none-any.whl
     - name: Test with pytest
       run: |
         pip install pytest
@@ -38,5 +38,5 @@ jobs:
         python setup.py bdist_wheel
     - name: Deploy artifact
       run: |
-        python -c "from databrickslabs_mlflowdepl import dev_cicd_pipeline; dev_cicd_pipeline.main('dev-tests');"
+        python -c "from databrickslabs_cicdtemplates import dev_cicd_pipeline; dev_cicd_pipeline.main('dev-tests');"
 
