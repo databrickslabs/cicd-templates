@@ -35,5 +35,5 @@ mlflow.set_tracking_uri("databricks")
 from setuptools import sandbox
 sandbox.run_setup('setup.py', ['clean', 'bdist_wheel'])
 
-from databrickslabs_mlflowdepl import cluster_and_libraries
+from databrickslabs_cicdtemplates import cluster_and_libraries
 cluster_and_libraries.main(args.dir, args.pipeline, args.cluster_id)
