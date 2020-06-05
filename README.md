@@ -5,7 +5,7 @@
 
 Short instructions: 
 1) Install [Cookiecutter](https://github.com/cookiecutter/cookiecutter) and dependencies from requirements.txt
-2) `cookiecutter git@github.com:databricks/mlflow-deployments.git` (or the HTTPS equivalent)
+2) `cookiecutter git@github.com:databrickslabs/cicd-templates.git` (or the HTTPS equivalent)
 3) Create new GitHub repo and push created project files there
 4) Add `DATABRICKS_HOST` and `DATABRICKS_TOKEN` as Github secrets to the newly created repo
 5) Implement DEV tests in dev-tests folder. These pipelines will be run on every push
@@ -83,5 +83,3 @@ Project Organization
 18 directories, 43 files
 ```
 --------
-
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
