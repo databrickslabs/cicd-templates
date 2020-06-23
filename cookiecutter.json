@@ -4,7 +4,7 @@
   "description": "Databricks Labs CICD Templates Sample Project",
   "author": "Thunder Shiviah, Michael Shtelma",
   "license": "",
-  "mlflow_experiment_path": "/Users/....",
+  "mlflow_experiment_path": "/Shared/cicd",
   "cloud": ["AWS", "Azure"],
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
   "_copy_without_render": [
