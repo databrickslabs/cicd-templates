@@ -41,11 +41,8 @@ stages:
     - script: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        PROJECT_RELATIVE_PATH="${PROJECT_RELATIVE_PATH:-.}"
-        pip install "$PROJECT_RELATIVE_PATH"/deployment/databrickslabs_cicdtemplates-0.2.3-py3-none-any.whl
+        pip install deployment/databrickslabs_cicdtemplates-0.2.3-py3-none-any.whl
       displayName: 'Install Python Dependencies'
-      env:
-        PROJECT_RELATIVE_PATH: $(PROJECT_RELATIVE_PATH)
 
     - script: |
         pip install pytest
@@ -104,11 +101,8 @@ stages:
       - script: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          PROJECT_RELATIVE_PATH="${PROJECT_RELATIVE_PATH:-.}"
-          pip install "$PROJECT_RELATIVE_PATH"/deployment/databrickslabs_cicdtemplates-0.2.3-py3-none-any.whl
+          pip install deployment/databrickslabs_cicdtemplates-0.2.3-py3-none-any.whl
         displayName: 'Install Python Dependencies'
-        env:
-          PROJECT_RELATIVE_PATH: $(PROJECT_RELATIVE_PATH)
 
       - script: |
           pip install pytest
