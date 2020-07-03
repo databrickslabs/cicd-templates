@@ -85,3 +85,23 @@ Project Organization
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+
+## Azure Devops Cookie-cutter instructions
+
+Once you have created your project/repo for Azure Devops, you should do the following:
+
+- Create a new Azure Devops Project/pipeline and link it to the "az_dev_ops/azure-pipelines.yml" file in your repo.
+- Create a variable group named "Databricks-environment" that will be used in your az_dev_ops/azure-pipelines.yml pipeline definition. 
+- Under that new variable group, create the following variables:
+    - DATABRICKS_HOST: Databricks Host without orgid. Example "https://uksouth.azuredatabricks.net".
+    - DATABRICKS_TOKEN: Databricks Personal Access Token of the user that will be used to run the automated pipelines.
+    - MLFLOW_TRACKING_URI: Normally databricks.
+    - DATABRICKS_USERNAME: Username of the system user in the Databricks environment under which the artifacts will be registered.
+    - CURRENT_CLOUD: Optional. Use the "CURRENT_CLOUD" environment variable to overwrite the cloud where the data pipelines will run. It takes precedence over the "cloud" parameter in the deployment.yaml file.
+
+- If you want to change the name of the variable group, you should do it in Azure Devops first and then reflect that name in the variables/group section of your az_dev_ops/azure-pipelines.yml file. 
+
+
+## Additional
+
+- Use the "CURRENT_CLOUD" environment variable to overwrite the cloud where the data pipelines will run. It takes precedence over the "cloud" parameter in the deployment.yaml file.
