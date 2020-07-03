@@ -1,0 +1,3 @@
+model-name: test_azure_devops
+experiment-path: /Shared/cicd
+cloud: Azure
