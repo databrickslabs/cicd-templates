@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+import os
 import sys
 from os.path import isdir
 
@@ -35,5 +35,7 @@ mlflow.set_tracking_uri("databricks")
 from setuptools import sandbox
 sandbox.run_setup('setup.py', ['clean', 'bdist_wheel'])
 
+env = os.environ.get('env')
+
 from databrickslabs_cicdtemplates import cluster_and_libraries
-cluster_and_libraries.main(args.dir, args.pipeline, args.cluster_id)
+cluster_and_libraries.create_cluster_and_install_libs(args.dir, args.pipeline, existing_cluster_id=args.cluster_id, env=env)

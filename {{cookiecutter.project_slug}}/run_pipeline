@@ -3,7 +3,9 @@
 
 import argparse
 import sys
+import os
 from os.path import isdir
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("dirname", help="Directory")
@@ -32,5 +34,7 @@ mlflow.set_tracking_uri("databricks")
 from setuptools import sandbox
 sandbox.run_setup('setup.py', ['clean', 'bdist_wheel'])
 
+env = os.environ.get('env')
+
 from databrickslabs_cicdtemplates import dev_cicd_pipeline
-dev_cicd_pipeline.main(args.dirname, args.pipeline_name)
+dev_cicd_pipeline.main(args.dirname, args.pipeline_name, env=env)

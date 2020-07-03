@@ -29,7 +29,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install deployment/databrickslabs_cicdtemplates-0.2.2-py3-none-any.whl
+        pip install deployment/databrickslabs_cicdtemplates-0.2.3-py3-none-any.whl
     - name: Test with pytest
       run: |
         pip install pytest
