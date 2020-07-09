@@ -2,6 +2,7 @@
 
 [![asciicast](https://asciinema.org/a/yltp4nutLlqUSQJJF6NnzTq9s.svg)](https://asciinema.org/a/yltp4nutLlqUSQJJF6NnzTq9s)
 
+Demo: https://www.youtube.com/watch?v=Gjns_Z0zxt8&feature=emb_logo
 
 Short instructions: 
 1) Install [Cookiecutter](https://github.com/cookiecutter/cookiecutter) and dependencies from requirements.txt
@@ -18,11 +19,12 @@ Please note:
 Project Organization
 ------------
 ```bash
+.
+├── cicd1
+│   └── model.py
+├── create_cluster
 ├── deployment
-│   ├── __init__.py
-│   ├── deployment.py
-│   ├── dev_cicd_pipeline.py
-│   └── release_cicd_pipeline.py
+│   └── databrickslabs_cicdtemplates-0.2.3-py3-none-any.whl
 ├── deployment.yaml
 ├── dev-tests
 │   ├── pipeline1
@@ -33,13 +35,6 @@ Project Organization
 │       ├── job_spec_aws.json
 │       ├── job_spec_azure.json
 │       └── pipeline_runner.py
-├── docs
-│   ├── Makefile
-│   ├── commands.rst
-│   ├── conf.py
-│   ├── getting-started.rst
-│   ├── index.rst
-│   └── make.bat
 ├── integration-tests
 │   ├── pipeline1
 │   │   ├── job_spec_aws.json
@@ -49,22 +44,6 @@ Project Organization
 │       ├── job_spec_aws.json
 │       ├── job_spec_azure.json
 │       └── pipeline_runner.py
-├── mlflow_deployments_sample_project
-│   ├── __init__.py
-│   ├── data
-│   │   ├── __init__.py
-│   │   └── make_dataset.py
-│   ├── features
-│   │   ├── __init__.py
-│   │   └── build_features.py
-│   ├── models
-│   │   ├── __init__.py
-│   │   ├── predict_model.py
-│   │   └── train_model.py
-│   └── visualization
-│       ├── __init__.py
-│       └── visualize.py
-├── notebooks
 ├── pipelines
 │   ├── pipeline1
 │   │   ├── job_spec_aws.json
@@ -75,18 +54,18 @@ Project Organization
 │       ├── job_spec_azure.json
 │       └── pipeline_runner.py
 ├── requirements.txt
+├── run_now
+├── run_pipeline
 ├── runtime_requirements.txt
 ├── setup.py
 └── tests
-    └── test_smth.py
-
-18 directories, 43 files
+    └── test_example.py
 ```
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
 
-## Azure Devops Cookie-cutter instructions
+## Azure Devops Cookiecutter instructions
 
 Once you have created your project/repo for Azure Devops, you should do the following:
 

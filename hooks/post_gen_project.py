@@ -12,10 +12,10 @@ def remove(filepath):
 
 cicd_tool = '{{cookiecutter.cicd_tool}}'
 
-if cicd_tool == 'git':
+if cicd_tool == 'GitHub Actions':
     # remove top-level file inside the generated folder
     remove('az_dev_ops')
-if cicd_tool == 'az_dev_ops':
+if cicd_tool == 'Azure DevOps':
     # remove top-level file inside the generated folder
     remove('.github')
 	

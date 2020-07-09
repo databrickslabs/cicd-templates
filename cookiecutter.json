@@ -6,7 +6,7 @@
   "license": "",
   "mlflow_experiment_path": "/Shared/cicd",
   "cloud": ["AWS", "Azure"],
-  "cicd_tool":["git","az_dev_ops"],
+  "cicd_tool":["GitHub Actions","Azure DevOps"],
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
   "_copy_without_render": [
         "*.github*"
