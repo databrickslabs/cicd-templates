@@ -53,16 +53,7 @@ stages:
         python setup.py bdist_wheel
       displayName: 'Build artifact'
 
-    - task: riserrad.azdo-databricks.azdo-databricks-configuredatabricks.configuredatabricks@0
-      inputs:
-        url: '$(DATABRICKS_HOST)'
-        token: '$(DATABRICKS_TOKEN)'
-      displayName: 'Configure Databricks CLI for AZDO'
-
     - script: |
-        # Prevent the "RestException: RESOURCE_DOES_NOT_EXIST: Parent directory /Users/$(Username)/experiments does not exist" Error first time.
-        databricks workspace mkdirs /Users/$(DATABRICKS_USERNAME)/experiments --profile AZDO
-
         python -c "from databrickslabs_cicdtemplates import dev_cicd_pipeline; dev_cicd_pipeline.main('dev-tests');"
       env:
         DATABRICKS_HOST: $(DATABRICKS_HOST)
@@ -73,7 +64,6 @@ stages:
 
 
 - stage: onRelease
-  dependsOn: [onPush]
   condition: |
     or(
       startsWith(variables['Build.SourceBranch'], 'refs/heads/releases'),
@@ -113,16 +103,7 @@ stages:
           python setup.py bdist_wheel
         displayName: 'Build artifact'
 
-      - task: riserrad.azdo-databricks.azdo-databricks-configuredatabricks.configuredatabricks@0
-        inputs:
-          url: '$(DATABRICKS_HOST)'
-          token: '$(DATABRICKS_TOKEN)'
-        displayName: 'Configure Databricks CLI for AZDO'
-
       - script: |
-          # Prevent the "RestException: RESOURCE_DOES_NOT_EXIST: Parent directory /Users/$(Username)/experiments does not exist" Error first time.
-          databricks workspace mkdirs /Users/$(DATABRICKS_USERNAME)/experiments --profile AZDO
-
           python -c "from databrickslabs_cicdtemplates import release_cicd_pipeline; release_cicd_pipeline.main('integration-tests', 'pipelines', True);"
         env:
           DATABRICKS_HOST: $(DATABRICKS_HOST)
