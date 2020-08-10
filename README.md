@@ -5,13 +5,16 @@
 Demo: https://www.youtube.com/watch?v=Gjns_Z0zxt8&feature=emb_logo
 
 Short instructions: 
-1) Install [Cookiecutter](https://github.com/cookiecutter/cookiecutter) and dependencies from requirements.txt
-2) `cookiecutter https://github.com/databrickslabs/cicd-template` 
-3) Create new GitHub repo and push created project files there
-4) Add `DATABRICKS_HOST` and `DATABRICKS_TOKEN` as Github secrets to the newly created repo
-5) Implement DEV tests in dev-tests folder. These pipelines will be run on every push
-6) Implement Integration Test pipelines in folder integration-test. These pipelines will be used for testing of new release
-7) Implement production pipelines in pipeline folder. 
+1) Create new conda environment and activate it
+2) Install [Cookiecutter](https://github.com/cookiecutter/cookiecutter)
+3) `cookiecutter https://github.com/databrickslabs/cicd-template` and `cd <your_project_name>` 
+4) Install all requirements from requirements.txt:  `pip install -r requirements.txt` 
+5) Install CI/CD templates API:  `pip install deployment/databrickslabs_cicdtemplates-0.2.3-py3-none-any.whl` 
+6) Create new GitHub repo and push created project files there
+7) Add `DATABRICKS_HOST` and `DATABRICKS_TOKEN` as Github secrets to the newly created repo
+8) Implement DEV tests in dev-tests folder. These pipelines will be run on every push
+9) Implement Integration Test pipelines in folder integration-test. These pipelines will be used for testing of new release
+10) Implement production pipelines in pipeline folder. 
 
 Please note:
 1)Python 3.8 is not supported yet
