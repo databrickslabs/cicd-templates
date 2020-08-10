@@ -6,7 +6,7 @@ Demo: https://www.youtube.com/watch?v=Gjns_Z0zxt8&feature=emb_logo
 
 Short instructions: 
 1) Install [Cookiecutter](https://github.com/cookiecutter/cookiecutter) and dependencies from requirements.txt
-2) `cookiecutter git@github.com:databricks/mlflow-deployments.git` (or the HTTPS equivalent)
+2) `cookiecutter https://github.com/databrickslabs/cicd-template` 
 3) Create new GitHub repo and push created project files there
 4) Add `DATABRICKS_HOST` and `DATABRICKS_TOKEN` as Github secrets to the newly created repo
 5) Implement DEV tests in dev-tests folder. These pipelines will be run on every push
