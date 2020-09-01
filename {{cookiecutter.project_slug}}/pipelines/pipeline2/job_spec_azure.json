@@ -1,7 +1,7 @@
 {
   "name": "Nightly model training",
   "new_cluster": {
-    "spark_version": "6.3.x-scala2.11",
+    "spark_version": "7.2.x-cpu-ml-scala2.12",
     "node_type_id": "Standard_DS13_v2",
     "num_workers": 2
   },
