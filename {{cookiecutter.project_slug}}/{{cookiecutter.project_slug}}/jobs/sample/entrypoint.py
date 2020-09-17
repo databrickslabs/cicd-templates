@@ -1,4 +1,4 @@
-from {{cookiecutter.project_name}}.common import Job
+from {{cookiecutter.project_slug}}.common import Job
 
 
 class SampleJob(Job):

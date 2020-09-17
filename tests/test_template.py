@@ -38,6 +38,7 @@ class TemplateTest(unittest.TestCase):
 
             self.assertTrue(Path(".github").exists())
             self.assertFalse(Path("azure-pipelines.yml").exists())
+            self.assertTrue(Path(".dbx/deployment.json").exists())
 
     def test_template_azure_github(self):
         cookiecutter(template=TEMPLATE_PATH, no_input=True, output_dir=self.test_dir, extra_context={
@@ -55,6 +56,7 @@ class TemplateTest(unittest.TestCase):
 
             self.assertTrue(Path(".github").exists())
             self.assertFalse(Path("azure-pipelines.yml").exists())
+            self.assertTrue(Path(".dbx/deployment.json").exists())
 
     def test_template_azure_azure_dev_ops(self):
         cookiecutter(template=TEMPLATE_PATH, no_input=True, output_dir=self.test_dir, extra_context={
@@ -72,6 +74,7 @@ class TemplateTest(unittest.TestCase):
 
             self.assertTrue(Path("azure-pipelines.yml").exists())
             self.assertFalse(Path(".github").exists())
+            self.assertTrue(Path(".dbx/deployment.json").exists())
 
 
 if __name__ == '__main__':

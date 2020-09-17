@@ -2,7 +2,7 @@ import unittest
 import tempfile
 import os
 import shutil
-from {{cookiecutter.project_name}}.jobs.sample.entrypoint import SampleJob
+from {{cookiecutter.project_slug}}.jobs.sample.entrypoint import SampleJob
 from pyspark.sql import SparkSession
 
 class SampleJobUnitTest(unittest.TestCase):

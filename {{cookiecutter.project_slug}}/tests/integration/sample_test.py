@@ -1,5 +1,5 @@
 import unittest
-from {{cookiecutter.project_name}}.jobs.sample.entrypoint import SampleJob
+from {{cookiecutter.project_slug}}.jobs.sample.entrypoint import SampleJob
 from uuid import uuid4
 from pyspark.dbutils import DBUtils
 
