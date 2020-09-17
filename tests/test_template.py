@@ -18,8 +18,7 @@ class TemplateTest(unittest.TestCase):
         logging.info("Test directory: %s" % self.test_dir)
 
     def tearDown(self) -> None:
-        # shutil.rmtree(self.test_dir)
-        pass
+        shutil.rmtree(self.test_dir)
 
     def test_template_aws_github(self):
         cookiecutter(template=TEMPLATE_PATH, no_input=True, output_dir=self.test_dir, extra_context={
@@ -37,6 +36,9 @@ class TemplateTest(unittest.TestCase):
             for f in all_json_files:
                 self.assertTrue("azure" not in str(f))
 
+            self.assertTrue(Path(".github").exists())
+            self.assertFalse(Path("azure-pipelines.yml").exists())
+
     def test_template_azure_github(self):
         cookiecutter(template=TEMPLATE_PATH, no_input=True, output_dir=self.test_dir, extra_context={
             "project_name": self.project_name,
@@ -47,12 +49,12 @@ class TemplateTest(unittest.TestCase):
         full_path = Path(self.test_dir).joinpath(self.project_name)
 
         with full_path:
-            os.system("tree")
             all_json_files = pathlib.Path(".").rglob("*.json")
             for f in all_json_files:
                 self.assertTrue("aws" not in str(f))
 
             self.assertTrue(Path(".github").exists())
+            self.assertFalse(Path("azure-pipelines.yml").exists())
 
     def test_template_azure_azure_dev_ops(self):
         cookiecutter(template=TEMPLATE_PATH, no_input=True, output_dir=self.test_dir, extra_context={
@@ -69,6 +71,7 @@ class TemplateTest(unittest.TestCase):
                 self.assertTrue("aws" not in str(f))
 
             self.assertTrue(Path("azure-pipelines.yml").exists())
+            self.assertFalse(Path(".github").exists())
 
 
 if __name__ == '__main__':
