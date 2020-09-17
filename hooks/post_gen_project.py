@@ -2,6 +2,7 @@ import os
 import shutil
 import pathlib
 import json
+import yaml
 
 cicd_tool = '{{cookiecutter.cicd_tool}}'
 cloud = '{{cookiecutter.cloud}}'

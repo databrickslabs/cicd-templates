@@ -6,9 +6,20 @@ import pathlib
 import logging
 from uuid import uuid4
 import shutil
-import os
+import json
+import yaml
 
 TEMPLATE_PATH = str(pathlib.Path(".").absolute())
+
+
+def validate_json(file_path):
+    content = pathlib.Path(file_path).read_text()
+    json.loads(content)
+
+
+def validate_yaml(file_path):
+    content = pathlib.Path(file_path).read_text()
+    yaml.load(content, Loader=yaml.FullLoader)
 
 
 class TemplateTest(unittest.TestCase):
@@ -38,7 +49,10 @@ class TemplateTest(unittest.TestCase):
 
             self.assertTrue(Path(".github").exists())
             self.assertFalse(Path("azure-pipelines.yml").exists())
-            self.assertTrue(Path(".dbx/deployment.json").exists())
+
+            validate_json(".dbx/deployment.json")
+            validate_yaml(".github/workflows/onpush.yml")
+            validate_yaml(".github/workflows/onrelease.yml")
 
     def test_template_azure_github(self):
         cookiecutter(template=TEMPLATE_PATH, no_input=True, output_dir=self.test_dir, extra_context={
@@ -58,6 +72,10 @@ class TemplateTest(unittest.TestCase):
             self.assertFalse(Path("azure-pipelines.yml").exists())
             self.assertTrue(Path(".dbx/deployment.json").exists())
 
+            validate_json(".dbx/deployment.json")
+            validate_yaml(".github/workflows/onpush.yml")
+            validate_yaml(".github/workflows/onrelease.yml")
+
     def test_template_azure_azure_dev_ops(self):
         cookiecutter(template=TEMPLATE_PATH, no_input=True, output_dir=self.test_dir, extra_context={
             "project_name": self.project_name,
@@ -75,6 +93,8 @@ class TemplateTest(unittest.TestCase):
             self.assertTrue(Path("azure-pipelines.yml").exists())
             self.assertFalse(Path(".github").exists())
             self.assertTrue(Path(".dbx/deployment.json").exists())
+
+            validate_json(".dbx/deployment.json")
 
 
 if __name__ == '__main__':
