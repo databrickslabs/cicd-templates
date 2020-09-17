@@ -1,3 +1,0 @@
-model-name: {{cookiecutter.project_slug}}
-experiment-path: {{cookiecutter.mlflow_experiment_path}}
-cloud: {{cookiecutter.cloud}}

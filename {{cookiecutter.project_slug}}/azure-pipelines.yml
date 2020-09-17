@@ -12,11 +12,6 @@ trigger:
       - v*.*
       - prod
 
-  paths:
-    exclude:
-      - .github/*
-      - mlruns/*
-
 stages:
 - stage: onPush
   jobs:
@@ -41,12 +36,12 @@ stages:
     - script: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install deployment/databrickslabs_cicdtemplates-0.2.3-py3-none-any.whl
+        pip install dbx
       displayName: 'Install Python Dependencies'
 
     - script: |
         pip install pytest
-        python -m pytest
+        pytest
       displayName: 'Run Unit tests'
 
     - script: |
@@ -54,14 +49,24 @@ stages:
       displayName: 'Build artifact'
 
     - script: |
-        python -c "from databrickslabs_cicdtemplates import dev_cicd_pipeline; dev_cicd_pipeline.main('dev-tests');"
+        echo "[profile-name]" >> ~/.databrickscfg
+        echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
+        echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
+      displayName: 'Prepare profile'
+
+    - script: |
+        dbx deploy --environment=test
       env:
         DATABRICKS_HOST: $(DATABRICKS_HOST)
         DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
-        MLFLOW_TRACKING_URI: $(MLFLOW_TRACKING_URI)
-        CURRENT_CLOUD: $(CURRENT_CLOUD)
-      displayName: 'Deploy artifact'
+      displayName: 'Deploy artifact on test'
 
+    - script: |
+        dbx launch --environment=test --job=sample --trace
+      env:
+        DATABRICKS_HOST: $(DATABRICKS_HOST)
+        DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+      displayName: 'Launch artifact on test'
 
 - stage: onRelease
   condition: |
@@ -91,23 +96,30 @@ stages:
       - script: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install deployment/databrickslabs_cicdtemplates-0.2.3-py3-none-any.whl
+          pip install dbx
         displayName: 'Install Python Dependencies'
 
       - script: |
           pip install pytest
-          python -m pytest
+          pytest
         displayName: 'Run Unit tests'
 
-      - script: |
-          python setup.py bdist_wheel
-        displayName: 'Build artifact'
+    - script: |
+        echo "[profile-name]" >> ~/.databrickscfg
+        echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
+        echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
+      displayName: 'Prepare profile'
 
-      - script: |
-          python -c "from databrickslabs_cicdtemplates import release_cicd_pipeline; release_cicd_pipeline.main('integration-tests', 'pipelines', True);"
-        env:
-          DATABRICKS_HOST: $(DATABRICKS_HOST)
-          DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
-          MLFLOW_TRACKING_URI: $(MLFLOW_TRACKING_URI)
-          CURRENT_CLOUD: $(CURRENT_CLOUD)
-        displayName: 'Deploy artifact'
+    - script: |
+        dbx deploy --environment=live
+      env:
+        DATABRICKS_HOST: $(DATABRICKS_HOST)
+        DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+      displayName: 'Deploy artifact on test'
+
+    - script: |
+        dbx launch --environment=live --job=sample --trace
+      env:
+        DATABRICKS_HOST: $(DATABRICKS_HOST)
+        DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+      displayName: 'Launch artifact on live'
