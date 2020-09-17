@@ -4,3 +4,4 @@ cookiecutter
 pathlib
 pytest
 path
+pyyaml
