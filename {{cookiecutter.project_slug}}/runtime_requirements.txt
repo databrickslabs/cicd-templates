@@ -1,0 +1,3 @@
+mlflow==1.9.1
+python-dotenv==0.10.3
+sklearn
