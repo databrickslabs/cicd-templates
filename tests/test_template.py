@@ -18,7 +18,8 @@ class TemplateTest(unittest.TestCase):
         logging.info("Test directory: %s" % self.test_dir)
 
     def tearDown(self) -> None:
-        shutil.rmtree(self.test_dir)
+        # shutil.rmtree(self.test_dir)
+        pass
 
     def test_template_aws_github(self):
         cookiecutter(template=TEMPLATE_PATH, no_input=True, output_dir=self.test_dir, extra_context={
@@ -46,6 +47,7 @@ class TemplateTest(unittest.TestCase):
         full_path = Path(self.test_dir).joinpath(self.project_name)
 
         with full_path:
+            os.system("tree")
             all_json_files = pathlib.Path(".").rglob("*.json")
             for f in all_json_files:
                 self.assertTrue("aws" not in str(f))
