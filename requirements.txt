@@ -2,4 +2,4 @@ setuptools
 wheel
 cookiecutter
 pathlib
-
+pytest
