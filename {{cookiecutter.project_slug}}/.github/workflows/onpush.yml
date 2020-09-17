@@ -1,4 +1,4 @@
-name: Project pipeline
+name: Testing pipeline
 
 on: [ push ]
 
@@ -14,6 +14,7 @@ jobs:
     env:
       DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      PROFILE_NAME: "some-profile"
 
     steps:
       - uses: actions/checkout@v1
@@ -27,7 +28,7 @@ jobs:
         id: cache
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/unit-requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
             ${{ runner.os }}-pip-
@@ -38,17 +39,17 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install dbx
+          pip install tools/dbx.whl
           pip install -r requirements.txt
 
-      - name: Run tests
+      - name: Run unit tests
         run: |
           echo "Launching tests"
-          pytest
+          pytest unit
 
       - name: Prepare profile
         run: |
-          echo "[profile-name]" >> ~/.databrickscfg
+          echo "[$PROFILE_NAME]" >> ~/.databrickscfg
           echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
           echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
 

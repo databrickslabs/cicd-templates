@@ -23,7 +23,7 @@ jobs:
       id: cache
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/unit-requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           ${{ runner.os }}-pip-
@@ -39,5 +39,5 @@ jobs:
     - name: Run tests
       run: |
         echo "Launching tests"
-        pytest
+        pytest tests
 

@@ -1,5 +1,6 @@
 variables:
-- group: Databricks-environment
+- name: PROFILE_NAME
+  value: "some-profile"
 
 trigger:
   batch: true
@@ -36,7 +37,7 @@ stages:
     - script: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install dbx
+        pip install tools/dbx.whl
       displayName: 'Install Python Dependencies'
 
     - script: |
@@ -49,23 +50,21 @@ stages:
       displayName: 'Build artifact'
 
     - script: |
-        echo "[profile-name]" >> ~/.databrickscfg
+        echo "[$PROFILE_NAME]" >> ~/.databrickscfg
         echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
         echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
+      env:
+        DATABRICKS_HOST: $(DATABRICKS_HOST)
+        DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+        PROFILE_NAME: $(PROFILE_NAME)
       displayName: 'Prepare profile'
 
     - script: |
         dbx deploy --environment=test
-      env:
-        DATABRICKS_HOST: $(DATABRICKS_HOST)
-        DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
       displayName: 'Deploy artifact on test'
 
     - script: |
         dbx launch --environment=test --job=sample --trace
-      env:
-        DATABRICKS_HOST: $(DATABRICKS_HOST)
-        DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
       displayName: 'Launch artifact on test'
 
 - stage: onRelease
@@ -96,7 +95,7 @@ stages:
       - script: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install dbx
+          pip install tools/dbx.whl
         displayName: 'Install Python Dependencies'
 
       - script: |
@@ -105,21 +104,19 @@ stages:
         displayName: 'Run Unit tests'
 
     - script: |
-        echo "[profile-name]" >> ~/.databrickscfg
+        echo "[$PROFILE_NAME]" >> ~/.databrickscfg
         echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
         echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
+      env:
+        DATABRICKS_HOST: $(DATABRICKS_HOST)
+        DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+        PROFILE_NAME: $(PROFILE_NAME)
       displayName: 'Prepare profile'
 
     - script: |
-        dbx deploy --environment=live
-      env:
-        DATABRICKS_HOST: $(DATABRICKS_HOST)
-        DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+        dbx deploy --environment=test
       displayName: 'Deploy artifact on test'
 
     - script: |
-        dbx launch --environment=live --job=sample --trace
-      env:
-        DATABRICKS_HOST: $(DATABRICKS_HOST)
-        DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
-      displayName: 'Launch artifact on live'
+        dbx launch --environment=test --job=sample --trace
+      displayName: 'Launch artifact on test'
