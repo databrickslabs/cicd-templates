@@ -7,4 +7,5 @@ generate-test:
 
 get-latest-dbx:
 	cd ~/IdeaProjects/cicd-templates-api && make artifact
-	find ~/IdeaProjects/cicd-templates-api/artifact -name '*.whl' -exec cp -pv '{}' '{{cookiecutter.project_slug}}/tools/dbx.whl' ';'
+	cp -r ~/IdeaProjects/cicd-templates-api/artifact/* {{cookiecutter.project_slug}}/tools
+	rm {{cookiecutter.project_slug}}/tools/dbx.pdf

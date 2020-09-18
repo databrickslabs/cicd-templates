@@ -41,7 +41,6 @@ class TemplateTest(unittest.TestCase):
         full_path = Path(self.test_dir).joinpath(self.project_name)
 
         with full_path:
-
             all_json_files = pathlib.Path(".").rglob("*.json")
             for f in all_json_files:
                 self.assertTrue("azure" not in str(f))

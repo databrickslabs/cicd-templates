@@ -152,6 +152,8 @@ class PostProcessor:
         deployment_file.parent.mkdir(exist_ok=True)
         deployment_file.write_text(deployment)
 
+        os.system("git init")
+
 
 if __name__ == '__main__':
     post_processor = PostProcessor()
