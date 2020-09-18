@@ -106,7 +106,9 @@ class PostProcessor:
                 _f.unlink()
 
         deployment = json.dumps(DEPLOYMENT[cloud], indent=4)
-        pathlib.Path(".dbx/deployment.json").write_text(deployment)
+        deployment_file = pathlib.Path(".dbx/deployment.json")
+        deployment_file.parent.mkdir(exist_ok=True)
+        deployment_file.write_text(deployment)
 
 
 if __name__ == '__main__':
