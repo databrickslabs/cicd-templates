@@ -2,7 +2,6 @@ import os
 import shutil
 import pathlib
 import json
-import yaml
 
 cicd_tool = '{{cookiecutter.cicd_tool}}'
 cloud = '{{cookiecutter.cloud}}'
@@ -11,72 +10,118 @@ project = '{{cookiecutter.project_slug}}'
 DEPLOYMENT = {
     "AWS": {
         "test": {
-            "dbfs": {
-                "package": "dist/%s-0.0.1-py3-none-any.whl" % project
-            },
-            "jobs": {
-                "name": "%s-sample" % project,
-                "new_cluster": {
-                    "spark_version": "7.2.x-cpu-ml-scala2.12",
-                    "node_type_id": "i3.xlarge",
-                    "aws_attributes": {
-                        "first_on_demand": 0,
-                        "availability": "SPOT"
+            "jobs": [
+                {
+                    "name": "%s-sample" % project,
+                    "new_cluster": {
+                        "spark_version": "7.2.x-cpu-ml-scala2.12",
+                        "node_type_id": "i3.xlarge",
+                        "aws_attributes": {
+                            "first_on_demand": 0,
+                            "availability": "SPOT"
+                        },
+                        "num_workers": 2
                     },
-                    "num_workers": 2
-                },
-                "libraries": [
-                    {
-                        "whl": "dist/%s-0.0.1-py3-none-any.whl" % project
+                    "libraries": [
+                        {
+                            "whl": "dist/%s-0.0.1-py3-none-any.whl" % project
+                        }
+                    ],
+                    "email_notifications": {
+                        "on_start": [],
+                        "on_success": [],
+                        "on_failure": []
+                    },
+                    "max_retries": 0,
+                    "spark_python_task": {
+                        "python_file": "%s/jobs/sample/entrypoint.py" % project,
+                        "parameters": [
+                            "--conf-file",
+                            "conf/test/sample.json"
+                        ]
                     }
-                ],
-                "email_notifications": {
-                    "on_start": [],
-                    "on_success": [],
-                    "on_failure": []
                 },
-                "max_retries": 0,
-                "spark_python_task": {
-                    "python_file": "%s/jobs/sample/entrypoint.py" % project,
-                    "parameters": [
-                        "--conf-file",
-                        "conf/test/sample.json"
-                    ]
+                {
+                    "name": "%s-sample-integration-test" % project,
+                    "new_cluster": {
+                        "spark_version": "7.2.x-cpu-ml-scala2.12",
+                        "node_type_id": "i3.xlarge",
+                        "aws_attributes": {
+                            "first_on_demand": 0,
+                            "availability": "SPOT"
+                        },
+                        "num_workers": 1
+                    },
+                    "libraries": [
+                        {
+                            "whl": "dist/%s-0.0.1-py3-none-any.whl" % project
+                        }
+                    ],
+                    "email_notifications": {
+                        "on_start": [],
+                        "on_success": [],
+                        "on_failure": []
+                    },
+                    "max_retries": 0,
+                    "spark_python_task": {
+                        "python_file": "tests/integration/sample_test.py"
+                    }
                 }
-            }
+            ]
         }
     },
     "Azure": {
         "test": {
-            "dbfs": {
-                "package": "dist/%s-0.0.1-py3-none-any.whl" % project
-            },
-            "jobs": {
-                "name": "%s-sample" % project,
-                "new_cluster": {
-                    "spark_version": "7.2.x-cpu-ml-scala2.12",
-                    "node_type_id": "Standard_F4s",
-                    "num_workers": 2
-                },
-                "libraries": [
-                    {
-                        "whl": "dist/%s-0.0.1-py3-none-any.whl" % project
+            "jobs": [
+                {
+                    "name": "%s-sample" % project,
+                    "new_cluster": {
+                        "spark_version": "7.2.x-cpu-ml-scala2.12",
+                        "node_type_id": "Standard_F4s",
+                        "num_workers": 2
+                    },
+                    "libraries": [
+                        {
+                            "whl": "dist/%s-0.0.1-py3-none-any.whl" % project
+                        }
+                    ],
+                    "email_notifications": {
+                        "on_start": [],
+                        "on_success": [],
+                        "on_failure": []
+                    },
+                    "max_retries": 0,
+                    "spark_python_task": {
+                        "python_file": "%s/jobs/sample/entrypoint.py" % project,
+                        "parameters": [
+                            "--conf-file",
+                            "conf/test/sample.json"
+                        ]
                     }
-                ],
-                "email_notifications": {
-                    "on_start": [],
-                    "on_success": [],
-                    "on_failure": []
                 },
-                "max_retries": 0,
-                "spark_python_task": {
-                    "python_file": "%s/jobs/sample/entrypoint.py" % project,
-                    "parameters": [
-                        "--conf-file",
-                        "conf/test/sample.json"
-                    ]
+                {
+                    "name": "%s-sample-integration-test" % project,
+                    "new_cluster": {
+                        "spark_version": "7.2.x-cpu-ml-scala2.12",
+                        "node_type_id": "Standard_F4s",
+                        "num_workers": 1
+                    },
+                    "libraries": [
+                        {
+                            "whl": "dist/%s-0.0.1-py3-none-any.whl" % project
+                        }
+                    ],
+                    "email_notifications": {
+                        "on_start": [],
+                        "on_success": [],
+                        "on_failure": []
+                    },
+                    "max_retries": 0,
+                    "spark_python_task": {
+                        "python_file": "tests/integration/sample_test.py"
+                    }
                 }
-            }
+            ]
         }
     }
 }
@@ -86,13 +131,10 @@ class PostProcessor:
     @staticmethod
     def process():
 
-        shutil.rmtree("tests")
-
         if cicd_tool == 'GitHub Actions':
             os.remove("azure-pipelines.yml")
 
         if cicd_tool == 'Azure DevOps':
-            # remove top-level file inside the generated folder
             shutil.rmtree(".github")
 
         if cloud == "Azure":

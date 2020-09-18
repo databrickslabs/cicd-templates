@@ -72,4 +72,4 @@ Please set the following secrets or environment variables:
 - `DATABRICKS_HOST`
 - `DATABRICKS_TOKEN`
 
-Also, please check the environment variable `PROFILE_NAME` to a proper name (same as local one). 
+Also, please set the environment variable `PROFILE_NAME` to a proper name (same as local one). 

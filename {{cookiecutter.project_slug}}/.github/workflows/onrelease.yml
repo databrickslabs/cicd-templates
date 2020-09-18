@@ -1,9 +1,12 @@
 name: Release pipeline
 
-on: [ push ]
+on:
+  release:
+    types:
+      - created
 
 jobs:
-  project-pipeline:
+  release-pipeline:
 
     runs-on: ubuntu-latest
     strategy:

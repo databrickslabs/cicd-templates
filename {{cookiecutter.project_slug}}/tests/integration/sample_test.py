@@ -34,4 +34,7 @@ class SampleJobIntegrationTest(unittest.TestCase):
         self.dbutils.fs.rm(self.test_dir, True)
 
 if __name__ == "__main__":
-    unittest.main()
+    suite = unittest.TestSuite()
+    suite.addTest(SampleJobIntegrationTest('test_sample'))
+    runner = unittest.TextTestRunner(verbosity=2)
+    runner.run(suite)
