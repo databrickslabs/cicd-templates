@@ -7,7 +7,7 @@ While using this project, you need Python 3.X and `pip` or `conda` for package m
 ## Installing dbx
 
 ```bash
-pip install tools/dbx.whl
+pip install tools/dbx-0.5.0-py3-none-any.whl
 ```
 
 `dbx` is developed on MacOS and tested on Linux with Python 3.+. If you run into a problem running `dbx` on Windows, please raise an issue on GitHub.
@@ -34,7 +34,7 @@ This command will configure environment by given profile and store project in a 
 2. To execute the code in an interactive fashion, provide either `--cluster-id` or `--cluster-name`, and a `--source-file` parameter.
 ```bash
 dbx execute \
-    --cluster-id="<some-cluster-id>" \
+    --cluster-name="<some-cluster-name>" \
     --source-file="some/entrypoint.py"
 ```
 
@@ -46,7 +46,6 @@ Please check `dbx execute -h` for a list of available options.
 Next step would be to configure your deployment objects. To make this process easy and flexible, we're using JSON for configuration.
 
 By default, deployment configuration is stored in `.dbx/deployment.json`.
-The main idea of is to provide a flexible way to configure job with it's dependencies.
 
 ## Deployment
 
