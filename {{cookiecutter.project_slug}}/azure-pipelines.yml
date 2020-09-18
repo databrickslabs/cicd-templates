@@ -37,17 +37,17 @@ stages:
     - script: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install tools/dbx.whl
-      displayName: 'Install Python Dependencies'
+        pip install tools/dbx-0.5.0-py3-none-any.whl
+        pip install -e .
+      displayName: 'Install dependencies'
 
     - script: |
-        pip install pytest
-        pytest
+        pytest tests/unit
       displayName: 'Run Unit tests'
 
     - script: |
         python setup.py bdist_wheel
-      displayName: 'Build artifact'
+      displayName: 'Build package'
 
     - script: |
         echo "[$PROFILE_NAME]" >> ~/.databrickscfg
@@ -60,12 +60,12 @@ stages:
       displayName: 'Prepare profile'
 
     - script: |
-        dbx deploy --environment=test
-      displayName: 'Deploy artifact on test'
+        dbx deploy --environment=test --jobs={{cookiecutter.project_slug}}-sample-integration-test
+      displayName: 'Deploy integration test'
 
     - script: |
-        dbx launch --environment=test --job=sample --trace
-      displayName: 'Launch artifact on test'
+        dbx launch --environment=test --jobs={{cookiecutter.project_slug}}-sample-integration-test --trace
+      displayName: 'Launch integration on test'
 
 - stage: onRelease
   condition: |
@@ -95,12 +95,12 @@ stages:
       - script: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install tools/dbx.whl
+          pip install tools/dbx-0.5.0-py3-none-any.whl
+          pip install -e .
         displayName: 'Install Python Dependencies'
 
       - script: |
-          pip install pytest
-          pytest
+          pytest tests/unit
         displayName: 'Run Unit tests'
 
     - script: |
@@ -114,9 +114,13 @@ stages:
       displayName: 'Prepare profile'
 
     - script: |
-        dbx deploy --environment=test
-      displayName: 'Deploy artifact on test'
+        python setup.py clean --all bdist_wheel
+      displayName: 'Build package'
 
     - script: |
-        dbx launch --environment=test --job=sample --trace
-      displayName: 'Launch artifact on test'
+        dbx deploy --environment=test
+      displayName: 'Deploy project'
+
+    - script: |
+        dbx launch --environment=test --jobs={{cookiecutter.project_slug}}-sample
+      displayName: 'Launch sample job'

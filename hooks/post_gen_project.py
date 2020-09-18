@@ -127,12 +127,20 @@ DEPLOYMENT = {
 }
 
 
+def replace_project_name(fpath: str):
+    onpush_path = pathlib.Path(fpath)
+    onpush_content = onpush_path.read_text().format(project_name=project)
+    onpush_path.write_text(onpush_content)
+
 class PostProcessor:
     @staticmethod
     def process():
 
         if cicd_tool == 'GitHub Actions':
             os.remove("azure-pipelines.yml")
+
+            replace_project_name(".github/workflows/onpush.yml")
+            replace_project_name(".github/workflows/onrelease.yml")
 
         if cicd_tool == 'Azure DevOps':
             shutil.rmtree(".github")

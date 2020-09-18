@@ -42,13 +42,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install tools/dbx.whl
           pip install -r requirements.txt
-
-      - name: Run tests
-        run: |
-          echo "Launching tests"
-          pytest
+          pip install tools/dbx-0.5.0-py3-none-any.whl
 
       - name: Prepare profile
         run: |
@@ -60,13 +55,12 @@ jobs:
         run: |
           python setup.py bdist_wheel
 
-      - name: Perform deployment on test
+      - name: Perform deployment
         run: |
           dbx deploy --environment=test
 
-      - name: Launch job on live
+      - name: Launch job
         run: |
-          dbx launch --environment=live --job=sample
-
+          dbx launch --environment=test --job={project_name}-sample
 
 
