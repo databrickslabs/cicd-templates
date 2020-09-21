@@ -67,7 +67,9 @@ dbx launch --environment=test --job=sample
 
 ## CICD pipeline settings
 
-Please set the following secrets or environment variables:
+Please set the following secrets or environment variables. 
+Follow the documentation for [GitHub Actions](https://docs.github.com/en/actions/reference) or for [Azure DevOps Pipelines](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch).
+:
 - `DATABRICKS_HOST`
 - `DATABRICKS_TOKEN`
 
