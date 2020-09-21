@@ -4,6 +4,18 @@ This is a sample project for Databricks, generated via cookiecutter.
 
 While using this project, you need Python 3.X and `pip` or `conda` for package management.
 
+## Installing project requirements
+
+```bash
+pip install -r unit-requirements.txt
+```
+
+## Install project package in a developer mode
+
+```bash
+pip install -e .
+```
+
 ## Installing dbx
 
 ```bash
