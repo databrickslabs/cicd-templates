@@ -6,7 +6,8 @@ Short instructions:
 - Create new conda environment and activate it
 - Install requirements for cookiecutter project generation:
 ```bash
-pip install -r https://raw.githubusercontent.com/databrickslabs/cicd-templates/master/requirements.txt
+pip install \
+    -r https://raw.githubusercontent.com/databrickslabs/cicd-templates/master/requirements.txt
 ```
 - Create new project using cookiecutter template:
 ```
