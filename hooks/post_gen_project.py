@@ -6,10 +6,11 @@ import json
 cicd_tool = '{{cookiecutter.cicd_tool}}'
 cloud = '{{cookiecutter.cloud}}'
 project = '{{cookiecutter.project_slug}}'
+environment = '{{cookiecutter.environment}}'
 
 DEPLOYMENT = {
     "AWS": {
-        "test": {
+        environment: {
             "jobs": [
                 {
                     "name": "%s-sample" % project,
@@ -71,7 +72,7 @@ DEPLOYMENT = {
         }
     },
     "Azure": {
-        "test": {
+        environment: {
             "jobs": [
                 {
                     "name": "%s-sample" % project,
@@ -127,10 +128,11 @@ DEPLOYMENT = {
 }
 
 
-def replace_project_name(fpath: str):
-    onpush_path = pathlib.Path(fpath)
-    onpush_content = onpush_path.read_text().format(project_name=project)
-    onpush_path.write_text(onpush_content)
+def replace_vars(fpath: str):
+    _path = pathlib.Path(fpath)
+    content = _path.read_text().format(project_name=project, environment=environment)
+    _path.write_text(content)
+
 
 class PostProcessor:
     @staticmethod
@@ -139,8 +141,8 @@ class PostProcessor:
         if cicd_tool == 'GitHub Actions':
             os.remove("azure-pipelines.yml")
 
-            replace_project_name(".github/workflows/onpush.yml")
-            replace_project_name(".github/workflows/onrelease.yml")
+            replace_vars(".github/workflows/onpush.yml")
+            replace_vars(".github/workflows/onrelease.yml")
 
         if cicd_tool == 'Azure DevOps':
             shutil.rmtree(".github")
@@ -156,7 +158,7 @@ class PostProcessor:
                 _f.unlink()
 
         deployment = json.dumps(DEPLOYMENT[cloud], indent=4)
-        deployment_file = pathlib.Path(".dbx/deployment.json")
+        deployment_file = pathlib.Path("conf/deployment.json")
         deployment_file.parent.mkdir(exist_ok=True)
         deployment_file.write_text(deployment)
 

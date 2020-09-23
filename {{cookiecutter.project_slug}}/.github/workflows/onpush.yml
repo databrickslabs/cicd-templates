@@ -14,7 +14,6 @@ jobs:
     env:
       DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-      PROFILE_NAME: "some-profile"
 
     steps:
       - uses: actions/checkout@v1
@@ -50,7 +49,7 @@ jobs:
 
       - name: Prepare profile
         run: |
-          echo "[$PROFILE_NAME]" >> ~/.databrickscfg
+          echo "[DEFAULT]" >> ~/.databrickscfg
           echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
           echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
 
@@ -60,11 +59,11 @@ jobs:
 
       - name: Deploy integration test
         run: |
-          dbx deploy --environment=test --jobs={project_name}-sample-integration-test
+          dbx deploy --environment={environment} --jobs={project_name}-sample-integration-test
 
       - name: Launch integration test
         run: |
-          dbx launch --environment=test --job={project_name}-sample-integration-test --trace
+          dbx launch --environment={environment} --job={project_name}-sample-integration-test --trace
 
 
 

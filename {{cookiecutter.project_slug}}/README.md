@@ -24,26 +24,11 @@ pip install tools/dbx-0.5.0-py3-none-any.whl
 
 `dbx` is developed on MacOS and tested on Linux with Python 3.+. If you run into a problem running `dbx` on Windows, please raise an issue on GitHub.
 
-## Configuring environments
-
-1. `dbx` heavily relies on [databricks-cli](https://docs.databricks.com/dev-tools/cli/index.html) and uses the same set of profiles.
-Please configure your profiles in advance using `databricks configure` command as described [here](https://docs.databricks.com/dev-tools/cli/index.html#set-up-authentication).
-
-2. Create a new environment via given command:
-```bash
-dbx configure \
-    --environment="test" \
-    --profile="<profile-name>" \
-    --workspace-dir="/dbx/projects/sample"
-```
-
-This command will configure environment by given profile and store project in a given `workspace-dir` as an MLflow experiment.
-
 ## Interactive execution
 
 1. `dbx` expects that cluster for interactive execution supports `%pip` and `%conda` magic [commands](https://docs.databricks.com/libraries/notebooks-python-libraries.html) in case if you use additional options (requirements, package or conda-environment).
 
-2. To execute the code in an interactive fashion, provide either `--cluster-id` or `--cluster-name`, and a `--source-file` parameter.
+2. To execute the code interactively, provide either `--cluster-id` or `--cluster-name`, and a `--source-file` parameter.
 ```bash
 dbx execute \
     --cluster-name="<some-cluster-name>" \
@@ -57,14 +42,14 @@ Please check `dbx execute -h` for a list of available options.
 
 Next step would be to configure your deployment objects. To make this process easy and flexible, we're using JSON for configuration.
 
-By default, deployment configuration is stored in `.dbx/deployment.json`.
+By default, deployment configuration is stored in `conf/deployment.json`.
 
 ## Deployment
 
 To start new deployment, launch the following command:  
 
 ```bash
-dbx deploy --environment=test
+dbx deploy --environment={{cookiecutter.environment}}
 ```
 
 You can optionally provide requirements.txt via `--requirements` option, all requirements will be automatically added to the job definition.
@@ -74,15 +59,12 @@ You can optionally provide requirements.txt via `--requirements` option, all req
 Finally, after deploying all your job-related files, you launch the job via the following command:
 
 ```
-dbx launch --environment=test --job=sample
+dbx launch --environment={{cookiecutter.environment}} --job=sample
 ```
 
 ## CICD pipeline settings
 
 Please set the following secrets or environment variables. 
-Follow the documentation for [GitHub Actions](https://docs.github.com/en/actions/reference) or for [Azure DevOps Pipelines](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch).
-:
+Follow the documentation for [GitHub Actions](https://docs.github.com/en/actions/reference) or for [Azure DevOps Pipelines](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch):
 - `DATABRICKS_HOST`
 - `DATABRICKS_TOKEN`
-
-Also, please set the environment variable `PROFILE_NAME` to a proper name (same as local one). 

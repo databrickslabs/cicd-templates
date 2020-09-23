@@ -48,7 +48,7 @@ class TemplateTest(unittest.TestCase):
             self.assertTrue(Path(".github").exists())
             self.assertFalse(Path("azure-pipelines.yml").exists())
 
-            validate_json(".dbx/deployment.json")
+            validate_json("conf/deployment.json")
             validate_yaml(".github/workflows/onpush.yml")
             validate_yaml(".github/workflows/onrelease.yml")
 
@@ -68,9 +68,9 @@ class TemplateTest(unittest.TestCase):
 
             self.assertTrue(Path(".github").exists())
             self.assertFalse(Path("azure-pipelines.yml").exists())
-            self.assertTrue(Path(".dbx/deployment.json").exists())
+            self.assertTrue(Path("conf/deployment.json").exists())
 
-            validate_json(".dbx/deployment.json")
+            validate_json("conf/deployment.json")
             validate_yaml(".github/workflows/onpush.yml")
             validate_yaml(".github/workflows/onrelease.yml")
 
@@ -90,9 +90,9 @@ class TemplateTest(unittest.TestCase):
 
             self.assertTrue(Path("azure-pipelines.yml").exists())
             self.assertFalse(Path(".github").exists())
-            self.assertTrue(Path(".dbx/deployment.json").exists())
+            self.assertTrue(Path("conf/deployment.json").exists())
 
-            validate_json(".dbx/deployment.json")
+            validate_json("conf/deployment.json")
 
 
 if __name__ == '__main__':

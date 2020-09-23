@@ -1,7 +1,3 @@
-variables:
-- name: PROFILE_NAME
-  value: "some-profile"
-
 trigger:
   batch: true
   branches:
@@ -50,21 +46,20 @@ stages:
       displayName: 'Build package'
 
     - script: |
-        echo "[$PROFILE_NAME]" >> ~/.databrickscfg
+        echo "[DEFAULT]" >> ~/.databrickscfg
         echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
         echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
       env:
         DATABRICKS_HOST: $(DATABRICKS_HOST)
         DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
-        PROFILE_NAME: $(PROFILE_NAME)
       displayName: 'Prepare profile'
 
     - script: |
-        dbx deploy --environment=test --jobs={{cookiecutter.project_slug}}-sample-integration-test
+        dbx deploy --environment={{cookiecutter.environment}} --jobs={{cookiecutter.project_slug}}-sample-integration-test
       displayName: 'Deploy integration test'
 
     - script: |
-        dbx launch --environment=test --jobs={{cookiecutter.project_slug}}-sample-integration-test --trace
+        dbx launch --environment={{cookiecutter.environment}} --jobs={{cookiecutter.project_slug}}-sample-integration-test --trace
       displayName: 'Launch integration on test'
 
 - stage: onRelease
@@ -104,13 +99,12 @@ stages:
         displayName: 'Run Unit tests'
 
     - script: |
-        echo "[$PROFILE_NAME]" >> ~/.databrickscfg
+        echo "[DEFAULT]" >> ~/.databrickscfg
         echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
         echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
       env:
         DATABRICKS_HOST: $(DATABRICKS_HOST)
         DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
-        PROFILE_NAME: $(PROFILE_NAME)
       displayName: 'Prepare profile'
 
     - script: |
@@ -118,9 +112,9 @@ stages:
       displayName: 'Build package'
 
     - script: |
-        dbx deploy --environment=test
+        dbx deploy --environment={{cookiecutter.environment}}
       displayName: 'Deploy project'
 
     - script: |
-        dbx launch --environment=test --jobs={{cookiecutter.project_slug}}-sample
+        dbx launch --environment={{cookiecutter.environment}} --jobs={{cookiecutter.project_slug}}-sample
       displayName: 'Launch sample job'
