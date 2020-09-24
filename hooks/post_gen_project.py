@@ -166,7 +166,7 @@ class PostProcessor:
 
         pip.main(["install", "tools/dbx-0.5.0-py3-none-any.whl"])
         os.system("git init")
-        os.system("dbx configure --environment=%s --workspace-dir=%s" % (environment,workspace_dir))
+        os.system("dbx configure --environment=%s --workspace-dir=%s" % (environment, workspace_dir))
 
 
 if __name__ == '__main__':
