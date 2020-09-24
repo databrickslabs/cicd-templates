@@ -11,7 +11,7 @@ pip install \
 ```
 - Create new project using cookiecutter template:
 ```
-cookiecutter https://github.com/databrickslabs/cicd-template
+cookiecutter https://github.com/databrickslabs/cicd-templates
 ```
 - Follow the documentation in generated `<project-name>/README.md` file.
 
