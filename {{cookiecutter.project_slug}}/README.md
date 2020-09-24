@@ -27,7 +27,6 @@ pip install tools/dbx-0.5.0-py3-none-any.whl
 ## Interactive execution
 
 1. `dbx` expects that cluster for interactive execution supports `%pip` and `%conda` magic [commands](https://docs.databricks.com/libraries/notebooks-python-libraries.html) in case if you use additional options (requirements, package or conda-environment).
-
 2. To execute the code interactively, provide either `--cluster-id` or `--cluster-name`, and a `--source-file` parameter.
 ```bash
 dbx execute \

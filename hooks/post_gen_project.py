@@ -2,11 +2,13 @@ import os
 import shutil
 import pathlib
 import json
+import pip
 
 cicd_tool = '{{cookiecutter.cicd_tool}}'
 cloud = '{{cookiecutter.cloud}}'
 project = '{{cookiecutter.project_slug}}'
 environment = '{{cookiecutter.environment}}'
+workspace_dir = '{{cookiecutter.workspace_dir}}'
 
 DEPLOYMENT = {
     "AWS": {
@@ -162,7 +164,9 @@ class PostProcessor:
         deployment_file.parent.mkdir(exist_ok=True)
         deployment_file.write_text(deployment)
 
+        pip.main(["install", "tools/dbx-0.5.0-py3-none-any.whl"])
         os.system("git init")
+        os.system("dbx configure --environment=%s --workspace-dir=%s" % (environment,workspace_dir))
 
 
 if __name__ == '__main__':
