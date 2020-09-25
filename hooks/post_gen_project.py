@@ -164,7 +164,7 @@ class PostProcessor:
         deployment_file.parent.mkdir(exist_ok=True)
         deployment_file.write_text(deployment)
 
-        pip.main(["install", "tools/dbx-0.5.0-py3-none-any.whl"])
+        pip.main(["install", "-U", "tools/dbx-0.5.0-py3-none-any.whl"])
         os.system("git init")
         os.system("dbx configure --environment=%s --workspace-dir=%s" % (environment, workspace_dir))
 
