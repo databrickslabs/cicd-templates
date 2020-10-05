@@ -16,26 +16,16 @@ pip install -r unit-requirements.txt
 pip install -e .
 ```
 
-## Installing dbx
-
-```bash
-pip install tools/dbx-0.5.0-py3-none-any.whl
-```
-
-`dbx` is developed on MacOS and tested on Linux with Python 3.+. If you run into a problem running `dbx` on Windows, please raise an issue on GitHub.
-
 ## Interactive execution
 
-1. `dbx` expects that cluster for interactive execution supports `%pip` and `%conda` magic [commands](https://docs.databricks.com/libraries/notebooks-python-libraries.html) in case if you use additional options (requirements, package or conda-environment).
-2. To execute the code interactively, provide either `--cluster-id` or `--cluster-name`, and a `--source-file` parameter.
+1. `dbx` expects that cluster for interactive execution supports `%pip` and `%conda` magic [commands](https://docs.databricks.com/libraries/notebooks-python-libraries.html).
+2. Please configure your job in `conf/deployment.json` file. 
+2. To execute the code interactively, provide either `--cluster-id` or `--cluster-name`.
 ```bash
 dbx execute \
     --cluster-name="<some-cluster-name>" \
-    --source-file="some/entrypoint.py"
+    --job=job-name
 ```
-
-You can also provide parameters to install .whl packages before launching code from the source file, as well as installing dependencies from pip-formatted requirements file or conda environment yml config.
-Please check `dbx execute -h` for a list of available options.
 
 ## Preparing deployment file
 
