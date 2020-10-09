@@ -38,7 +38,7 @@ jobs:
 
     - name: Install dbx and test
       run: |
-        pip install {{cookiecutter.project_slug}}/tools/dbx-0.5.0-py3-none-any.whl
+        pip install {{cookiecutter.project_slug}}/tools/dbx-0.6.0-py3-none-any.whl
         dbx --version
 
     - name: Run tests
