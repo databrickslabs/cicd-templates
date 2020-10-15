@@ -7,11 +7,11 @@ Short instructions:
 - Install requirements for cookiecutter project generation:
 ```bash
 pip install \
-    -r https://raw.githubusercontent.com/databrickslabs/cicd-templates/master/requirements.txt
+    -r https://raw.githubusercontent.com/databrickslabs/cicd-templates/dbx/requirements.txt
 ```
 - Create new project using cookiecutter template:
 ```
-cookiecutter https://github.com/databrickslabs/cicd-templates
+cookiecutter https://github.com/databrickslabs/cicd-templates --checkout dbx
 ```
 - Follow the documentation in generated `<project-name>/README.md` file.
 
