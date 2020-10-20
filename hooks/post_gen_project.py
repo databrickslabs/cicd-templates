@@ -25,11 +25,7 @@ DEPLOYMENT = {
                         },
                         "num_workers": 2
                     },
-                    "libraries": [
-                        {
-                            "whl": "dist/%s-0.0.1-py3-none-any.whl" % project
-                        }
-                    ],
+                    "libraries": [],
                     "email_notifications": {
                         "on_start": [],
                         "on_success": [],
@@ -55,11 +51,7 @@ DEPLOYMENT = {
                         },
                         "num_workers": 1
                     },
-                    "libraries": [
-                        {
-                            "whl": "dist/%s-0.0.1-py3-none-any.whl" % project
-                        }
-                    ],
+                    "libraries": [],
                     "email_notifications": {
                         "on_start": [],
                         "on_success": [],
@@ -83,11 +75,7 @@ DEPLOYMENT = {
                         "node_type_id": "Standard_F4s",
                         "num_workers": 2
                     },
-                    "libraries": [
-                        {
-                            "whl": "dist/%s-0.0.1-py3-none-any.whl" % project
-                        }
-                    ],
+                    "libraries": [],
                     "email_notifications": {
                         "on_start": [],
                         "on_success": [],
@@ -109,11 +97,7 @@ DEPLOYMENT = {
                         "node_type_id": "Standard_F4s",
                         "num_workers": 1
                     },
-                    "libraries": [
-                        {
-                            "whl": "dist/%s-0.0.1-py3-none-any.whl" % project
-                        }
-                    ],
+                    "libraries": [],
                     "email_notifications": {
                         "on_start": [],
                         "on_success": [],
