@@ -4,7 +4,6 @@ This repository provides a template for automated Databricks CI/CD pipeline crea
 
 ## Table of Contents
 * [Databricks Labs CI/CD Templates](#databricks-labs-cicd-templates)
-  * [Table of Contents](#table-of-contents)
   * [Sample project structure (with GitHub Actions)](#sample-project-structure-with-github-actions)
   * [Quickstart](#quickstart)
      * [Local steps](#local-steps)
