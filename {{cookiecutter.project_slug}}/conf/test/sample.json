@@ -1,4 +1,4 @@
 {
   "output_format": "delta",
-  "output_path": "dbfs:/tmp/test/{{cookiecutter.project_slug}}"
+  "output_path": "dbfs:/dbx/tmp/test/{{cookiecutter.project_slug}}"
 }
