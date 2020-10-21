@@ -8,10 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
+      matrix:
+        python-version: [ 3.7 ]
 
     env:
-      DATABRICKS_HOST: ${{{ secrets.DATABRICKS_HOST }}}
-      DATABRICKS_TOKEN: ${{{ secrets.DATABRICKS_TOKEN }}}
+      DATABRICKS_HOST: ${{{{ secrets.DATABRICKS_HOST }}}}
+      DATABRICKS_TOKEN:  ${{{{ secrets.DATABRICKS_TOKEN }}}}
 
     steps:
       - uses: actions/checkout@v1
@@ -25,10 +27,10 @@ jobs:
         id: cache
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/unit-requirements.txt') }}
+          key: ${{{{ runner.os }}}}-pip-${{{{ hashFiles('**/unit-requirements.txt') }}}}
           restore-keys: |
-            ${{ runner.os }}-pip-${{ hashFiles('**/unit-requirements.txt') }}
-            ${{ runner.os }}-pip-
+            ${{{{ runner.os }}}}-pip-${{{{ hashFiles('**/unit-requirements.txt') }}}}
+            ${{{{ runner.os }}}}-pip-
 
       - name: Install pip
         run: |
@@ -37,7 +39,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r unit-requirements.txt
-          pip install tools/dbx-0.7.0-py3-none-any.whl
+          pip install -U tools/dbx-0.7.0-py3-none-any.whl
           pip install -e .
 
       - name: Run unit tests

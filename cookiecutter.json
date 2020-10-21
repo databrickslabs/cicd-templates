@@ -16,6 +16,6 @@
   "artifact_location": "dbfs:/Shared/dbx/projects/{{cookiecutter.project_slug}}",
   "profile": "DEFAULT",
   "_copy_without_render": [
-    "*.github*"
+    "*.github"
   ]
 }

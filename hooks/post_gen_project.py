@@ -126,9 +126,13 @@ DEPLOYMENT = {
 }
 
 
-def replace_vars(fpath: str):
-    _path = Path(fpath)
-    content = _path.read_text().format(project_name=project, environment=environment, profile=profile)
+def replace_vars(file_path: str):
+    _path = Path(file_path)
+    content = (
+        _path
+            .read_text()
+            .format(project_name=project, environment=environment, profile=profile)
+    )
     _path.write_text(content)
 
 
@@ -139,6 +143,7 @@ class PostProcessor:
         if cicd_tool == 'GitHub Actions':
             os.remove("azure-pipelines.yml")
 
+            os.system("cat .github/workflows/onpush.yml")
             replace_vars(".github/workflows/onpush.yml")
             replace_vars(".github/workflows/onrelease.yml")
 
