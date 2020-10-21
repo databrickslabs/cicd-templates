@@ -1,13 +1,25 @@
+import json
 import os
 import shutil
-import pathlib
-import json
+
+from path import Path
 
 cicd_tool = '{{cookiecutter.cicd_tool}}'
 cloud = '{{cookiecutter.cloud}}'
 project = '{{cookiecutter.project_slug}}'
 environment = '{{cookiecutter.environment}}'
+profile = '{{cookiecutter.profile}}'
 workspace_dir = '{{cookiecutter.workspace_dir}}'
+
+PROJECT_FILE_CONTENT = {
+    "environments": {
+        environment: {
+            "profile": profile,
+            "workspace_dir": workspace_dir,
+            "artifact_location": f'dbfs:/dbx/{Path(".").abspath().name}'
+        }
+    }
+}
 
 DEPLOYMENT = {
     "AWS": {
@@ -114,7 +126,7 @@ DEPLOYMENT = {
 
 
 def replace_vars(fpath: str):
-    _path = pathlib.Path(fpath)
+    _path = Path(fpath)
     content = _path.read_text().format(project_name=project, environment=environment)
     _path.write_text(content)
 
@@ -132,21 +144,16 @@ class PostProcessor:
         if cicd_tool == 'Azure DevOps':
             shutil.rmtree(".github")
 
-        if cloud == "Azure":
-            aws_files = pathlib.Path(".").rglob("*aws.json")
-            for _f in aws_files:
-                _f.unlink()
-
-        if cloud == "AWS":
-            azure_files = pathlib.Path(".").rglob("*azure.json")
-            for _f in azure_files:
-                _f.unlink()
-
         deployment = json.dumps(DEPLOYMENT[cloud], indent=4)
-        deployment_file = pathlib.Path("conf/deployment.json")
-        deployment_file.parent.mkdir(exist_ok=True)
+        deployment_file = Path("conf/deployment.json")
+        if not deployment_file.parent.exists():
+            deployment_file.parent.mkdir()
         deployment_file.write_text(deployment)
-
+        project_file = Path(".dbx/project.json")
+        if not project_file.parent.exists():
+            project_file.parent.mkdir()
+        deployment_file.write_text(deployment)
+        project_file.write_text(json.dumps(PROJECT_FILE_CONTENT, indent=2))
         os.system("git init")
 
 
