@@ -1,8 +1,8 @@
-#Databricks Labs CI/CD Templates
+# Databricks Labs CI/CD Templates
 
 This repository provides a template for automated Databricks CI/CD pipeline creation and deployment.
 
-##Sample project structure (with GitHub Actions)
+## Sample project structure (with GitHub Actions)
 ```
 .
 ├── .github
@@ -41,7 +41,7 @@ Some explanations regarding structure:
 - `tests` - directory with your package tests
 - `conf/deployment.json` - deployment configuration file. Please read the [following section](#deployment-file-structure) for a full reference.
 
-##Instructions
+## Instructions
 In this instruction we're based on [Databricks Runtime 7.3 LTS ML](https://docs.databricks.com/release-notes/runtime/7.3ml.html). 
 If you don't need to use ML libraries, we still recommend to use ML-based version due to `%pip` magic support.
 - Create new conda environment and activate it:
@@ -59,7 +59,7 @@ cookiecutter https://github.com/databrickslabs/cicd-templates --checkout dbx
 ```
 - Follow the documentation in generated `<project-name>/README.md` file.
 
-##Deployment file structure
+## Deployment file structure
 A sample deployment file could be found in a generated project.
 
 General file structure looks like this:
@@ -85,7 +85,7 @@ General file structure looks like this:
 }
 ```
 At the top-level, you have different environments. 
-Per each environment you could describe any amount of jobs. Job description should follow the [Databricks Jobs API](#https://docs.databricks.com/dev-tools/api/latest/jobs.html#create). 
+Per each environment you could describe any amount of jobs. Job description should follow the [Databricks Jobs API](https://docs.databricks.com/dev-tools/api/latest/jobs.html#create). 
 
 However, there is some advanced behaviour for a `dbx launch command`.
 
@@ -99,5 +99,5 @@ When you run `dbx launch` with a given deployment file (by default it takes the 
 Important thing about referencing local files is that you can also reference arbitrary local files. This is very handy for `python_file` section.
 In the example above, the entrypoint file and the job configuration will be added to the job definition and uploaded to `dbfs` automatically. No explicit file upload is needed.
  
-##Kudos
+## Kudos
 Project based on the [cookiecutter datascience project](https://drivendata.github.io/cookiecutter-data-science).
