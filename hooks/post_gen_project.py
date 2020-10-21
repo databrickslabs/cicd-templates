@@ -7,7 +7,7 @@ from path import Path
 cicd_tool = '{{cookiecutter.cicd_tool}}'
 cloud = '{{cookiecutter.cloud}}'
 project = '{{cookiecutter.project_slug}}'
-environment = '{{cookiecutter.environment}}'
+environment = 'default'
 profile = '{{cookiecutter.profile}}'
 workspace_dir = '{{cookiecutter.workspace_dir}}'
 
