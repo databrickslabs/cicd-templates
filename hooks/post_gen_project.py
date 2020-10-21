@@ -2,7 +2,6 @@ import os
 import shutil
 import pathlib
 import json
-import pip
 
 cicd_tool = '{{cookiecutter.cicd_tool}}'
 cloud = '{{cookiecutter.cloud}}'
@@ -148,9 +147,7 @@ class PostProcessor:
         deployment_file.parent.mkdir(exist_ok=True)
         deployment_file.write_text(deployment)
 
-        pip.main(["install", "-U", "tools/dbx-0.7.0-py3-none-any.whl"])
         os.system("git init")
-        os.system(f"dbx configure --environment={environment} --profile={environment} --workspace-dir={workspace_dir}")
 
 
 if __name__ == '__main__':
