@@ -33,7 +33,7 @@ stages:
     - script: |
         python -m pip install --upgrade pip
         pip install -r unit-requirements.txt
-        pip install tools/dbx-0.5.0-py3-none-any.whl
+        pip install tools/dbx-0.7.0-py3-none-any.whl
         pip install -e .
       displayName: 'Install dependencies'
 
@@ -46,7 +46,7 @@ stages:
       displayName: 'Build package'
 
     - script: |
-        echo "[DEFAULT]" >> ~/.databrickscfg
+        echo "[{{cookiecutter.profile}}]" >> ~/.databrickscfg
         echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
         echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
       env:
@@ -55,11 +55,11 @@ stages:
       displayName: 'Prepare profile'
 
     - script: |
-        dbx deploy --environment={{cookiecutter.environment}} --jobs={{cookiecutter.project_slug}}-sample-integration-test
+        dbx deploy --jobs={{cookiecutter.project_slug}}-sample-integration-test
       displayName: 'Deploy integration test'
 
     - script: |
-        dbx launch --environment={{cookiecutter.environment}} --jobs={{cookiecutter.project_slug}}-sample-integration-test --trace
+        dbx launch --jobs={{cookiecutter.project_slug}}-sample-integration-test --trace
       displayName: 'Launch integration on test'
 
 - stage: onRelease
@@ -90,7 +90,7 @@ stages:
       - script: |
           python -m pip install --upgrade pip
           pip install -r unit-requirements.txt
-          pip install tools/dbx-0.5.0-py3-none-any.whl
+          pip install tools/dbx-0.7.0-py3-none-any.whl
           pip install -e .
         displayName: 'Install Python Dependencies'
 
@@ -99,7 +99,7 @@ stages:
         displayName: 'Run Unit tests'
 
     - script: |
-        echo "[DEFAULT]" >> ~/.databrickscfg
+        echo "[{{cookiecutter.profile}}]" >> ~/.databrickscfg
         echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
         echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
       env:
@@ -112,9 +112,9 @@ stages:
       displayName: 'Build package'
 
     - script: |
-        dbx deploy --environment={{cookiecutter.environment}}
+        dbx deploy
       displayName: 'Deploy project'
 
     - script: |
-        dbx launch --environment={{cookiecutter.environment}} --jobs={{cookiecutter.project_slug}}-sample
+        dbx launch --jobs={{cookiecutter.project_slug}}-sample
       displayName: 'Launch sample job'
