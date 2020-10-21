@@ -16,7 +16,24 @@ pip install -r unit-requirements.txt
 pip install -e .
 ```
 
-## Interactive execution
+## Testing
+
+For local unit testing, please use `pytest`:
+```
+pytest tests/unit
+```
+
+For an integration test on interactive cluster, use the following command:
+```
+dbx execute --cluster-name=<name of interactive cluster> --job={{cookiecutter.project_name}}-sample-integration-test
+```
+
+For a test on a automated job cluster, use `launch` instead of `execute`:
+```
+dbx execute --job={{cookiecutter.project_name}}-sample-integration-test
+```
+
+## Interactive execution and development
 
 1. `dbx` expects that cluster for interactive execution supports `%pip` and `%conda` magic [commands](https://docs.databricks.com/libraries/notebooks-python-libraries.html).
 2. Please configure your job in `conf/deployment.json` file. 
@@ -26,6 +43,8 @@ dbx execute \
     --cluster-name="<some-cluster-name>" \
     --job=job-name
 ```
+
+Multiple users also can use the same cluster for development. Libraries will be isolated per each execution context.
 
 ## Preparing deployment file
 
@@ -45,10 +64,10 @@ You can optionally provide requirements.txt via `--requirements` option, all req
 
 ## Launch
 
-Finally, after deploying all your job-related files, you launch the job via the following command:
+After the deploy, launch the job via the following command:
 
 ```
-dbx launch --job=sample
+dbx launch --job={{cookiecutter.project_name}}-sample
 ```
 
 ## CICD pipeline settings

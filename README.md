@@ -59,7 +59,7 @@ conda activate <your-environment-name>
 ```bash
 pip install cookiecutter
 ```
-- Create new project using cookiecutter template. Notice the environment name and profile name:
+- Create new project using cookiecutter template. Please note that the profile should exist in your `~/.databrickscfg`:
 ```
 cookiecutter https://github.com/databrickslabs/cicd-templates --checkout dbx
 ```
@@ -67,31 +67,26 @@ cookiecutter https://github.com/databrickslabs/cicd-templates --checkout dbx
 ```bash
 pip install -U tools/dbx-0.7.0-py3-none-any.whl
 ```
-- Configure your first environment:
-```
-dbx configure -e <your-environment-name> --profile <your-profile-name>
-```
-- Check the content of `conf/deployment.json` file for a proper deployment configuration. You can find a detailed doc on the `deployment.json` file [here](#deployment-file-structure).
 - Launch and debug your code on an interactive cluster via:
 ```
-dbx execute -e <your-environment-name> --cluster-name=<my-cluster> --job=<job-name>
+dbx execute --cluster-name=<my-cluster> --job=<job-name>
 ```
-- Make your first deployment:
+- Make your first deployment from the local machine:
 ```
-dbx deploy -e <your-environment-name> 
+dbx deploy
 ```
-- Launch your first pipeline as a new separate job:
+- Launch your first pipeline as a new separate job, and trace the job status:
 ```
-dbx launch -e <your-environment-name> --job <your-job-name> --trace
+dbx launch --job <your-job-name> --trace
 ```
-- For local development guidance, please refer to a generated README.md in the root of the project.
+- For local development and unit testing guidance, please refer to a generated `README.md` in the root of the project.
 
 ### Setting up CI/CD pipeline on GitHub Actions
 
 - Create a new repository on GitHub
+- Configure `DATABRICKS_HOST` and `DATABRICKS_TOKEN` secrets for your project in [GitHub UI](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets).
 - Add a remote origin to the local repo
 - Push the code 
-- Configure `DATABRICKS_HOST` and `DATABRICKS_TOKEN` secrets for your project in [GitHub UI](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets).
 - Open the GitHub Actions for your project to verify the state of the deployment pipeline
  
  
@@ -132,7 +127,7 @@ When you run `dbx launch` with a given deployment file (by default it takes the 
 - Add all requirements from `--requirements-file` (default: `requirements.txt`)
 - Create a new job or adjust existing job if the given job name exists.
 
-Important thing about referencing local files is that you can also reference arbitrary local files. This is very handy for `python_file` section.
+Important thing about referencing is that you can also reference arbitrary local files. This is very handy for `python_file` section.
 In the example above, the entrypoint file and the job configuration will be added to the job definition and uploaded to `dbfs` automatically. No explicit file upload is needed.
  
 ## Kudos
