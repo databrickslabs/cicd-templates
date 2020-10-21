@@ -2,6 +2,21 @@
 
 This repository provides a template for automated Databricks CI/CD pipeline creation and deployment.
 
+Table of Contents
+=================
+* [Databricks Labs CI/CD Templates](#databricks-labs-cicd-templates)
+  * [Sample project structure (with GitHub Actions)](#sample-project-structure-with-github-actions)
+  * [Quickstart](#quickstart)
+     * [Local steps](#local-steps)
+     * [Setting up CI/CD pipeline on GitHub Actions](#setting-up-cicd-pipeline-on-github-actions)
+  * [Deployment file structure](#deployment-file-structure)
+* [FAQ](#faq)
+  * [Legal Information](#legal-information)
+  * [Feedback](#feedback)
+  * [Contributing](#contributing)
+  * [Kudos](#kudos)
+
+
 ## Sample project structure (with GitHub Actions)
 ```
 .
@@ -44,7 +59,7 @@ Some explanations regarding structure:
 ## Quickstart
 
 > **_NOTE:_**  
-As a prerequisite, you should have installed [databricks-cli](https://docs.databricks.com/dev-tools/cli/index.html) with a [configured profile](https://docs.databricks.com/dev-tools/cli/index.html#set-up-authentication).
+As a prerequisite, you need to install [databricks-cli](https://docs.databricks.com/dev-tools/cli/index.html) with a [configured profile](https://docs.databricks.com/dev-tools/cli/index.html#set-up-authentication).
 In this instruction we're based on [Databricks Runtime 7.3 LTS ML](https://docs.databricks.com/release-notes/runtime/7.3ml.html). 
 If you don't need to use ML libraries, we still recommend to use ML-based version due to [`%pip` magic support](https://docs.databricks.com/libraries/notebooks-python-libraries.html).
 
@@ -67,7 +82,8 @@ cookiecutter https://github.com/databrickslabs/cicd-templates --checkout dbx
 ```bash
 pip install -U tools/dbx-0.7.0-py3-none-any.whl
 ```
-- Launch and debug your code on an interactive cluster via:
+- In the generated directory you'll have a sample job with testing and launch configurations around it.
+- Launch and debug your code on an interactive cluster via the following command. Job name could be found in `conf/deployment.json`:
 ```
 dbx execute --cluster-name=<my-cluster> --job=<job-name>
 ```
@@ -75,11 +91,11 @@ dbx execute --cluster-name=<my-cluster> --job=<job-name>
 ```
 dbx deploy
 ```
-- Launch your first pipeline as a new separate job, and trace the job status:
+- Launch your first pipeline as a new separate job, and trace the job status. Job name could be found in `conf/deployment.json`:
 ```
 dbx launch --job <your-job-name> --trace
 ```
-- For local development and unit testing guidance, please refer to a generated `README.md` in the root of the project.
+- For an in-depth local development and unit testing guidance, please refer to a generated `README.md` in the root of the project.
 
 ### Setting up CI/CD pipeline on GitHub Actions
 
