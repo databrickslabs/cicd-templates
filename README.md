@@ -36,7 +36,7 @@ This repository provides a template for automated Databricks CI/CD pipeline crea
 ```
 
 Some explanations regarding structure:
-- `.dbx` folder is a system folder, where metadata about environments and execution context is located.
+- `.dbx` folder is a auxiliary folder, where metadata about environments and execution context is located.
 - `sample_project` - Python package with your code
 - `tests` - directory with your package tests
 - `conf/deployment.json` - deployment configuration file. Please read the [following section](#deployment-file-structure) for a full reference.
