@@ -127,7 +127,7 @@ DEPLOYMENT = {
 
 def replace_vars(fpath: str):
     _path = Path(fpath)
-    content = _path.read_text().format(project_name=project, environment=environment)
+    content = _path.read_text().format(project_name=project, environment=environment, profile=profile)
     _path.write_text(content)
 
 

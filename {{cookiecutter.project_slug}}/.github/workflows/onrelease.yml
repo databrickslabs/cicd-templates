@@ -44,7 +44,7 @@ jobs:
 
       - name: Prepare profile
         run: |
-          echo "[DEFAULT]" >> ~/.databrickscfg
+          echo "[{profile}]" >> ~/.databrickscfg
           echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
           echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
 
@@ -54,10 +54,10 @@ jobs:
 
       - name: Perform deployment
         run: |
-          dbx deploy --environment={environment}
+          dbx deploy
 
       - name: Launch job
         run: |
-          dbx launch --environment={environment} --job={project_name}-sample
+          dbx launch --job={project_name}-sample
 
 
