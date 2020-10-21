@@ -7,7 +7,7 @@ class SampleJob(Job):
 
         df = self.spark.range(0, 1000)
 
-        df.write.format(self.conf["output_format"]).save(self.conf["output_path"])
+        df.write.format(self.conf["output_format"]).mode("overwrite").save(self.conf["output_path"])
 
         self.logger.info("Bootstrap job finished!")
 
