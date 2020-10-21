@@ -10,13 +10,14 @@ project = '{{cookiecutter.project_slug}}'
 environment = 'default'
 profile = '{{cookiecutter.profile}}'
 workspace_dir = '{{cookiecutter.workspace_dir}}'
+artifact_location = '{{cookiecutter.artifact_location}}'
 
 PROJECT_FILE_CONTENT = {
     "environments": {
         environment: {
             "profile": profile,
             "workspace_dir": workspace_dir,
-            "artifact_location": f'dbfs:/dbx/{Path(".").abspath().name}'
+            "artifact_location": artifact_location
         }
     }
 }
