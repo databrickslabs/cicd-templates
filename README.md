@@ -41,9 +41,15 @@ Some explanations regarding structure:
 - `tests` - directory with your package tests
 - `conf/deployment.json` - deployment configuration file. Please read the [following section](#deployment-file-structure) for a full reference.
 
-## Instructions
+## Quickstart
+
+> **_NOTE:_**  
+As a prerequisite, you should have installed [databricks-cli](https://docs.databricks.com/dev-tools/cli/index.html) with a [configured profile](https://docs.databricks.com/dev-tools/cli/index.html#set-up-authentication).
 In this instruction we're based on [Databricks Runtime 7.3 LTS ML](https://docs.databricks.com/release-notes/runtime/7.3ml.html). 
-If you don't need to use ML libraries, we still recommend to use ML-based version due to `%pip` magic support.
+If you don't need to use ML libraries, we still recommend to use ML-based version due to [`%pip` magic support](https://docs.databricks.com/libraries/notebooks-python-libraries.html).
+
+### Local steps
+Perform the following actions in your development environment:
 - Create new conda environment and activate it:
 ```bash
 conda create -n <your-environment-name> python=3.7.5
@@ -53,12 +59,41 @@ conda activate <your-environment-name>
 ```bash
 pip install cookiecutter
 ```
-- Create new project using cookiecutter template:
+- Create new project using cookiecutter template. Notice the environment name and profile name:
 ```
 cookiecutter https://github.com/databrickslabs/cicd-templates --checkout dbx
 ```
-- Follow the documentation in generated `<project-name>/README.md` file.
+- Switch to the project directory and install `dbx`:
+```bash
+pip install -U tools/dbx-0.7.0-py3-none-any.whl
+```
+- Configure your first environment:
+```
+dbx configure -e <your-environment-name> --profile <your-profile-name>
+```
+- Check the content of `conf/deployment.json` file for a proper deployment configuration. You can find a detailed doc on the `deployment.json` file [here](#deployment-file-structure).
+- Launch and debug your code on an interactive cluster via:
+```
+dbx execute -e <your-environment-name> --cluster-name=<my-cluster> --job=<job-name>
+```
+- Make your first deployment:
+```
+dbx deploy -e <your-environment-name> 
+```
+- Launch your first pipeline as a new separate job:
+```
+dbx launch -e <your-environment-name> --job <your-job-name> --trace
+```
 
+### Setting up CI/CD pipeline on GitHub Actions
+
+- Create a new repository on GitHub
+- Add a remote origin to the local repo
+- Push the code 
+- Configure `DATABRICKS_HOST` and `DATABRICKS_TOKEN` secrets for your project in [GitHub UI](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets).
+- Open the GitHub Actions for your project to verify the state of the deployment pipeline
+ 
+ 
 ## Deployment file structure
 A sample deployment file could be found in a generated project.
 
@@ -87,7 +122,7 @@ General file structure looks like this:
 At the top-level, you have different environments. 
 Per each environment you could describe any amount of jobs. Job description should follow the [Databricks Jobs API](https://docs.databricks.com/dev-tools/api/latest/jobs.html#create). 
 
-However, there is some advanced behaviour for a `dbx launch command`.
+However, there is some advanced behaviour for a `dbx launch`.
 
 When you run `dbx launch` with a given deployment file (by default it takes the deployment file from `conf/deployment.json`), it will do te following:
 - Find the deployment conf in deployment-file
