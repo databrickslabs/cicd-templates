@@ -2,19 +2,20 @@
 
 This repository provides a template for automated Databricks CI/CD pipeline creation and deployment.
 
-Table of Contents
-=================
+## Table of Contents
 * [Databricks Labs CI/CD Templates](#databricks-labs-cicd-templates)
+  * [Table of Contents](#table-of-contents)
   * [Sample project structure (with GitHub Actions)](#sample-project-structure-with-github-actions)
   * [Quickstart](#quickstart)
      * [Local steps](#local-steps)
      * [Setting up CI/CD pipeline on GitHub Actions](#setting-up-cicd-pipeline-on-github-actions)
   * [Deployment file structure](#deployment-file-structure)
-* [FAQ](#faq)
+  * [FAQ](#faq)
   * [Legal Information](#legal-information)
   * [Feedback](#feedback)
   * [Contributing](#contributing)
   * [Kudos](#kudos)
+
 
 
 ## Sample project structure (with GitHub Actions)
@@ -145,28 +146,28 @@ When you run `dbx deploy` with a given deployment file (by default it takes the 
 Important thing about referencing is that you can also reference arbitrary local files. This is very handy for `python_file` section.
 In the example above, the entrypoint file and the job configuration will be added to the job definition and uploaded to `dbfs` automatically. No explicit file upload is needed.
 
-# FAQ
+## FAQ
 
-##
+###
 *Q*: I'm using [poetry](https://python-poetry.org/) for package management. Is it possible to use poetry together with this template?
 
 *A*:  
     Yes, it's also possible, but the library management during cluster execution should be performed via `libraries` section of job description. 
     You also might need to disable the automatic rebuild for `dbx deploy` and `dbx execute` via `--no-rebuild` option. Finally, the built package should be in wheel format and located in `/dist/` directory.
 
-## 
+###
 *Q*: How can I add my Databricks Notebook to the `deployment.json`, so I can create a job out of it?
  
 *A*:  
     Please follow [this](https://docs.databricks.com/dev-tools/api/latest/jobs.html#notebooktask) documentation section and add a notebook task definition into the deployment file.
 
-## 
+###
 *Q*: Is it possible to use `dbx` for non-Python based projects, for example Scala-based projects?
 
 *A*:  
     Yes, it's possible, but the interactive mode `dbx execute` is not yet supported. However, you can just take the `dbx` wheel to your Scala-based project and reference your jar files in the deployment file, so the `dbx deploy` and `dbx launch` commands be available for you.
 
-## 
+###
 *Q*: I have a lot of interdependent jobs, and using solely JSON seems like a giant code duplication. What could solve this problem?
 
 *A*:  
