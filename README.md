@@ -84,6 +84,7 @@ dbx deploy -e <your-environment-name>
 ```
 dbx launch -e <your-environment-name> --job <your-job-name> --trace
 ```
+- For local development guidance, please refer to a generated README.md in the root of the project.
 
 ### Setting up CI/CD pipeline on GitHub Actions
 
