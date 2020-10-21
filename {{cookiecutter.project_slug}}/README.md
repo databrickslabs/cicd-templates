@@ -38,7 +38,7 @@ By default, deployment configuration is stored in `conf/deployment.json`.
 To start new deployment, launch the following command:  
 
 ```bash
-dbx deploy --environment={{cookiecutter.environment}}
+dbx deploy
 ```
 
 You can optionally provide requirements.txt via `--requirements` option, all requirements will be automatically added to the job definition.
@@ -48,7 +48,7 @@ You can optionally provide requirements.txt via `--requirements` option, all req
 Finally, after deploying all your job-related files, you launch the job via the following command:
 
 ```
-dbx launch --environment={{cookiecutter.environment}} --job=sample
+dbx launch --job=sample
 ```
 
 ## CICD pipeline settings
