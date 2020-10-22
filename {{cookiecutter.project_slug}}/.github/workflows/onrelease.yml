@@ -43,6 +43,7 @@ jobs:
         run: |
           pip install -r unit-requirements.txt
           pip install -U tools/dbx-0.7.0-py3-none-any.whl
+          pip install -e .
 
       - name: Run unit tests
         run: |
