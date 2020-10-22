@@ -76,7 +76,7 @@ pip install cookiecutter
 ```
 - Create new project using cookiecutter template. Please note that the profile should exist in your `~/.databrickscfg`:
 ```
-cookiecutter https://github.com/databrickslabs/cicd-templates --checkout dbx
+cookiecutter https://github.com/databrickslabs/cicd-templates
 ```
 - Switch to the project directory and install `dbx`:
 ```bash
