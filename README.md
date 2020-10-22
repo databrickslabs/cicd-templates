@@ -9,6 +9,7 @@ This repository provides a template for automated Databricks CI/CD pipeline crea
   * [Quickstart](#quickstart)
      * [Local steps](#local-steps)
      * [Setting up CI/CD pipeline on GitHub Actions](#setting-up-cicd-pipeline-on-github-actions)
+     * [Setting up CI/CD pipeline on Azure DevOps](#setting-up-cicd-pipeline-on-azure-devops)
   * [Deployment file structure](#deployment-file-structure)
   * [FAQ](#faq)
   * [Legal Information](#legal-information)
@@ -145,7 +146,15 @@ dbx launch --job <your-job-name> --trace
 - Add a remote origin to the local repo
 - Push the code 
 - Open the GitHub Actions for your project to verify the state of the deployment pipeline
- 
+
+### Setting up CI/CD pipeline on Azure DevOps
+
+- Create a new repository on GitHub
+- Connect the repository to Azure DevOps
+- Configure `DATABRICKS_HOST` and `DATABRICKS_TOKEN` secrets for your project in [Azure DevOps](https://docs.microsoft.com/en-us/azure/devops/pipelines/release/azure-key-vault?view=azure-devops)
+- Add a remote origin to the local repo
+- Push the code 
+- Open the Azure DevOps Ui to check the deployment status 
  
 ## Deployment file structure
 A sample deployment file could be found in a generated project.
