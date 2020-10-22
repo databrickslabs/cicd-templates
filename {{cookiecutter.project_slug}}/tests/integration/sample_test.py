@@ -13,7 +13,7 @@ class SampleJobIntegrationTest(unittest.TestCase):
         }
 
         self.job = SampleJob(conf=self.test_config)
-        self.dbutils = DBUtils(self.job.spark.sparkContext)
+        self.dbutils = DBUtils(self.job.spark)
         self.spark = self.job.spark
 
     def test_sample(self):
