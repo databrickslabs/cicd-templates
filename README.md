@@ -154,7 +154,7 @@ dbx launch --job <your-job-name> --trace
 - Configure `DATABRICKS_HOST` and `DATABRICKS_TOKEN` secrets for your project in [Azure DevOps](https://docs.microsoft.com/en-us/azure/devops/pipelines/release/azure-key-vault?view=azure-devops)
 - Add a remote origin to the local repo
 - Push the code 
-- Open the Azure DevOps Ui to check the deployment status 
+- Open the Azure DevOps UI to check the deployment status 
  
 ## Deployment file structure
 A sample deployment file could be found in a generated project.
