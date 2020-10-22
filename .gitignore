@@ -27,3 +27,5 @@ htmlcov/*
 # MacOS
 .DS_Store
 
+# aux mlruns
+mlruns/
