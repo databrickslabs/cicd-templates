@@ -42,10 +42,6 @@ stages:
       displayName: 'Run Unit tests'
 
     - script: |
-        python setup.py bdist_wheel
-      displayName: 'Build package'
-
-    - script: |
         echo "[{{cookiecutter.profile}}]" >> ~/.databrickscfg
         echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
         echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
@@ -87,16 +83,16 @@ stages:
         clean: true
         displayName: 'Checkout & Build.Reason: $(Build.Reason) & Build.SourceBranchName: $(Build.SourceBranchName)'
 
-      - script: |
-          python -m pip install --upgrade pip
-          pip install -r unit-requirements.txt
-          pip install tools/dbx-0.7.0-py3-none-any.whl
-          pip install -e .
-        displayName: 'Install Python Dependencies'
+    - script: |
+        python -m pip install --upgrade pip
+        pip install -r unit-requirements.txt
+        pip install tools/dbx-0.7.0-py3-none-any.whl
+        pip install -e .
+      displayName: 'Install dependencies'
 
-      - script: |
-          pytest tests/unit
-        displayName: 'Run Unit tests'
+    - script: |
+        pytest tests/unit
+      displayName: 'Run Unit tests'
 
     - script: |
         echo "[{{cookiecutter.profile}}]" >> ~/.databrickscfg
@@ -108,13 +104,13 @@ stages:
       displayName: 'Prepare profile'
 
     - script: |
-        python setup.py clean --all bdist_wheel
-      displayName: 'Build package'
+        dbx deploy --jobs={{cookiecutter.project_slug}}-sample-integration-test
+      displayName: 'Deploy integration test'
 
     - script: |
-        dbx deploy
-      displayName: 'Deploy project'
+        dbx launch --jobs={{cookiecutter.project_slug}}-sample-integration-test --trace
+      displayName: 'Launch integration on test'
 
     - script: |
-        dbx launch --jobs={{cookiecutter.project_slug}}-sample
-      displayName: 'Launch sample job'
+        dbx deploy --jobs={{cookiecutter.project_slug}}-sample
+      displayName: 'Deploy the job'
