@@ -229,7 +229,7 @@ Support, questions, and feature requests can be communicated through the Issues 
 Please see the legal agreement and understand that issues with the use of this code will not be answered or investigated by Databricks Support.
 
 ## Feedback
-Issues with the application? Found a bug? Have a great idea for an addition? Feel free to file an issue.
+Issues with template? Found a bug? Have a great idea for an addition? Feel free to file an issue.
 
 ## Contributing
 Have a great idea that you want to add? Fork the repo and submit a PR!
