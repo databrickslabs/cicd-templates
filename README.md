@@ -188,12 +188,12 @@ Per each environment you could describe any amount of jobs. Job description shou
 
 However, there is some advanced behaviour for a `dbx deploy`.
 
-When you run `dbx deploy` with a given deployment file (by default it takes the deployment file from `conf/deployment.json`), it will do te following:
+When you run `dbx deploy` with a given deployment file (by default it takes the deployment file from `conf/deployment.json`), the following actions will be performed:
 - Find the deployment configuration in `--deployment-file` (default: `conf/deployment.json`) 
-- Build .whl package in a given project directory
+- Build .whl package in a given project directory (could be disabled via `--no-rebuild` option)
 - Add this .whl package to a job definition
-- Add all requirements from `--requirements-file` (default: `requirements.txt`)
-- Create a new job or adjust existing job if the given job name exists.
+- Add all requirements from `--requirements-file` (default: `requirements.txt`). Step will be skipped if requirements file is non-existent.
+- Create a new job or adjust existing job if the given job name exists. Job will be found by it's name.
 
 Important thing about referencing is that you can also reference arbitrary local files. This is very handy for `python_file` section.
 In the example above, the entrypoint file and the job configuration will be added to the job definition and uploaded to `dbfs` automatically. No explicit file upload is needed.
