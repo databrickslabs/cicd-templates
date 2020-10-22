@@ -112,9 +112,9 @@ Perform the following actions in your development environment:
 conda create -n <your-environment-name> python=3.7.5
 conda activate <your-environment-name>
 ```
-- Install cookiecutter:
+- Install cookiecutter and path:
 ```bash
-pip install cookiecutter
+pip install cookiecutter path
 ```
 - Create new project using cookiecutter template. Please note that the profile should exist in your `~/.databrickscfg`:
 ```

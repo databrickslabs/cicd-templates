@@ -143,7 +143,6 @@ class PostProcessor:
         if cicd_tool == 'GitHub Actions':
             os.remove("azure-pipelines.yml")
 
-            os.system("cat .github/workflows/onpush.yml")
             replace_vars(".github/workflows/onpush.yml")
             replace_vars(".github/workflows/onrelease.yml")
 
