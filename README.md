@@ -4,6 +4,7 @@ This repository provides a template for automated Databricks CI/CD pipeline crea
 
 ## Table of Contents
 * [Databricks Labs CI/CD Templates](#databricks-labs-cicd-templates)
+  * [CLI example](#cli-example)
   * [Sample project structure (with GitHub Actions)](#sample-project-structure-with-github-actions)
   * [Sample project structure (with Azure DevOps)](#sample-project-structure-with-azure-devops)
   * [Quickstart](#quickstart)
@@ -18,6 +19,8 @@ This repository provides a template for automated Databricks CI/CD pipeline crea
   * [Kudos](#kudos)
 
 
+## CLI example
+[![asciicast](https://asciinema.org/a/7XZIQydVgbr3WlrCDpwA9gcOU.svg)](https://asciinema.org/a/7XZIQydVgbr3WlrCDpwA9gcOU)
 
 ## Sample project structure (with GitHub Actions)
 ```
