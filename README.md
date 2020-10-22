@@ -142,7 +142,7 @@ dbx launch --job <your-job-name> --trace
 ### Setting up CI/CD pipeline on GitHub Actions
 
 - Create a new repository on GitHub
-- Configure `DATABRICKS_HOST` and `DATABRICKS_TOKEN` secrets for your project in [GitHub UI](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets).
+- Configure `DATABRICKS_HOST` and `DATABRICKS_TOKEN` secrets for your project in [GitHub UI](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets)
 - Add a remote origin to the local repo
 - Push the code 
 - Open the GitHub Actions for your project to verify the state of the deployment pipeline
