@@ -1,7 +1,6 @@
 setuptools
 wheel
-mlflow==1.7.1
-pytest==5.3.1
-python-dotenv==0.10.3
-databricks-cli==0.9.1
-pyyaml>=5.1
+cookiecutter
+pathlib
+pytest
+path

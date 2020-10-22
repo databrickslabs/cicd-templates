@@ -1,4 +1,4 @@
-name: Python package
+name: Release pipeline
 
 on:
   release:
@@ -6,39 +6,60 @@ on:
       - created
 
 jobs:
-  build:
+  release-pipeline:
+
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.7]
+        python-version: [ 3.7 ]
 
     env:
-      MLFLOW_TRACKING_URI: 'databricks'
-      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      DATABRICKS_HOST: ${{{{ secrets.DATABRICKS_HOST }}}}
+      DATABRICKS_TOKEN:  ${{{{ secrets.DATABRICKS_TOKEN }}}}
 
     steps:
-    - uses: actions/checkout@v1
-      
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install deployment/databrickslabs_mlflowdepl-0.2.0-py3-none-any.whl
-    - name: Test with pytest
-      run: |
-        pip install pytest
-        python -m pytest
-       
-    - name: Build artifact
-      run: |
-        python setup.py bdist_wheel
+      - uses: actions/checkout@v1
 
-    - name: Deploy artifact
-      run: |
-        python -c "from databrickslabs_mlflowdepl import release_cicd_pipeline; release_cicd_pipeline.main('integration-tests', 'pipelines', True);"
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+
+      - uses: actions/cache@v2
+        id: cache
+        with:
+          path: ~/.cache/pip
+          key: ${{{{ runner.os }}}}-pip-${{{{ hashFiles('**/unit-requirements.txt') }}}}
+          restore-keys: |
+            ${{{{ runner.os }}}}-pip-${{{{ hashFiles('**/unit-requirements.txt') }}}}
+            ${{{{ runner.os }}}}-pip-
+
+      - name: Install pip
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: Install dependencies
+        run: |
+          pip install -r unit-requirements.txt
+          pip install -U tools/dbx-0.7.0-py3-none-any.whl
+
+      - name: Prepare profile
+        run: |
+          echo "[{profile}]" >> ~/.databrickscfg
+          echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
+          echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
+
+      - name: Build artifact
+        run: |
+          python setup.py bdist_wheel
+
+      - name: Perform deployment
+        run: |
+          dbx deploy
+
+      - name: Launch job
+        run: |
+          dbx launch --job={project_name}-sample
+
+
