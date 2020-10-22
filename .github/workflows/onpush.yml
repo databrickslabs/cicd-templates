@@ -1,6 +1,9 @@
 name: Python package
 
-on: [push]
+on:
+  push:
+    tags-ignore:
+      - v*           # Push events to tags v1.0, v1.1, and v1.9
 
 jobs:
   test-pipeline:
