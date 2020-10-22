@@ -44,17 +44,28 @@ jobs:
           pip install -r unit-requirements.txt
           pip install -U tools/dbx-0.7.0-py3-none-any.whl
 
+      - name: Run unit tests
+        run: |
+          echo "Launching unit tests"
+          pytest tests/unit
+
       - name: Prepare profile
         run: |
           echo "[{profile}]" >> ~/.databrickscfg
           echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
           echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
 
-      - name: Build artifact
+      - name: Deploy integration test
         run: |
-          python setup.py bdist_wheel
+          dbx deploy --jobs={project_name}-sample-integration-test
 
-      - name: Perform deployment
+      - name: Run integration test
         run: |
-          dbx deploy
+          dbx launch --job={project_name}-sample-integration-test --trace
+
+      - name: Deploy the job
+        run: |
+          dbx deploy --jobs={project_name}-sample
+
+
 

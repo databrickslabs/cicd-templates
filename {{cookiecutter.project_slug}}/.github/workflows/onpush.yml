@@ -44,7 +44,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          echo "Launching tests"
+          echo "Launching unit tests"
           pytest tests/unit
 
       - name: Prepare profile
@@ -53,15 +53,11 @@ jobs:
           echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
           echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
 
-      - name: Build package
-        run: |
-          python setup.py clean --all bdist_wheel
-
       - name: Deploy integration test
         run: |
           dbx deploy --jobs={project_name}-sample-integration-test
 
-      - name: Launch integration test
+      - name: Run integration test
         run: |
           dbx launch --job={project_name}-sample-integration-test --trace
 
