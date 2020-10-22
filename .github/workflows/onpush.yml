@@ -2,8 +2,12 @@ name: Python package
 
 on:
   push:
-    tags-ignore:
-      - "v*"
+  pull_request:
+    types:
+      - "opened"
+      - "closed"
+      - "reopened"
+      - "synchronize"
 
 jobs:
   test-pipeline:
