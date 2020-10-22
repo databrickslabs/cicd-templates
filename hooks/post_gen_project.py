@@ -159,6 +159,7 @@ class PostProcessor:
             project_file.parent.mkdir()
         deployment_file.write_text(deployment)
         project_file.write_text(json.dumps(PROJECT_FILE_CONTENT, indent=2))
+        Path(".dbx/lock.json").write_text("{}")
         os.system("git init")
 
 
