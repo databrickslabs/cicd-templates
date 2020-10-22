@@ -5,6 +5,7 @@ This repository provides a template for automated Databricks CI/CD pipeline crea
 ## Table of Contents
 * [Databricks Labs CI/CD Templates](#databricks-labs-cicd-templates)
   * [Sample project structure (with GitHub Actions)](#sample-project-structure-with-github-actions)
+  * [Sample project structure (with Azure DevOps)](#sample-project-structure-with-azure-devops)
   * [Quickstart](#quickstart)
      * [Local steps](#local-steps)
      * [Setting up CI/CD pipeline on GitHub Actions](#setting-up-cicd-pipeline-on-github-actions)
@@ -55,6 +56,46 @@ Some explanations regarding structure:
 - `sample_project` - Python package with your code
 - `tests` - directory with your package tests
 - `conf/deployment.json` - deployment configuration file. Please read the [following section](#deployment-file-structure) for a full reference.
+- `.github/workflows/` - workflow definitions for GitHub Actions
+
+## Sample project structure (with Azure DevOps)
+```
+.
+├── .dbx
+│   └── project.json
+├── .gitignore
+├── README.md
+├── azure-pipelines.yml
+├── conf
+│   ├── deployment.json
+│   └── test
+│       └── sample.json
+├── pytest.ini
+├── sample_project_azure_dev_ops
+│   ├── __init__.py
+│   ├── common.py
+│   └── jobs
+│       ├── __init__.py
+│       └── sample
+│           ├── __init__.py
+│           └── entrypoint.py
+├── setup.py
+├── tests
+│   ├── integration
+│   │   └── sample_test.py
+│   └── unit
+│       └── sample_test.py
+├── tools
+│   └── dbx-0.7.0-py3-none-any.whl
+└── unit-requirements.txt
+```
+
+Some explanations regarding structure:
+- `.dbx` folder is a auxiliary folder, where metadata about environments and execution context is located.
+- `sample_project` - Python package with your code
+- `tests` - directory with your package tests
+- `conf/deployment.json` - deployment configuration file. Please read the [following section](#deployment-file-structure) for a full reference.
+- `azure-pipelines.yml` - Azure DevOps Pipelines workflow definition
 
 ## Quickstart
 
