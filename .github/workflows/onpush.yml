@@ -38,7 +38,7 @@ jobs:
       run: |
         mkdir -p /tmp/tests
         echo "PROJECT_NAME=templates-test-$SHA8" >> $GITHUB_ENV
-        echo "FULL_PROJECT_PATH=/tmp/tests/$(echo ${PROJECT_NAME})" >> $GITHUB_ENV
+        echo "FULL_PROJECT_PATH=/tmp/tests/templates-test-$SHA8" >> $GITHUB_ENV
 
     - name: Check envs
       env
