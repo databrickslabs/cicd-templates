@@ -27,6 +27,10 @@ class TemplateTest(unittest.TestCase):
     def tearDown(self) -> None:
         shutil.rmtree(self.test_dir)
 
+    def execute_command(self, cmd):
+        exit_code = os.system(cmd)
+        self.assertEqual(exit_code, 0)
+
     def test_template_azure_github(self):
         cookiecutter(template=TEMPLATE_PATH, no_input=True, output_dir=self.test_dir, extra_context={
             "project_name": self.project_name,
@@ -42,7 +46,8 @@ class TemplateTest(unittest.TestCase):
             self.assertTrue(Path("conf/deployment.json").exists())
 
             validate_json("conf/deployment.json")
-            os.system("pip install -U tools/dbx-0.7.0-py3-none-any.whl")
+
+            self.execute_command("pip install -U tools/dbx-0.7.0-py3-none-any.whl")
 
 
 if __name__ == '__main__':
