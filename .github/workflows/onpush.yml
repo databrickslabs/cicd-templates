@@ -41,7 +41,7 @@ jobs:
         echo "PROJECT_NAME=templates-test-$SHORT_COMMIT_ID" >> $GITHUB_ENV
         echo "FULL_PROJECT_PATH=/tmp/tests/$PROJECT_NAME" >> $GITHUB_ENV
         cookiecutter \
-          --directory . \
+          --directory $(pwd) \
           --no-input \
           -o /tmp/tests \
           project_name=$PROJECT_NAME \
