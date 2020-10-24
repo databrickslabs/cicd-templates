@@ -12,13 +12,13 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.7]
+        python-version: [3.7.5]
 
     steps:
     - uses: actions/checkout@v1
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -38,6 +38,7 @@ jobs:
         echo "FULL_PROJECT_PATH=/tmp/tests/$(echo ${PROJECT_NAME})" >> $GITHUB_ENV
 
     - name: Generate project
+      run: |
         cookiecutter \
           --directory $(pwd) \
           --no-input \
