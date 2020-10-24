@@ -41,7 +41,7 @@ jobs:
         echo "FULL_PROJECT_PATH=/tmp/tests/templates-test-$SHA8" >> $GITHUB_ENV
 
     - name: Check envs
-      env
+      run: env
 
 #    - name: Generate project
 #      run: |
