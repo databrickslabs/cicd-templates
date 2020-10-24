@@ -37,11 +37,11 @@ jobs:
     - name: Prepare project paths
       run: |
         mkdir -p /tmp/tests
-        echo $SHA8
-        env
+        echo "PROJECT_NAME=templates-test-$SHA8" >> $GITHUB_ENV
+        echo "FULL_PROJECT_PATH=/tmp/tests/$(echo ${PROJECT_NAME})" >> $GITHUB_ENV
 
-#        echo "PROJECT_NAME=templates-test-$SHA8" >> $GITHUB_ENV
-#        echo "FULL_PROJECT_PATH=/tmp/tests/$(echo ${PROJECT_NAME})" >> $GITHUB_ENV
+    - name: Check envs
+      env
 
 #    - name: Generate project
 #      run: |
