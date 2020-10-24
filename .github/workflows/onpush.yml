@@ -36,6 +36,15 @@ jobs:
 
     - name: Generate new project
       run: |
-        pwd
-
-
+        GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-8)
+        PROJECT_NAME=templates-test-$(GITHUB_SHA_SHORT)
+        mkdir -p /tmp/tests
+        cookiecutter \
+          --directory . \
+          --no-input \
+          -o /tmp/tests \
+          project_name=$(PROJECT_NAME) \
+          cloud="Azure" \
+          profile=dbx-dev-azure \
+          cicd_tool="GitHub Actions"
+        ls -la /tmp/tests/$(PROJECT_NAME)
