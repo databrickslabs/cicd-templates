@@ -14,11 +14,6 @@ jobs:
       matrix:
         python-version: [3.7]
 
-    env:
-      SHA8: $(echo ${GITHUB_SHA} | cut -c1-8)
-      PROJECT_NAME: templates-test-${SHA8}
-      FULL_PROJECT_PATH: /tmp/tests/${PROJECT_NAME}
-
     steps:
     - uses: actions/checkout@v1
 
@@ -35,10 +30,14 @@ jobs:
       run: |
         pip install cookiecutter path
 
-    - name: Generate new project
+    - name: Prepare env
       run: |
         mkdir -p /tmp/tests
+        echo "SHA8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_ENV
+        echo "PROJECT_NAME=templates-test-$(echo ${SHA8})" >> $GITHUB_ENV
+        echo "FULL_PROJECT_PATH=/tmp/tests/$(echo ${PROJECT_NAME})" >> $GITHUB_ENV
 
+    - name: Generate project
         cookiecutter \
           --directory $(pwd) \
           --no-input \
