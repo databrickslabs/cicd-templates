@@ -36,11 +36,11 @@ jobs:
 
     - name: Generate project
       run: |
-        mkdir -p $(pwd)/temp
+        mkdir -p ~/temp
         cookiecutter \
           --directory $(pwd) \
           --no-input \
-          -o $(pwd)/temp \
+          -o ~/temp \
           project_name=cicd-templates-test-$SHA8 \
           cloud="Azure" \
           profile=dbx-dev-azure \
