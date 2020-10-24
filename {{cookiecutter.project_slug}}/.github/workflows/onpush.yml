@@ -8,8 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
-      matrix:
-        python-version: [ 3.7 ]
 
     env:
       DATABRICKS_HOST: ${{{{ secrets.DATABRICKS_HOST }}}}
@@ -18,19 +16,16 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Set up Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.7
+      - run: |
+          # fix for act to work with setup-python@v2
+          if [ ! -f "/etc/lsb-release" ] ; then
+            echo "DISTRIB_RELEASE=18.04" > /etc/lsb-release
+          fi
 
-      - uses: actions/cache@v2
-        id: cache
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
-          path: ~/.cache/pip
-          key: ${{{{ runner.os }}}}-pip-${{{{ hashFiles('**/unit-requirements.txt') }}}}
-          restore-keys: |
-            ${{{{ runner.os }}}}-pip-${{{{ hashFiles('**/unit-requirements.txt') }}}}
-            ${{{{ runner.os }}}}-pip-
+          python-version: 3.7.5
 
       - name: Install pip
         run: |

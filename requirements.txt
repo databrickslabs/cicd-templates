@@ -4,3 +4,7 @@ cookiecutter
 pathlib
 pytest
 path
+python-dotenv
+pygithub
+requests
+pynacl

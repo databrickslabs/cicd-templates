@@ -29,3 +29,6 @@ htmlcov/*
 
 # aux mlruns
 mlruns/
+
+# secrets
+.env
