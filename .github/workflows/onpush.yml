@@ -30,12 +30,14 @@ jobs:
       run: |
         pip install cookiecutter path
 
-    - name: Prepare env
+    - name: Prepare sha8
+      run: |
+        echo "SHA8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_ENV
+
+    - name: Prepare project paths
       run: |
         mkdir -p /tmp/tests
-        echo "SHA8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_ENV
-        echo kek-$SHA8
-        echo kek-${SHA8}
+        echo $SHA8
         env
 
 #        echo "PROJECT_NAME=templates-test-$SHA8" >> $GITHUB_ENV
