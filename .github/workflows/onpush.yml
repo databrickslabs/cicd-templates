@@ -34,20 +34,24 @@ jobs:
       run: |
         mkdir -p /tmp/tests
         echo "SHA8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_ENV
-        echo "PROJECT_NAME=templates-test-$(echo ${SHA8})" >> $GITHUB_ENV
-        echo "FULL_PROJECT_PATH=/tmp/tests/$(echo ${PROJECT_NAME})" >> $GITHUB_ENV
+        echo kek-$SHA8
+        echo kek-${SHA8}
+        env
 
-    - name: Generate project
-      run: |
-        cookiecutter \
-          --directory $(pwd) \
-          --no-input \
-          -o /tmp/tests \
-          project_name=$PROJECT_NAME \
-          cloud="Azure" \
-          profile=dbx-dev-azure \
-          cicd_tool="GitHub Actions"
+#        echo "PROJECT_NAME=templates-test-$SHA8" >> $GITHUB_ENV
+#        echo "FULL_PROJECT_PATH=/tmp/tests/$(echo ${PROJECT_NAME})" >> $GITHUB_ENV
 
-    - name: Install dbx
-      run: |
-        cd $FULL_PROJECT_PATH && pip install -U tools/dbx-0.7.0-py3-none-any.whl
+#    - name: Generate project
+#      run: |
+#        cookiecutter \
+#          --directory $(pwd) \
+#          --no-input \
+#          -o /tmp/tests \
+#          project_name=$PROJECT_NAME \
+#          cloud="Azure" \
+#          profile=dbx-dev-azure \
+#          cicd_tool="GitHub Actions"
+#
+#    - name: Install dbx
+#      run: |
+#        cd $FULL_PROJECT_PATH && pip install -U tools/dbx-0.7.0-py3-none-any.whl
