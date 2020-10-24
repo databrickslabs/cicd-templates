@@ -2,12 +2,8 @@ name: test
 
 on:
   push:
-  pull_request:
-    types:
-      - "opened"
-      - "closed"
-      - "reopened"
-      - "synchronize"
+    branches-ignore:
+      - master
 
 jobs:
   test-github-actions-azure:
