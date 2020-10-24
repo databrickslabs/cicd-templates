@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  test-github-actions-azure:
+  test:
 
     runs-on: ubuntu-latest
     strategy:
@@ -26,26 +26,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip
 
-    - name: Install dependencies
+    - name: Install test dependencies
       run: |
-        pip install cookiecutter path
+        pip install -U reqirements.txt
 
-    - name: Prepare sha8
+    - name: Run tests
       run: |
-        echo "SHA8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_ENV
+        pytest tests
 
-    - name: Generate project
-      run: |
-        mkdir -p ~/temp
-        cookiecutter \
-          --directory $(pwd) \
-          --no-input \
-          -o ~/temp \
-          project_name=cicd-templates-test-$SHA8 \
-          cloud="Azure" \
-          profile=dbx-dev-azure \
-          cicd_tool="GitHub Actions"
 
-    - name: Install dbx
-      run: |
-        cd ~/temp && pip install -U tools/dbx-0.7.0-py3-none-any.whl
