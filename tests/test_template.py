@@ -35,7 +35,8 @@ class TemplateTest(unittest.TestCase):
         cookiecutter(template=TEMPLATE_PATH, no_input=True, output_dir=self.test_dir, extra_context={
             "project_name": self.project_name,
             "cloud": "Azure",
-            "cicd_tool": "GitHub Actions"
+            "cicd_tool": "GitHub Actions",
+            "profile": "dbx-dev-azure"
         })
 
         project_path = Path(self.test_dir).joinpath(self.project_name)

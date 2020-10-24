@@ -17,6 +17,13 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
+
+    - run: |
+        # Hack to get setup-python to work on act
+        if [ ! -f "/etc/lsb-release" ] ; then
+          echo "DISTRIB_RELEASE=18.04" > /etc/lsb-release
+        fi
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
