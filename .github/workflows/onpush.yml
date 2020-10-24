@@ -43,17 +43,17 @@ jobs:
     - name: Check envs
       run: env
 
-#    - name: Generate project
-#      run: |
-#        cookiecutter \
-#          --directory $(pwd) \
-#          --no-input \
-#          -o /tmp/tests \
-#          project_name=$PROJECT_NAME \
-#          cloud="Azure" \
-#          profile=dbx-dev-azure \
-#          cicd_tool="GitHub Actions"
-#
-#    - name: Install dbx
-#      run: |
-#        cd $FULL_PROJECT_PATH && pip install -U tools/dbx-0.7.0-py3-none-any.whl
+    - name: Generate project
+      run: |
+        cookiecutter \
+          --directory $(pwd) \
+          --no-input \
+          -o /tmp/tests \
+          project_name=$PROJECT_NAME \
+          cloud="Azure" \
+          profile=dbx-dev-azure \
+          cicd_tool="GitHub Actions"
+
+    - name: Install dbx
+      run: |
+        cd $FULL_PROJECT_PATH && pip install -U tools/dbx-0.7.0-py3-none-any.whl
