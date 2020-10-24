@@ -36,15 +36,16 @@ jobs:
 
     - name: Generate new project
       run: |
-        GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-8)
-        PROJECT_NAME=templates-test-$(GITHUB_SHA_SHORT)
         mkdir -p /tmp/tests
+        echo "$GITHUB_SHA | cut -c1-8" >> $GITHUB_SHA_SHORT
+        echo "templates-test-$(GITHUB_SHA_SHORT)" >> $PROJECT_NAME
+        echo "/tmp/tests/$PROJECT_NAME" >> $FULL_PROJECT_PATH
         cookiecutter \
           --directory . \
           --no-input \
           -o /tmp/tests \
-          project_name=$(PROJECT_NAME) \
+          project_name=$PROJECT_NAME \
           cloud="Azure" \
           profile=dbx-dev-azure \
           cicd_tool="GitHub Actions"
-        ls -la /tmp/tests/$(PROJECT_NAME)
+        ls -la $FULL_PROJECT_PATH
