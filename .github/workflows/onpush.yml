@@ -48,4 +48,4 @@ jobs:
 
     - name: Install dbx
       run: |
-        cd temp && pip install -U tools/dbx-0.7.0-py3-none-any.whl
+        cd ~/temp && pip install -U tools/dbx-0.7.0-py3-none-any.whl
