@@ -33,7 +33,7 @@ jobs:
     - name: Generate new project
       run: |
         mkdir -p /tmp/tests
-        echo "SHORT_COMMIT_ID=$GITHUB_SHA | cut -c1-8" >> $GITHUB_ENV
+        echo "SHORT_COMMIT_ID=$($GITHUB_SHA | cut -c1-8)" >> $GITHUB_ENV
         echo "PROJECT_NAME=templates-test-$SHORT_COMMIT_ID" >> $GITHUB_ENV
         echo "FULL_PROJECT_PATH=/tmp/tests/$PROJECT_NAME" >> $GITHUB_ENV
         cookiecutter \
