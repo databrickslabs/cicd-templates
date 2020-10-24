@@ -34,26 +34,18 @@ jobs:
       run: |
         echo "SHA8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_ENV
 
-    - name: Prepare project paths
-      run: |
-        mkdir -p /tmp/tests
-        echo "PROJECT_NAME=templates-test-$SHA8" >> $GITHUB_ENV
-        echo "FULL_PROJECT_PATH=/tmp/tests/templates-test-$SHA8" >> $GITHUB_ENV
-
-    - name: Check envs
-      run: env
-
     - name: Generate project
       run: |
+        mkdir -p $(pwd)/temp
         cookiecutter \
           --directory $(pwd) \
           --no-input \
-          -o /tmp/tests \
-          project_name=$PROJECT_NAME \
+          -o $(pwd)/temp \
+          project_name=cicd-templates-test-$SHA8 \
           cloud="Azure" \
           profile=dbx-dev-azure \
           cicd_tool="GitHub Actions"
 
     - name: Install dbx
       run: |
-        cd $FULL_PROJECT_PATH && pip install -U tools/dbx-0.7.0-py3-none-any.whl
+        cd temp && pip install -U tools/dbx-0.7.0-py3-none-any.whl
