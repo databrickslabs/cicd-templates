@@ -2,6 +2,13 @@ from {{cookiecutter.project_slug}}.common import Job
 
 
 class SampleJob(Job):
+
+    def default_conf(self):
+        return {
+            "output_format": "delta",
+            "output_path": "dbfs:/dbx/tmp/test/{{cookiecutter.project_slug}}"
+        }
+
     def launch(self):
         self.logger.info("Launching bootstrap job")
 

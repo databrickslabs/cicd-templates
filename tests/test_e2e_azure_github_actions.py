@@ -1,12 +1,8 @@
 import json
 import logging
 import pathlib
-import shutil
-import tempfile
 import unittest
-from uuid import uuid4
 from github import Github, Workflow
-from cookiecutter.main import cookiecutter
 from path import Path
 import os
 from dotenv import load_dotenv
@@ -15,11 +11,11 @@ import typing as t
 import requests as r
 import base64
 import time
+import shutil
+from .utils import CicdTemplatesTest
 
 if "GH_ACCESS_TOKEN" not in os.environ:
     load_dotenv(".env")
-
-TEMPLATE_PATH = str(pathlib.Path(".").absolute())
 
 
 def validate_json(file_path):
@@ -77,27 +73,13 @@ def encrypt_using_key(
     return base64.b64encode(encrypted).decode('utf-8')
 
 
-class TemplateTest(unittest.TestCase):
-    def setUp(self) -> None:
-        self.test_dir = tempfile.mkdtemp()
-        self.project_name = "cicd_templates_%s" % str(uuid4()).split("-")[0]
-        access_token = os.environ["GH_ACCESS_TOKEN"]
-        self.gh = Github(access_token)
-        self.gh_user = self.gh.get_user()
-        self.gh_repo = self.gh_user.create_repo(self.project_name)
-        upload_secret(self.gh_repo.full_name, access_token, "DATABRICKS_HOST", os.environ["DBX_AZURE_HOST"])
-        upload_secret(self.gh_repo.full_name, access_token, "DATABRICKS_TOKEN", os.environ["DBX_AZURE_TOKEN"])
-        logging.info("Test directory: %s" % self.test_dir)
+class TemplateTest(CicdTemplatesTest):
 
     def tearDown(self) -> None:
         logging.info(f"Deleting test directory: {self.test_dir}")
         shutil.rmtree(self.test_dir)
         logging.info(f"Deleting repository: {self.gh_repo.full_name}")
         self.gh_repo.delete()
-
-    def execute_command(self, cmd):
-        exit_code = os.system(cmd)
-        self.assertEqual(exit_code, 0)
 
     def get_workflow(self, name: str) -> Workflow:
         workflow_iterator = self.gh_repo.get_workflows()
@@ -119,16 +101,15 @@ class TemplateTest(unittest.TestCase):
                 return single_run.status
 
     def test_template_azure_github(self):
-        cookiecutter(template=TEMPLATE_PATH, no_input=True, output_dir=self.test_dir, extra_context={
-            "project_name": self.project_name,
-            "cloud": "Azure",
-            "cicd_tool": "GitHub Actions",
-            "profile": "dbx-dev-azure"
-        })
+        access_token = os.environ["GH_ACCESS_TOKEN"]
+        self.gh = Github(access_token)
+        self.gh_user = self.gh.get_user()
+        self.gh_repo = self.gh_user.create_repo(self.project_name)
+        upload_secret(self.gh_repo.full_name, access_token, "DATABRICKS_HOST", os.environ["DBX_AZURE_HOST"])
+        upload_secret(self.gh_repo.full_name, access_token, "DATABRICKS_TOKEN", os.environ["DBX_AZURE_TOKEN"])
+        logging.info("Test directory: %s" % self.test_dir)
 
-        project_path = Path(self.test_dir).joinpath(self.project_name)
-
-        with project_path:
+        with self.project_path:
             self.assertTrue(Path(".github").exists())
             self.assertFalse(Path("azure-pipelines.yml").exists())
             self.assertTrue(Path("conf/deployment.json").exists())
