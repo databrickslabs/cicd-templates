@@ -12,7 +12,7 @@ class SampleJobIntegrationTest(unittest.TestCase):
             "output_path": self.test_dir
         }
 
-        self.job = SampleJob(conf=self.test_config)
+        self.job = SampleJob(init_conf=self.test_config)
         self.dbutils = DBUtils(self.job.spark)
         self.spark = self.job.spark
 

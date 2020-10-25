@@ -13,7 +13,7 @@ class SampleJobUnitTest(unittest.TestCase):
             "output_format": "parquet",
             "output_path": os.path.join(self.test_dir, "output")
         }
-        self.job = SampleJob(spark=self.spark, conf=self.test_config)
+        self.job = SampleJob(spark=self.spark, init_conf=self.test_config)
 
 
     def test_sample(self):
