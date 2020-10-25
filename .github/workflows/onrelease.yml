@@ -23,6 +23,6 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: |
-            Release for version ${{ github.ref }}
+            Release for version ${{ github.ref }}. Please check CHANGELOG.md for more information.
           draft: false
           prerelease: false
