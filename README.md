@@ -236,6 +236,28 @@ From the state serialization perspective, your code and deployments are stored i
 - artifact location - this location is stored in DBFS, described per-environment and defined in `.dbx/project.json`, in `artifact_location` field.
         To control access this location, please use credentials passthrough (docs for [ADLS](https://docs.microsoft.com/en-us/azure/databricks/security/credential-passthrough/adls-passthrough) and for [S3](https://docs.databricks.com/security/credential-passthrough/index.html)).
 
+###
+*Q*: I would like to use self-hosted (private) pypi repository. How can I configure my deployment and CI/CD pipeline?
+
+*A*:  
+To set up this scenario, there are some settings to be applied:
+- Databricks driver should have network access to your pypi repository
+- Additional step to deploy your package to pypi repo should be configured in CI/CD pipeline
+- Package re-build and generation should be disabled via `--no-rebuild --no-package` arguments for `dbx execute`
+- Package reference should be configured in job description
+
+Here is a sample for `dbx deploy` command:
+```
+dbx deploy --no-rebuild --no-package
+```
+
+Sample section to `libraries` configuration:
+```json
+{
+    "pypi": {"package": "my-package-name==1.0.0", "repo": "my-repo.com"}
+}
+```
+
 ## Legal Information
 This software is provided as-is and is not officially supported by Databricks through customer technical support channels. 
 Support, questions, and feature requests can be communicated through the Issues page of this repo. 
