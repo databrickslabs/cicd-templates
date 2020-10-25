@@ -2,8 +2,10 @@ name: test
 
 on:
   push:
-    branches-ignore:
-      - master
+    branches:
+      - '**'
+    tags-ignore:
+      - '*.*'
 
 jobs:
   test:
@@ -14,15 +16,14 @@ jobs:
       matrix:
         python-version: [3.7.5]
 
+    env:
+      GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+      GH_PWD: ${{ secrets.GH_PWD }}
+      DBX_AZURE_HOST: ${{ secrets.DBX_AZURE_HOST }}
+      DBX_AZURE_TOKEN:  ${{ secrets.DBX_AZURE_TOKEN }}
+
     steps:
     - uses: actions/checkout@v1
-
-
-    - run: |
-        # Hack to get setup-python to work on act
-        if [ ! -f "/etc/lsb-release" ] ; then
-          echo "DISTRIB_RELEASE=18.04" > /etc/lsb-release
-        fi
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
