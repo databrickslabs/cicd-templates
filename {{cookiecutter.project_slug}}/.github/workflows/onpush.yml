@@ -16,12 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - run: |
-          # fix for act to work with setup-python@v2
-          if [ ! -f "/etc/lsb-release" ] ; then
-            echo "DISTRIB_RELEASE=18.04" > /etc/lsb-release
-          fi
-
       - name: Set up Python
         uses: actions/setup-python@v2
         with:

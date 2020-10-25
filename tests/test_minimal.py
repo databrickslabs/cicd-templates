@@ -92,8 +92,8 @@ class TemplateTest(unittest.TestCase):
     def tearDown(self) -> None:
         logging.info(f"Deleting test directory: {self.test_dir}")
         shutil.rmtree(self.test_dir)
-        # logging.info(f"Deleting repository: {self.gh_repo.full_name}")
-        # self.gh_repo.delete()
+        logging.info(f"Deleting repository: {self.gh_repo.full_name}")
+        self.gh_repo.delete()
 
     def execute_command(self, cmd):
         exit_code = os.system(cmd)
