@@ -138,7 +138,8 @@ class TemplateTest(unittest.TestCase):
             self.execute_command("git add .")
             self.execute_command('git commit -m "init commit"')
 
-            fixed_url = self.gh_repo.clone_url.replace("github.com", "cicd-templates-test@github.com")
+            auth_url = f"cicd-templates-test:{os.environ['GH_PWD']}@github.com"
+            fixed_url = self.gh_repo.clone_url.replace("github.com", auth_url)
             self.execute_command(f"git remote add origin {fixed_url}")
             self.execute_command("git branch -M main")
             self.execute_command("git push -u origin main")
