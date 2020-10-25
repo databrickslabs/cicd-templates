@@ -4,8 +4,12 @@ on:
   push:
     branches:
       - '**'
+    branches-ignore:
+      - 'master' # the branch will be tested before push to master
     tags-ignore:
       - '*.*'
+    paths-ignore:
+      - 'README.md' # if we change documentation only, we don't need to run tests
 
 jobs:
   test:
