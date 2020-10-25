@@ -85,8 +85,8 @@ class TemplateTest(unittest.TestCase):
         self.gh = Github(access_token)
         self.gh_user = self.gh.get_user()
         self.gh_repo = self.gh_user.create_repo(self.project_name)
-        upload_secret(self.gh_repo.full_name, access_token, "DATABRICKS_HOST", os.environ["DBX_HOST"])
-        upload_secret(self.gh_repo.full_name, access_token, "DATABRICKS_TOKEN", os.environ["DBX_TOKEN"])
+        upload_secret(self.gh_repo.full_name, access_token, "DATABRICKS_HOST", os.environ["DBX_AZURE_HOST"])
+        upload_secret(self.gh_repo.full_name, access_token, "DATABRICKS_TOKEN", os.environ["DBX_AZURE_TOKEN"])
         logging.info("Test directory: %s" % self.test_dir)
 
     def tearDown(self) -> None:
