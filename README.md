@@ -226,6 +226,16 @@ In the example above, the entrypoint file and the job configuration will be adde
     You can implement any configuration logic and simply write the output into a custom `deployment.json` file and then pass it via `--deployment-file` option. 
     As an example, you can generate your configuration using Python script, or [Jsonnet](https://jsonnet.org/).
 
+###
+*Q*: How can I secure the project environment?
+
+*A*:  
+From the state serialization perspective, your code and deployments are stored in two separate storages:
+- workspace directory -this directory is stored in your workspace, described per-environment and defined in `.dbx/project.json`, in `workspace_dir` field.
+        To secure this directory, please use [Workspace ACLs](https://docs.databricks.com/security/access-control/workspace-acl.html).  
+- artifact location - this location is stored in DBFS, described per-environment and defined in `.dbx/project.json`, in `artifact_location` field.
+        To secure this location, please use credentials passthrough (docs for [ADLS](https://docs.microsoft.com/en-us/azure/databricks/security/credential-passthrough/adls-passthrough) and for [S3](https://docs.databricks.com/security/credential-passthrough/index.html)).
+
 ## Legal Information
 This software is provided as-is and is not officially supported by Databricks through customer technical support channels. 
 Support, questions, and feature requests can be communicated through the Issues page of this repo. 
