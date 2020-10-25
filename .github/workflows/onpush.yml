@@ -32,6 +32,12 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
+    - name: Prepare profile
+      run: |
+        echo "[dbx-dev-azure]" >> ~/.databrickscfg
+        echo "host = $DBX_AZURE_HOST" >> ~/.databrickscfg
+        echo "token = $DBX_AZURE_TOKEN" >> ~/.databrickscfg
+
     - name: Install pip
       run: |
         python -m pip install --upgrade pip
