@@ -107,10 +107,12 @@ class TemplateTest(unittest.TestCase):
 
     def trace_workflow(self, name: str):
         finished = False
+        _workflow = self.get_workflow(name)
         while not finished:
-            _workflow = self.get_workflow(name)
             single_run = list(_workflow.get_runs())[0]
-            if single_run.status == "in_progress":
+            if single_run.status == "queued":
+                logging.info("Run queued")
+            elif single_run.status == "in_progress":
                 logging.info("Waiting for test run to finish")
                 time.sleep(5)
             else:
@@ -144,9 +146,9 @@ class TemplateTest(unittest.TestCase):
             self.execute_command("git branch -M main")
             self.execute_command("git push -u origin main")
 
-            logging.info("Waiting for a trace workflow launch")
-            time.sleep(10)
-
+            logging.info("Waiting for a workflow launch")
+            time.sleep(20)
+            logging.info("Tracing workflow status")
             workflow_status = self.trace_workflow("Test pipeline")
 
             self.assertTrue(workflow_status, "completed")
