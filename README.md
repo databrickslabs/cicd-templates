@@ -258,6 +258,13 @@ Sample section to `libraries` configuration:
 }
 ```
 
+###
+*Q*: What is the purpose of `init_adapter` method in SampleJob?
+
+*A*: 
+This method should be primarily used for adapting configuration for `dbx execute` based run. 
+By using this method, you can provide an initial configuration in case if `--conf-file` option is not provided.  
+
 ## Legal Information
 This software is provided as-is and is not officially supported by Databricks through customer technical support channels. 
 Support, questions, and feature requests can be communicated through the Issues page of this repo. 

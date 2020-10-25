@@ -10,7 +10,7 @@ on:
       - 'README.md' # if we change documentation only, we don't need to run tests
 
 jobs:
-  test:
+  test-e2e-azure-github-actions:
 
     runs-on: ubuntu-latest
     strategy:
@@ -32,6 +32,12 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
+    - name: Prepare profile
+      run: |
+        echo "[dbx-dev-azure]" >> ~/.databrickscfg
+        echo "host = $DBX_AZURE_HOST" >> ~/.databrickscfg
+        echo "token = $DBX_AZURE_TOKEN" >> ~/.databrickscfg
+
     - name: Install pip
       run: |
         python -m pip install --upgrade pip
@@ -42,6 +48,46 @@ jobs:
 
     - name: Run tests
       run: |
-        pytest tests
+        pytest tests/test_e2e_azure_github_actions.py
 
 
+
+  test-local-execute:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7.5]
+
+    env:
+      GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+      GH_PWD: ${{ secrets.GH_PWD }}
+      DBX_AZURE_HOST: ${{ secrets.DBX_AZURE_HOST }}
+      DBX_AZURE_TOKEN:  ${{ secrets.DBX_AZURE_TOKEN }}
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Prepare profile
+      run: |
+        echo "[dbx-dev-azure]" >> ~/.databrickscfg
+        echo "host = $DBX_AZURE_HOST" >> ~/.databrickscfg
+        echo "token = $DBX_AZURE_TOKEN" >> ~/.databrickscfg
+
+    - name: Install pip
+      run: |
+        python -m pip install --upgrade pip
+
+    - name: Install test dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        pytest tests/test_local_execute.py
