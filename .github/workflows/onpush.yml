@@ -15,9 +15,9 @@ jobs:
         python-version: [3.7.5]
 
     env:
-      GH_ACCESS_TOKEN: ${{{{ secrets.GH_ACCESS_TOKEN }}}}
-      DBX_AZURE_HOST: ${{{{ secrets.DBX_AZURE_HOST }}}}
-      DBX_AZURE_TOKEN:  ${{{{ secrets.DBX_AZURE_TOKEN }}}}
+      GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+      DBX_AZURE_HOST: ${{ secrets.DBX_AZURE_HOST }}
+      DBX_AZURE_TOKEN:  ${{ secrets.DBX_AZURE_TOKEN }}
 
     steps:
     - uses: actions/checkout@v1
