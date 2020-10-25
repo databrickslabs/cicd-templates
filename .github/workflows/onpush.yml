@@ -2,8 +2,10 @@ name: test
 
 on:
   push:
-    branches-ignore:
-      - master
+    branches:
+      - '**'
+    tags-ignore:
+      - '*.*'
 
 jobs:
   test:

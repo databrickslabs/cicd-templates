@@ -113,7 +113,7 @@ class TemplateTest(unittest.TestCase):
             if single_run.status == "queued":
                 logging.info("Run queued")
             elif single_run.status == "in_progress":
-                logging.info("Waiting for test run to finish")
+                logging.info(f"Waiting for run in {name} to finish")
                 time.sleep(5)
             else:
                 return single_run.status
@@ -146,12 +146,20 @@ class TemplateTest(unittest.TestCase):
             self.execute_command("git branch -M main")
             self.execute_command("git push -u origin main")
 
-            logging.info("Waiting for a workflow launch")
+            logging.info("Waiting for a test workflow launch")
             time.sleep(20)
-            logging.info("Tracing workflow status")
             workflow_status = self.trace_workflow("Test pipeline")
 
             self.assertTrue(workflow_status, "completed")
+
+            self.execute_command("git tag -a v0.0.1 -m 'release'")
+            self.execute_command("git push origin --tags")
+
+            logging.info("Waiting for a release workflow launch")
+            time.sleep(20)
+            logging.info("Tracing workflow status for release pipeline")
+            release_wf_status = self.trace_workflow("Release pipeline")
+            self.assertTrue(release_wf_status, "completed")
 
 
 if __name__ == '__main__':
