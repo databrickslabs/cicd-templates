@@ -98,7 +98,7 @@ class TemplateTest(CicdTemplatesTest):
                 logging.info(f"Waiting for run in {name} to finish")
                 time.sleep(5)
             else:
-                return single_run.status
+                return single_run.status, single_run.conclusion
 
     def test_template_azure_github(self):
         access_token = os.environ["GH_ACCESS_TOKEN"]
@@ -129,9 +129,10 @@ class TemplateTest(CicdTemplatesTest):
 
             logging.info("Waiting for a test workflow launch")
             time.sleep(20)
-            workflow_status = self.trace_workflow("Test pipeline")
+            test_workflow_status, test_workflow_conclusion = self.trace_workflow("Test pipeline")
 
-            self.assertTrue(workflow_status, "completed")
+            self.assertTrue(test_workflow_status, "completed")
+            self.assertTrue(test_workflow_conclusion, "success")
 
             self.execute_command("git tag -a v0.0.1 -m 'release'")
             self.execute_command("git push origin --tags")
@@ -139,8 +140,9 @@ class TemplateTest(CicdTemplatesTest):
             logging.info("Waiting for a release workflow launch")
             time.sleep(20)
             logging.info("Tracing workflow status for release pipeline")
-            release_wf_status = self.trace_workflow("Release pipeline")
-            self.assertTrue(release_wf_status, "completed")
+            release_workflow_status, release_workflow_conclusion = self.trace_workflow("Release pipeline")
+            self.assertTrue(release_workflow_status, "completed")
+            self.assertTrue(release_workflow_conclusion, "success")
 
 
 if __name__ == '__main__':
