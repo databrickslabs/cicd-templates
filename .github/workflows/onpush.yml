@@ -52,7 +52,7 @@ jobs:
 
 
 
-  test-local-execute:
+  test-e2e-local:
 
     runs-on: ${{ matrix.os }}
     strategy:
@@ -94,4 +94,4 @@ jobs:
 
     - name: Run tests
       run: |
-        pytest tests/test_local_execute.py
+        pytest tests/test_e2e_local.py
