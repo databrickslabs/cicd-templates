@@ -54,11 +54,12 @@ jobs:
 
   test-local-execute:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       max-parallel: 4
       matrix:
         python-version: [3.7.5]
+        os: [ubuntu-latest, windows-latest]
 
     env:
       GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
