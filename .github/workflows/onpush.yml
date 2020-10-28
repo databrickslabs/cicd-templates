@@ -74,11 +74,6 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-
-    - name: Prepare profile
-      run: |
-        python utils/profile_creator.py --profile dbx-dev-azure --host $DBX_AZURE_HOST --token $DBX_AZURE_TOKEN
-
     - name: Install pip
       run: |
         python -m pip install --upgrade pip
@@ -86,6 +81,10 @@ jobs:
     - name: Install test dependencies
       run: |
         pip install -r requirements.txt
+
+    - name: Prepare profile
+      run: |
+        python utils/profile_creator.py --profile dbx-dev-azure --host $DBX_AZURE_HOST --token $DBX_AZURE_TOKEN
 
     - name: Run tests
       run: |
