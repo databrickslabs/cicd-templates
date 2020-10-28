@@ -52,13 +52,14 @@ jobs:
 
 
 
-  test-local-execute:
+  test-e2e-local:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       max-parallel: 4
       matrix:
         python-version: [3.7.5]
+        os: [ubuntu-latest, windows-latest]
 
     env:
       GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
@@ -73,13 +74,6 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-
-    - name: Prepare profile
-      run: |
-        echo "[dbx-dev-azure]" >> ~/.databrickscfg
-        echo "host = $DBX_AZURE_HOST" >> ~/.databrickscfg
-        echo "token = $DBX_AZURE_TOKEN" >> ~/.databrickscfg
-
     - name: Install pip
       run: |
         python -m pip install --upgrade pip
@@ -88,6 +82,16 @@ jobs:
       run: |
         pip install -r requirements.txt
 
+    - name: Prepare profile on Linux
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        python utils/profile_creator.py --profile=dbx-dev-azure --host=$DBX_AZURE_HOST --token=$DBX_AZURE_TOKEN
+
+    - name: Prepare profile on Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        python utils/profile_creator.py --profile=dbx-dev-azure --host=${env:DBX_AZURE_HOST} --token=${env:DBX_AZURE_TOKEN}
+
     - name: Run tests
       run: |
-        pytest tests/test_local_execute.py
+        pytest tests/test_e2e_local.py
