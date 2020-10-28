@@ -77,9 +77,7 @@ jobs:
 
     - name: Prepare profile
       run: |
-        echo "[dbx-dev-azure]" >> ~/.databrickscfg
-        echo "host = $DBX_AZURE_HOST" >> ~/.databrickscfg
-        echo "token = $DBX_AZURE_TOKEN" >> ~/.databrickscfg
+        python utils/profile_creator.py --profile dbx-dev-azure --host $DBX_AZURE_HOST --token $DBX_AZURE_TOKEN
 
     - name: Install pip
       run: |
