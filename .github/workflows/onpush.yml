@@ -84,7 +84,7 @@ jobs:
 
     - name: Prepare profile
       run: |
-        python utils/profile_creator.py --profile dbx-dev-azure --host $DBX_AZURE_HOST --token $DBX_AZURE_TOKEN
+        python utils/profile_creator.py --profile=dbx-dev-azure --host=$DBX_AZURE_HOST --token=$DBX_AZURE_TOKEN
 
     - name: Run tests
       run: |
