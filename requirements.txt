@@ -9,3 +9,4 @@ pygithub
 requests
 pynacl
 click
+databricks-cli
