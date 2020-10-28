@@ -82,9 +82,15 @@ jobs:
       run: |
         pip install -r requirements.txt
 
-    - name: Prepare profile
+    - name: Prepare profile on Linux
+      if: matrix.os == 'ubuntu-latest'
       run: |
         python utils/profile_creator.py --profile=dbx-dev-azure --host=$DBX_AZURE_HOST --token=$DBX_AZURE_TOKEN
+
+    - name: Prepare profile on Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        python utils/profile_creator.py --profile=dbx-dev-azure --host=${env:DBX_AZURE_HOST} --token=${env:DBX_AZURE_TOKEN}
 
     - name: Run tests
       run: |
