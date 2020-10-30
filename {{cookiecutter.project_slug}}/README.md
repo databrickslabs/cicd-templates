@@ -30,7 +30,7 @@ dbx execute --cluster-name=<name of interactive cluster> --job={{cookiecutter.pr
 
 For a test on a automated job cluster, use `launch` instead of `execute`:
 ```
-dbx execute --job={{cookiecutter.project_name}}-sample-integration-test
+dbx launch --job={{cookiecutter.project_name}}-sample-integration-test
 ```
 
 ## Interactive execution and development
