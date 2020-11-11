@@ -1,3 +1,6 @@
+variables:
+- group: Databricks-environment
+
 trigger:
   batch: true
   branches:
@@ -8,6 +11,11 @@ trigger:
     include:
       - v*.*
       - prod
+
+  paths:
+    exclude:
+      - .github/*
+      - mlruns/*
 
 stages:
 - stage: onPush
