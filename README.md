@@ -198,6 +198,27 @@ When you run `dbx deploy` with a given deployment file (by default it takes the 
 Important thing about referencing is that you can also reference arbitrary local files. This is very handy for `python_file` section.
 In the example above, the entrypoint file and the job configuration will be added to the job definition and uploaded to `dbfs` automatically. No explicit file upload is needed.
 
+
+## TROUBLESHOOTING
+
+###
+*Q*: When running ```dbx deploy``` I'm getting the following exception ```json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)``` and stack trace:
+```
+...
+  File ".../lib/python3.7/site-packages/dbx/utils/common.py", line 215, in prepare_environment
+    experiment = mlflow.get_experiment_by_name(environment_data["workspace_dir"])
+...
+
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+```
+
+What could be causing it and what is the potential fix?
+
+*A*:  
+```
+We've seen this exception when in the profile the ```host=https://{domain}/?o={orgid}``` format is used for Azure. It is valid for the databricks cli, but not for the API. If that's the casue, once the "?o={orgid}" suffix is removed, the problem should be gone.
+```
+
 ## FAQ
 
 ###
