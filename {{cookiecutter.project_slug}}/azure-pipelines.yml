@@ -12,10 +12,6 @@ trigger:
       - v*.*
       - prod
 
-  paths:
-    exclude:
-      - mlruns/*
-
 stages:
 - stage: onPush
   jobs:
