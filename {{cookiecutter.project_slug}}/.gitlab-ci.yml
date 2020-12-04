@@ -25,7 +25,7 @@ integration-testing:
     - pip install -U tools/dbx-0.7.0-py3-none-any.whl
     - pip install -e .
     - echo "Preparing profile"
-    - echo "[DEFAULT]" >> ~/.databrickscfg
+    - echo "[{{cookiecutter.profile}}]" >> ~/.databrickscfg
     - echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
     - echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
     - echo "Deploying tests"
@@ -45,7 +45,7 @@ deployment:
     - pip install -U tools/dbx-0.7.0-py3-none-any.whl
     - pip install -e .
     - echo "Preparing profile"
-    - echo "[DEFAULT]" >> ~/.databrickscfg
+    - echo "[{{cookiecutter.profile}}]" >> ~/.databrickscfg
     - echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
     - echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
     - echo "Deploying Job"
