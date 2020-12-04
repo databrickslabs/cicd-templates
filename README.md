@@ -7,10 +7,12 @@ This repository provides a template for automated Databricks CI/CD pipeline crea
   * [CLI example](#cli-example)
   * [Sample project structure (with GitHub Actions)](#sample-project-structure-with-github-actions)
   * [Sample project structure (with Azure DevOps)](#sample-project-structure-with-azure-devops)
+  * [Sample project structure (with GitLab)](##sample-project-structure-with-gitlab)
   * [Quickstart](#quickstart)
      * [Local steps](#local-steps)
      * [Setting up CI/CD pipeline on GitHub Actions](#setting-up-cicd-pipeline-on-github-actions)
      * [Setting up CI/CD pipeline on Azure DevOps](#setting-up-cicd-pipeline-on-azure-devops)
+     * [Setting up CI/CD pipeline on GitLab](##setting-up-cicd-pipeline-on-gitlab)
   * [Deployment file structure](#deployment-file-structure)
   * [FAQ](#faq)
   * [Legal Information](#legal-information)
@@ -101,6 +103,45 @@ Some explanations regarding structure:
 - `conf/deployment.json` - deployment configuration file. Please read the [following section](#deployment-file-structure) for a full reference.
 - `azure-pipelines.yml` - Azure DevOps Pipelines workflow definition
 
+## Sample project structure (with GitLab)
+```
+.
+├── .dbx
+│   └── project.json
+├── .gitignore
+├── README.md
+├── .gitlab-ci.yml
+├── conf
+│   ├── deployment.json
+│   └── test
+│       └── sample.json
+├── pytest.ini
+├── sample_project_gitlab
+│   ├── __init__.py
+│   ├── common.py
+│   └── jobs
+│       ├── __init__.py
+│       └── sample
+│           ├── __init__.py
+│           └── entrypoint.py
+├── setup.py
+├── tests
+│   ├── integration
+│   │   └── sample_test.py
+│   └── unit
+│       └── sample_test.py
+├── tools
+│   └── dbx-0.7.0-py3-none-any.whl
+└── unit-requirements.txt
+```
+
+Some explanations regarding structure:
+- `.dbx` folder is an auxiliary folder, where metadata about environments and execution context is located.
+- `sample_project_gitlab` - Python package with your code (the directory name will follow your project name)
+- `tests` - directory with your package tests
+- `conf/deployment.json` - deployment configuration file. Please read the [following section](#deployment-file-structure) for a full reference.
+- `.gitlab-ci.yml` - GitLab CI/CD workflow definition
+
 ## Quickstart
 
 > **_NOTE:_**  
@@ -158,6 +199,15 @@ dbx launch --job <your-job-name> --trace
 - Add a remote origin to the local repo
 - Push the code 
 - Open the Azure DevOps UI to check the deployment status 
+
+### Setting up CI/CD pipeline on Gitlab
+
+- Create a new repository on Gitlab
+- Configure `DATABRICKS_HOST` and `DATABRICKS_TOKEN` secrets for your project in [GitLab UI](https://docs.gitlab.com/ee/ci/variables/#create-a-custom-variable-in-the-ui)
+- Add a remote origin to the local repo
+- Push the code 
+- Open the GitLab CI/CD UI to check the deployment status 
+
  
 ## Deployment file structure
 A sample deployment file could be found in a generated project.

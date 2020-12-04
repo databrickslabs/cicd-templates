@@ -142,12 +142,18 @@ class PostProcessor:
 
         if cicd_tool == 'GitHub Actions':
             os.remove("azure-pipelines.yml")
+            os.remove(".gitlab-ci.yml")
 
             replace_vars(".github/workflows/onpush.yml")
             replace_vars(".github/workflows/onrelease.yml")
 
         if cicd_tool == 'Azure DevOps':
             shutil.rmtree(".github")
+            os.remove(".gitlab-ci.yml")
+
+        if cicd_tool == 'GitLab':
+            shutil.rmtree(".github")
+            os.remove("azure-pipelines.yml")
 
         deployment = json.dumps(DEPLOYMENT[cloud], indent=4)
         deployment_file = Path("conf/deployment.json")
