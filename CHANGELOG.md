@@ -11,3 +11,8 @@ This release provides hotfix for incorrect reference of `init_conf` and adds pro
 ## Release 1.0.3
 
 This release adds more compatibility with win-based development environments, as well as extensive tests for win-based launches.
+
+## Release 1.0.4
+
+Added support for picking configuration properties from environment variable. 
+Fixed issue with non-existent lockfile. 
