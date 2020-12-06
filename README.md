@@ -265,6 +265,13 @@ Sample section to `libraries` configuration:
 This method should be primarily used for adapting configuration for `dbx execute` based run. 
 By using this method, you can provide an initial configuration in case if `--conf-file` option is not provided.  
 
+###
+*Q*: I don't like the idea of hosting the host and token variables into `~/.databrickscfg` file inside the CI pipeline. How can I make this setup more secure?
+
+*A*:  
+`dbx` now supports environment variables, provided via `DATABRICKS_HOST` and `DATABRICKS_TOKEN`. 
+If these variables are defined in env, no `~/.databrickscfg` file needed.
+
 ## Legal Information
 This software is provided as-is and is not officially supported by Databricks through customer technical support channels. 
 Support, questions, and feature requests can be communicated through the Issues page of this repo. 
