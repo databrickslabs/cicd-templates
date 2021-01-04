@@ -2,7 +2,7 @@ import json
 import os
 import shutil
 
-from path import Path
+from phathlib import Path
 
 cicd_tool = '{{cookiecutter.cicd_tool}}'
 cloud = '{{cookiecutter.cloud}}'
