@@ -165,7 +165,7 @@ conda activate <your-environment-name>
 ```bash
 pip install cookiecutter path
 ```
-- Create new project using cookiecutter template. Please note that the profile should exist in your `~/.databrickscfg`:
+- Create new project using cookiecutter template:
 ```
 cookiecutter https://github.com/databrickslabs/cicd-templates
 ```
