@@ -27,6 +27,8 @@ This repository provides a template for automated Databricks CI/CD pipeline crea
 ## Sample project structure (with GitHub Actions)
 ```
 .
+├── .dbx
+│   └── project.json
 ├── .github
 │   └── workflows
 │       ├── onpush.yml
