@@ -1,4 +1,4 @@
-VERSION = 1.0.4
+VERSION = 1.0.6
 
 release:
 	git add .
