@@ -4,21 +4,24 @@ This repository provides a template for automated Databricks CI/CD pipeline crea
 
 ## Table of Contents
 * [Databricks Labs CI/CD Templates](#databricks-labs-cicd-templates)
-  * [CLI example](#cli-example)
-  * [Sample project structure (with GitHub Actions)](#sample-project-structure-with-github-actions)
-  * [Sample project structure (with Azure DevOps)](#sample-project-structure-with-azure-devops)
-  * [Sample project structure (with GitLab)](##sample-project-structure-with-gitlab)
-  * [Quickstart](#quickstart)
-     * [Local steps](#local-steps)
-     * [Setting up CI/CD pipeline on GitHub Actions](#setting-up-cicd-pipeline-on-github-actions)
-     * [Setting up CI/CD pipeline on Azure DevOps](#setting-up-cicd-pipeline-on-azure-devops)
-     * [Setting up CI/CD pipeline on GitLab](##setting-up-cicd-pipeline-on-gitlab)
-  * [Deployment file structure](#deployment-file-structure)
-  * [FAQ](#faq)
-  * [Legal Information](#legal-information)
-  * [Feedback](#feedback)
-  * [Contributing](#contributing)
-  * [Kudos](#kudos)
+    * [Table of Contents](#table-of-contents)
+    * [CLI example](#cli-example)
+    * [Sample project structure (with GitHub Actions)](#sample-project-structure-with-github-actions)
+    * [Sample project structure (with Azure DevOps)](#sample-project-structure-with-azure-devops)
+    * [Sample project structure (with GitLab)](#sample-project-structure-with-gitlab)
+    * [Quickstart](#quickstart)
+        * [Local steps](#local-steps)
+        * [Setting up CI/CD pipeline on GitHub Actions](#setting-up-cicd-pipeline-on-github-actions)
+        * [Setting up CI/CD pipeline on Azure DevOps](#setting-up-cicd-pipeline-on-azure-devops)
+        * [Setting up CI/CD pipeline on Gitlab](#setting-up-cicd-pipeline-on-gitlab)
+    * [Deployment file structure](#deployment-file-structure)
+    * [Troubleshooting](#troubleshooting)
+    * [FAQ](#faq)
+    * [Legal Information](#legal-information)
+    * [Feedback](#feedback)
+    * [Contributing](#contributing)
+    * [Kudos](#kudos)
+
 
 
 ## CLI example
@@ -251,7 +254,7 @@ Important thing about referencing is that you can also reference arbitrary local
 In the example above, the entrypoint file and the job configuration will be added to the job definition and uploaded to `dbfs` automatically. No explicit file upload is needed.
 
 
-## TROUBLESHOOTING
+## Troubleshooting
 
 ###
 *Q*: When running ```dbx deploy``` I'm getting the following exception ```json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)``` and stack trace:
