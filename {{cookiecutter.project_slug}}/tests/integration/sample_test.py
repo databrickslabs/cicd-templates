@@ -34,7 +34,12 @@ class SampleJobIntegrationTest(unittest.TestCase):
         self.dbutils.fs.rm(self.test_dir, True)
 
 if __name__ == "__main__":
-    suite = unittest.TestSuite()
-    suite.addTest(SampleJobIntegrationTest('test_sample'))
+    # please don't change the logic of test result checks here
+    # it's intentionally done in this way to comply with jobs run result checks
+    # for other tests, please simply replace the SampleJobIntegrationTest with your custom class name
+    loader = unittest.TestLoader()
+    tests = loader.loadTestsFromTestCase(SampleJobIntegrationTest)
     runner = unittest.TextTestRunner(verbosity=2)
-    runner.run(suite)
+    result = runner.run(tests)
+    exit_code = 0 if result.wasSuccessful() else 1
+    exit(exit_code)
