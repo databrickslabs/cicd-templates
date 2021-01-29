@@ -1,7 +1,7 @@
 import unittest
 from {{cookiecutter.project_slug}}.jobs.sample.entrypoint import SampleJob
 from uuid import uuid4
-from pyspark.dbutils import DBUtils
+from pyspark.dbutils import DBUtils # noqa
 
 class SampleJobIntegrationTest(unittest.TestCase):
     def setUp(self):
@@ -41,5 +41,5 @@ if __name__ == "__main__":
     tests = loader.loadTestsFromTestCase(SampleJobIntegrationTest)
     runner = unittest.TextTestRunner(verbosity=2)
     result = runner.run(tests)
-    exit_code = 0 if result.wasSuccessful() else 1
-    exit(exit_code)
+    if not result.wasSuccessful():
+        raise RuntimeError("One or multiple tests failed. Please check job logs for additional information.")
