@@ -16,3 +16,15 @@ This release adds more compatibility with win-based development environments, as
 
 Added support for picking configuration properties from environment variable. 
 Fixed issue with non-existent lockfile. 
+
+## Release 1.0.5
+
+Minor fixes in the dbx behaviour.
+
+## Release 1.0.6
+
+Fixed multiple issues with run status checks:
+- status check code is now unified int one method
+- `--existing-runs=cancel` instabilities fixed
+- `--trace` stucks in case of skipped status fixed
+- proper exit code for failed integration tests
