@@ -29,7 +29,7 @@ DEPLOYMENT = {
                 {
                     "name": "%s-sample" % project,
                     "new_cluster": {
-                        "spark_version": "7.2.x-cpu-ml-scala2.12",
+                        "spark_version": "7.3.x-cpu-ml-scala2.12",
                         "node_type_id": "i3.xlarge",
                         "aws_attributes": {
                             "first_on_demand": 0,
@@ -55,7 +55,7 @@ DEPLOYMENT = {
                 {
                     "name": "%s-sample-integration-test" % project,
                     "new_cluster": {
-                        "spark_version": "7.2.x-cpu-ml-scala2.12",
+                        "spark_version": "7.3.x-cpu-ml-scala2.12",
                         "node_type_id": "i3.xlarge",
                         "aws_attributes": {
                             "first_on_demand": 0,
@@ -83,7 +83,7 @@ DEPLOYMENT = {
                 {
                     "name": "%s-sample" % project,
                     "new_cluster": {
-                        "spark_version": "7.2.x-cpu-ml-scala2.12",
+                        "spark_version": "7.3.x-cpu-ml-scala2.12",
                         "node_type_id": "Standard_F4s",
                         "num_workers": 2
                     },
@@ -105,7 +105,7 @@ DEPLOYMENT = {
                 {
                     "name": "%s-sample-integration-test" % project,
                     "new_cluster": {
-                        "spark_version": "7.2.x-cpu-ml-scala2.12",
+                        "spark_version": "7.3.x-cpu-ml-scala2.12",
                         "node_type_id": "Standard_F4s",
                         "num_workers": 1
                     },
