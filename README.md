@@ -270,9 +270,7 @@ json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
 What could be causing it and what is the potential fix?
 
 *A*:  
-```
-We've seen this exception when in the profile the ```host=https://{domain}/?o={orgid}``` format is used for Azure. It is valid for the databricks cli, but not for the API. If that's the casue, once the "?o={orgid}" suffix is removed, the problem should be gone.
-```
+We've seen this exception when in the profile the ```host=https://{domain}/?o={orgid}``` format is used for Azure. It is valid for the databricks cli, but not for the API. If that's the cause, once the "?o={orgid}" suffix is removed, the problem should be gone.
 
 ## FAQ
 
