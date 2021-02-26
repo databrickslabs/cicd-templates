@@ -28,3 +28,7 @@ Fixed multiple issues with run status checks:
 - `--existing-runs=cancel` instabilities fixed
 - `--trace` stucks in case of skipped status fixed
 - proper exit code for failed integration tests
+
+## Release 1.0.7
+
+- Since dbx is moved to public, no more whl file is needed. whl file is deleted from the repository, as well as all references to it.

@@ -36,7 +36,7 @@ stages:
     - script: |
         python -m pip install --upgrade pip
         pip install -r unit-requirements.txt
-        pip install tools/dbx-0.7.0-py3-none-any.whl
+        pip install dbx
         pip install -e .
       displayName: 'Install dependencies'
 
@@ -89,7 +89,7 @@ stages:
       - script: |
           python -m pip install --upgrade pip
           pip install -r unit-requirements.txt
-          pip install tools/dbx-0.7.0-py3-none-any.whl
+          pip install dbx
           pip install -e .
         displayName: 'Install dependencies'
 
