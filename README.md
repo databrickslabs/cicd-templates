@@ -5,10 +5,10 @@ This repository provides a template for automated Databricks CI/CD pipeline crea
 ## Table of Contents
 * [Databricks Labs CI/CD Templates](#databricks-labs-cicd-templates)
     * [Table of Contents](#table-of-contents)
-    * [CLI example](#cli-example)
     * [Sample project structure (with GitHub Actions)](#sample-project-structure-with-github-actions)
     * [Sample project structure (with Azure DevOps)](#sample-project-structure-with-azure-devops)
     * [Sample project structure (with GitLab)](#sample-project-structure-with-gitlab)
+    * [Note on dbx](#note-on-dbx)
     * [Quickstart](#quickstart)
         * [Local steps](#local-steps)
         * [Setting up CI/CD pipeline on GitHub Actions](#setting-up-cicd-pipeline-on-github-actions)
@@ -21,12 +21,7 @@ This repository provides a template for automated Databricks CI/CD pipeline crea
     * [Feedback](#feedback)
     * [Contributing](#contributing)
     * [Kudos](#kudos)
-
-
-
-## CLI example
-[![asciicast](https://asciinema.org/a/7XZIQydVgbr3WlrCDpwA9gcOU.svg)](https://asciinema.org/a/7XZIQydVgbr3WlrCDpwA9gcOU)
-
+    
 ## Sample project structure (with GitHub Actions)
 ```
 .
@@ -57,8 +52,6 @@ This repository provides a template for automated Databricks CI/CD pipeline crea
 │   │   └── sample_test.py
 │   └── unit
 │       └── sample_test.py
-├── tools
-│   └── dbx-0.7.0-py3-none-any.whl
 └── unit-requirements.txt
 ```
 
@@ -96,8 +89,6 @@ Some explanations regarding structure:
 │   │   └── sample_test.py
 │   └── unit
 │       └── sample_test.py
-├── tools
-│   └── dbx-0.7.0-py3-none-any.whl
 └── unit-requirements.txt
 ```
 
@@ -135,8 +126,6 @@ Some explanations regarding structure:
 │   │   └── sample_test.py
 │   └── unit
 │       └── sample_test.py
-├── tools
-│   └── dbx-0.7.0-py3-none-any.whl
 └── unit-requirements.txt
 ```
 
@@ -146,6 +135,13 @@ Some explanations regarding structure:
 - `tests` - directory with your package tests
 - `conf/deployment.json` - deployment configuration file. Please read the [following section](#deployment-file-structure) for a full reference.
 - `.gitlab-ci.yml` - GitLab CI/CD workflow definition
+
+## Note on dbx
+
+> **_NOTE:_**  
+[dbx](https://github.com/databrickslabs/dbx) is a CLI tool for advanced Databricks jobs management. 
+It can be used separately from cicd-templates, and if you would like to preserve your project structure, please refer to dbx documentation on how to use it with customized project structure.
+
 
 ## Quickstart
 
@@ -169,9 +165,9 @@ pip install cookiecutter path
 ```
 cookiecutter https://github.com/databrickslabs/cicd-templates
 ```
-- Switch to the project directory and install `dbx`:
+- Install `dbx`:
 ```bash
-pip install -U tools/dbx-0.7.0-py3-none-any.whl
+pip install dbx
 ```
 - In the generated directory you'll have a sample job with testing and launch configurations around it.
 - Launch and debug your code on an interactive cluster via the following command. Job name could be found in `conf/deployment.json`:
