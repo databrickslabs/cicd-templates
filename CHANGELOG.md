@@ -32,3 +32,7 @@ Fixed multiple issues with run status checks:
 ## Release 1.0.7
 
 - Since dbx is moved to public, no more whl file is needed. whl file is deleted from the repository, as well as all references to it.
+
+## Release 1.0.8
+
+Introduces support for GCP-based projects.
