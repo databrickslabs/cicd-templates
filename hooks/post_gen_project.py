@@ -128,7 +128,7 @@ DEPLOYMENT = {
                         "num_workers": 2,
                         "spark_env_vars": {},
                         "cluster_source": "JOB",
-                        "gcp_attributes": {"use_preemptible_executors": False},
+                        "gcp_attributes": {"use_preemptible_executors": True},
                     },
                     "libraries": [],
                     "email_notifications": {
@@ -150,7 +150,7 @@ DEPLOYMENT = {
                         "num_workers": 2,
                         "spark_env_vars": {},
                         "cluster_source": "JOB",
-                        "gcp_attributes": {"use_preemptible_executors": False},
+                        "gcp_attributes": {"use_preemptible_executors": True},
                     },
                     "libraries": [],
                     "email_notifications": {
