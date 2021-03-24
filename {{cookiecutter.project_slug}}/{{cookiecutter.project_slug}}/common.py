@@ -9,7 +9,6 @@ from pyspark.sql import SparkSession
 
 # abstract class for jobs
 class Job(ABC):
-
     @abstractmethod
     def init_adapter(self):
         pass
@@ -35,11 +34,15 @@ class Job(ABC):
         self.logger.info("Reading configuration from --conf-file job option")
         conf_file = self._get_conf_file()
         if not conf_file:
-            self.logger.info('No conf file was provided, setting configuration to empty dict.'
-                             'Please override configuration in subclass init method')
+            self.logger.info(
+                "No conf file was provided, setting configuration to empty dict."
+                "Please override configuration in subclass init method"
+            )
             return {}
         else:
-            self.logger.info(f"Conf file was provided, reading configuration from {conf_file}")
+            self.logger.info(
+                f"Conf file was provided, reading configuration from {conf_file}"
+            )
             return self._read_config(conf_file)
 
     @staticmethod
@@ -50,7 +53,9 @@ class Job(ABC):
         return namespace.conf_file
 
     def _read_config(self, conf_file) -> Dict[str, Any]:
-        raw_content = "".join(self.spark.read.format("text").load(conf_file).toPandas()["value"].tolist())
+        raw_content = "".join(
+            self.spark.read.format("text").load(conf_file).toPandas()["value"].tolist()
+        )
         config = json.loads(raw_content)
         return config
 

@@ -11,8 +11,10 @@ class LocalExecuteTest(CicdTemplatesTest):
         with self.project_path:
             self.execute_command("pip install dbx")
             self.execute_command("dbx deploy")
-            self.execute_command(f"dbx execute --cluster-name=cicd-templates.testing --job={self.project_name}-sample")
+            self.execute_command(
+                f"dbx execute --cluster-name=cicd-templates.testing --job={self.project_name}-sample"
+            )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
