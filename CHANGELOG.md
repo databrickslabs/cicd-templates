@@ -35,4 +35,5 @@ Fixed multiple issues with run status checks:
 
 ## Release 1.0.8
 
-Introduces support for GCP-based projects.
+- Introduced support for Google Cloud
+- project template code is formatted with black for better readability
