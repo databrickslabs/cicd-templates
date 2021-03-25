@@ -37,3 +37,8 @@ Fixed multiple issues with run status checks:
 
 - Introduced support for Google Cloud
 - project template code is formatted with black for better readability
+
+## Release 1.0.9
+
+- Add installation of `dbx` to the `unit-requirements.txt` file
+- Switch generated top-level folder name to project_name variable, not project_slug.
