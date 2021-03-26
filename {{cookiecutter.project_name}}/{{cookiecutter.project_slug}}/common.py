@@ -11,11 +11,17 @@ from pyspark.sql import SparkSession
 class Job(ABC):
     @abstractmethod
     def init_adapter(self):
+        """
+        Init adapter is an abstract method to perform some particular settings in the Job subclass.
+        Method is called after creation of the SparkSession.
+        :return:
+        """
         pass
 
     def __init__(self, spark=None, init_conf=None):
         self.spark = self._prepare_spark(spark)
         self.logger = self._prepare_logger()
+        self.dbutils = self.get_dbutils()
         if init_conf:
             self.conf = init_conf
         else:
@@ -29,6 +35,28 @@ class Job(ABC):
             return SparkSession.builder.getOrCreate()
         else:
             return spark
+
+    @staticmethod
+    def _get_dbutils(spark: SparkSession):
+        try:
+            from pyspark.dbutils import DBUtils # noqa
+            if "dbutils" not in locals():
+                utils = DBUtils(spark)
+                return utils
+            else:
+                return locals().get("dbutils")
+        except ImportError:
+            return None
+
+    def get_dbutils(self):
+        utils = self._get_dbutils(self.spark)
+
+        if not utils:
+            self.logger.warn("No DBUtils defined in the runtime")
+        else:
+            self.logger.info("DBUtils class initialized")
+
+        return utils
 
     def _provide_config(self):
         self.logger.info("Reading configuration from --conf-file job option")
@@ -60,7 +88,7 @@ class Job(ABC):
         return config
 
     def _prepare_logger(self) -> Logger:
-        log4j_logger = self.spark._jvm.org.apache.log4j
+        log4j_logger = self.spark._jvm.org.apache.log4j # noqa
         return log4j_logger.LogManager.getLogger(self.__class__.__name__)
 
     def _log_conf(self):
@@ -71,4 +99,8 @@ class Job(ABC):
 
     @abstractmethod
     def launch(self):
+        """
+        Main method of the job.
+        :return:
+        """
         pass

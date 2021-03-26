@@ -5,7 +5,7 @@ import shutil
 
 from {{cookiecutter.project_slug}}.jobs.sample.entrypoint import SampleJob
 from pyspark.sql import SparkSession
-
+from unittest.mock import MagicMock
 
 class SampleJobUnitTest(unittest.TestCase):
     def setUp(self):
@@ -18,6 +18,8 @@ class SampleJobUnitTest(unittest.TestCase):
         self.job = SampleJob(spark=self.spark, init_conf=self.test_config)
 
     def test_sample(self):
+        # feel free to add new methods to this magic mock to mock some particular functionality
+        self.job.dbutils = MagicMock()
 
         self.job.launch()
 

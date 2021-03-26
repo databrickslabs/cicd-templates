@@ -257,6 +257,39 @@ When you run `dbx deploy` with a given deployment file (by default it takes the 
 Important thing about referencing is that you can also reference arbitrary local files. This is very handy for `python_file` section.
 In the example above, the entrypoint file and the job configuration will be added to the job definition and uploaded to `dbfs` automatically. No explicit file upload is needed.
 
+## Different deployment types and correlated launch types
+
+Databricks Jobs API provide two methods for launch
+- [Run Submit API]()
+### Deployment for Run Submit API
+
+To deploy only the files and not to override the job definitions, do the following:
+
+```bash
+dbx deploy --files-only
+```
+
+To launch the file-based deployment:
+```
+dbx launch --as-run-submit --trace
+```
+
+This type of deployment is handy for working in different branches, not to affect the main job definition.
+
+### Deployment for Run Now API
+
+To deploy files and update the job definitions:
+
+```bash
+dbx deploy
+```
+
+To launch the file-based deployment:
+```
+dbx launch --job=<job-name>
+```
+
+This type of deployment shall be mainly used from the CI pipeline in automated way during new release.
 
 ## Troubleshooting
 

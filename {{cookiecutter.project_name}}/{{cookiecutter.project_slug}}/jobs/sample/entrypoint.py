@@ -15,7 +15,12 @@ class SampleJob(Job):
             self.logger.info("Init configuration is already provided")
 
     def launch(self):
-        self.logger.info("Launching bootstrap job")
+        self.logger.info("Launching sample job")
+
+        listing = self.dbutils.fs.ls("dbfs:/")
+
+        for l in listing:
+            self.logger.info(f"DBFS directory: {l}")
 
         df = self.spark.range(0, 1000)
 
@@ -23,7 +28,7 @@ class SampleJob(Job):
             self.conf["output_path"]
         )
 
-        self.logger.info("Bootstrap job finished!")
+        self.logger.info("Sample job finished!")
 
 
 if __name__ == "__main__":
