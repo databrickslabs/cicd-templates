@@ -44,11 +44,11 @@ stages:
       displayName: 'Run Unit tests'
 
     - script: |
-        dbx deploy --jobs={{cookiecutter.project_slug}}-sample-integration-test --files-only
+        dbx deploy --jobs={{cookiecutter.project_name}}-sample-integration-test --files-only
       displayName: 'Deploy integration test'
 
     - script: |
-        dbx launch --job={{cookiecutter.project_slug}}-sample-integration-test --as-run-submit --trace
+        dbx launch --job={{cookiecutter.project_name}}-sample-integration-test --as-run-submit --trace
       displayName: 'Launch integration on test'
 
 - stage: onRelease
@@ -87,5 +87,5 @@ stages:
         displayName: 'Run Unit tests'
 
       - script: |
-          dbx deploy --jobs={{cookiecutter.project_slug}}-sample
+          dbx deploy --jobs={{cookiecutter.project_name}}-sample
         displayName: 'Deploy the job'
