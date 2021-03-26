@@ -284,7 +284,7 @@ To launch the file-based deployment:
 dbx launch --as-run-submit --trace
 ```
 
-This type of deployment is handy for working in different branches, not to affect the main job definition.
+This type of deployment is handy for working in different branches, and it won't affect the job definition.
 
 ### Deployment for Run Now API
 
@@ -299,7 +299,8 @@ To launch the file-based deployment:
 dbx launch --job=<job-name>
 ```
 
-This type of deployment shall be mainly used from the CI pipeline in automated way during new release.
+This type of deployment shall be mainly used in automated way during new release. 
+`dbx deploy` will change the job definition (unless `--files-only` option is provided).
 
 ## Troubleshooting
 
