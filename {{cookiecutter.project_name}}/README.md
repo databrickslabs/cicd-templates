@@ -4,12 +4,6 @@ This is a sample project for Databricks, generated via cookiecutter.
 
 While using this project, you need Python 3.X and `pip` or `conda` for package management.
 
-## Installing dbx
-
-```bash
-pip install dbx
-```
-
 ## Installing project requirements
 
 ```bash
@@ -26,7 +20,7 @@ pip install -e .
 
 For local unit testing, please use `pytest`:
 ```
-pytest tests/unit
+pytest tests/unit --cov
 ```
 
 For an integration test on interactive cluster, use the following command:
@@ -34,7 +28,7 @@ For an integration test on interactive cluster, use the following command:
 dbx execute --cluster-name=<name of interactive cluster> --job={{cookiecutter.project_name}}-sample-integration-test
 ```
 
-For a test on a automated job cluster, use `launch` instead of `execute`:
+For a test on an automated job cluster, use `launch` instead of `execute`:
 ```
 dbx launch --job={{cookiecutter.project_name}}-sample-integration-test
 ```

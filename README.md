@@ -157,6 +157,10 @@ Perform the following actions in your development environment:
 conda create -n <your-environment-name> python=3.7.5
 conda activate <your-environment-name>
 ```
+- If you would like to be able to run local unit tests, you'll need JDK. If you don't have one, It can be installed via:
+```
+conda install -c anaconda "openjdk=8.0.152"
+```
 - Install cookiecutter and path:
 ```bash
 pip install cookiecutter path
@@ -165,9 +169,13 @@ pip install cookiecutter path
 ```
 cookiecutter https://github.com/databrickslabs/cicd-templates
 ```
-- Install `dbx`:
+- Install development dependencies:
 ```bash
-pip install dbx
+pip install -r unit-requirements.txt
+```
+- Install generated package in development mode:
+```
+pip install -e .
 ```
 - In the generated directory you'll have a sample job with testing and launch configurations around it.
 - Launch and debug your code on an interactive cluster via the following command. Job name could be found in `conf/deployment.json`:
