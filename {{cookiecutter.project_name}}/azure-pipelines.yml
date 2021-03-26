@@ -36,7 +36,6 @@ stages:
     - script: |
         python -m pip install --upgrade pip
         pip install -r unit-requirements.txt
-        pip install dbx
         pip install -e .
       displayName: 'Install dependencies'
 
@@ -45,20 +44,11 @@ stages:
       displayName: 'Run Unit tests'
 
     - script: |
-        echo "[{{cookiecutter.profile}}]" >> ~/.databrickscfg
-        echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
-        echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
-      env:
-        DATABRICKS_HOST: $(DATABRICKS_HOST)
-        DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
-      displayName: 'Prepare profile'
-
-    - script: |
-        dbx deploy --jobs={{cookiecutter.project_slug}}-sample-integration-test
+        dbx deploy --jobs={{cookiecutter.project_slug}}-sample-integration-test --files-only
       displayName: 'Deploy integration test'
 
     - script: |
-        dbx launch --job={{cookiecutter.project_slug}}-sample-integration-test --trace
+        dbx launch --job={{cookiecutter.project_slug}}-sample-integration-test --as-run-submit --trace
       displayName: 'Launch integration on test'
 
 - stage: onRelease
@@ -89,30 +79,12 @@ stages:
       - script: |
           python -m pip install --upgrade pip
           pip install -r unit-requirements.txt
-          pip install dbx
           pip install -e .
         displayName: 'Install dependencies'
 
       - script: |
           pytest tests/unit
         displayName: 'Run Unit tests'
-
-      - script: |
-          echo "[{{cookiecutter.profile}}]" >> ~/.databrickscfg
-          echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
-          echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
-        env:
-          DATABRICKS_HOST: $(DATABRICKS_HOST)
-          DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
-        displayName: 'Prepare profile'
-
-      - script: |
-          dbx deploy --jobs={{cookiecutter.project_slug}}-sample-integration-test
-        displayName: 'Deploy integration test'
-
-      - script: |
-          dbx launch --job={{cookiecutter.project_slug}}-sample-integration-test --trace
-        displayName: 'Launch integration on test'
 
       - script: |
           dbx deploy --jobs={{cookiecutter.project_slug}}-sample

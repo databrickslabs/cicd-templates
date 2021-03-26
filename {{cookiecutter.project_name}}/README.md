@@ -28,9 +28,10 @@ For an integration test on interactive cluster, use the following command:
 dbx execute --cluster-name=<name of interactive cluster> --job={{cookiecutter.project_name}}-sample-integration-test
 ```
 
-For a test on an automated job cluster, use `launch` instead of `execute`:
+For a test on an automated job cluster, deploy the job files and then launch:
 ```
-dbx launch --job={{cookiecutter.project_name}}-sample-integration-test
+dbx deploy --job={{cookiecutter.project_name}}-sample-integration-test --files-only
+dbx launch --job={{cookiecutter.project_name}}-sample-integration-test --as-run-submit --trace
 ```
 
 ## Interactive execution and development
@@ -52,27 +53,48 @@ Next step would be to configure your deployment objects. To make this process ea
 
 By default, deployment configuration is stored in `conf/deployment.json`.
 
-## Deployment
+## Deployment for Run Submit API
 
-To start new deployment, launch the following command:  
+To deploy only the files and not to override the job definitions, do the following:
+
+```bash
+dbx deploy --files-only
+```
+
+To launch the file-based deployment:
+```
+dbx launch --as-run-submit --trace
+```
+
+This type of deployment is handy for working in different branches, not to affect the main job definition.
+
+## Deployment for Run Now API
+
+To deploy files and update the job definitions:
 
 ```bash
 dbx deploy
 ```
 
-You can optionally provide requirements.txt via `--requirements` option, all requirements will be automatically added to the job definition.
-
-## Launch
-
-After the deploy, launch the job via the following command:
-
+To launch the file-based deployment:
 ```
-dbx launch --job={{cookiecutter.project_name}}-sample
+dbx launch --job=<job-name>
 ```
+
+This type of deployment shall be mainly used from the CI pipeline in automated way during new release.
+
 
 ## CICD pipeline settings
 
-Please set the following secrets or environment variables. 
-Follow the documentation for [GitHub Actions](https://docs.github.com/en/actions/reference) or for [Azure DevOps Pipelines](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch):
+Please set the following secrets or environment variables for your CI provider:
 - `DATABRICKS_HOST`
 - `DATABRICKS_TOKEN`
+
+## Testing and releasing via CI pipeline
+
+- To trigger the CI pipeline, simply push your code to the repository. If CI provider is correctly set, it shall trigger the general testing pipeline
+- To trigger the release pipeline, get the current version from the `{{cookiecutter.project_slug}}/__init__.py` file and tag the current code version:
+```
+git tag -a v<your-project-version> -m "Release tag for version <your-project-version>"
+git push origin --tags
+```
