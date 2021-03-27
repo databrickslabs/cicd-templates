@@ -42,4 +42,5 @@ Fixed multiple issues with run status checks:
 
 - Add installation of `dbx` to the `unit-requirements.txt` file
 - Switch generated top-level folder name to project_name variable, not project_slug.
-- Add `.coveragerc` to generated project
+- Add `.coveragerc` to the generated project
+- Explicitly include support for `dbutils` in the `common.py` file
