@@ -17,7 +17,7 @@ Table of Contents
          * [Setting up CI/CD pipeline on Azure DevOps](#setting-up-cicd-pipeline-on-azure-devops)
          * [Setting up CI/CD pipeline on Gitlab](#setting-up-cicd-pipeline-on-gitlab)
       * [Deployment file structure](#deployment-file-structure)
-      * [Different deployment types and correlated launch types](#different-deployment-types-and-correlated-launch-types)
+      * [Different deployment types](#different-deployment-types)
          * [Deployment for Run Submit API](#deployment-for-run-submit-api)
          * [Deployment for Run Now API](#deployment-for-run-now-api)
       * [Troubleshooting](#troubleshooting)
@@ -262,13 +262,13 @@ When you run `dbx deploy` with a given deployment file (by default it takes the 
 Important thing about referencing is that you can also reference arbitrary local files. This is very handy for `python_file` section.
 In the example above, the entrypoint file and the job configuration will be added to the job definition and uploaded to `dbfs` automatically. No explicit file upload is needed.
 
-## Different deployment types and correlated launch types
+## Different deployment types
 
-Databricks Jobs API provide two methods for launch
+Databricks Jobs API provides two methods for launching a particular workload:
 - [Run Submit API](https://docs.databricks.com/dev-tools/api/latest/jobs.html#runs-submit)
 - [Run Now API](https://docs.databricks.com/dev-tools/api/latest/jobs.html#run-now)
 
-Main logical difference between theese methods is that Run Submit API allows to submit a workload directly without creating a job.
+Main logical difference between these methods is that Run Submit API allows to submit a workload directly without creating a job.
 Therefore, we have two deployment types - one for Run Submit API, and one for Run Now API. 
 
 ### Deployment for Run Submit API
