@@ -6,7 +6,8 @@ from path import Path
 
 cicd_tool = "{{cookiecutter.cicd_tool}}"
 cloud = "{{cookiecutter.cloud}}"
-project = "{{cookiecutter.project_slug}}"
+project_slug = "{{cookiecutter.project_slug}}"
+project_name = "{{cookiecutter.project_name}}"
 environment = "default"
 profile = "{{cookiecutter.profile}}"
 workspace_dir = "{{cookiecutter.workspace_dir}}"
@@ -27,7 +28,7 @@ DEPLOYMENT = {
         environment: {
             "jobs": [
                 {
-                    "name": "%s-sample" % project,
+                    "name": "%s-sample" % project_name,
                     "new_cluster": {
                         "spark_version": "7.3.x-cpu-ml-scala2.12",
                         "node_type_id": "i3.xlarge",
@@ -45,12 +46,12 @@ DEPLOYMENT = {
                     },
                     "max_retries": 0,
                     "spark_python_task": {
-                        "python_file": "%s/jobs/sample/entrypoint.py" % project,
+                        "python_file": "%s/jobs/sample/entrypoint.py" % project_slug,
                         "parameters": ["--conf-file", "conf/test/sample.json"],
                     },
                 },
                 {
-                    "name": "%s-sample-integration-test" % project,
+                    "name": "%s-sample-integration-test" % project_name,
                     "new_cluster": {
                         "spark_version": "7.3.x-cpu-ml-scala2.12",
                         "node_type_id": "i3.xlarge",
@@ -78,7 +79,7 @@ DEPLOYMENT = {
         environment: {
             "jobs": [
                 {
-                    "name": "%s-sample" % project,
+                    "name": "%s-sample" % project_name,
                     "new_cluster": {
                         "spark_version": "7.3.x-cpu-ml-scala2.12",
                         "node_type_id": "Standard_F4s",
@@ -92,12 +93,12 @@ DEPLOYMENT = {
                     },
                     "max_retries": 0,
                     "spark_python_task": {
-                        "python_file": "%s/jobs/sample/entrypoint.py" % project,
+                        "python_file": "%s/jobs/sample/entrypoint.py" % project_slug,
                         "parameters": ["--conf-file", "conf/test/sample.json"],
                     },
                 },
                 {
-                    "name": "%s-sample-integration-test" % project,
+                    "name": "%s-sample-integration-test" % project_name,
                     "new_cluster": {
                         "spark_version": "7.3.x-cpu-ml-scala2.12",
                         "node_type_id": "Standard_F4s",
@@ -121,7 +122,7 @@ DEPLOYMENT = {
         environment: {
             "jobs": [
                 {
-                    "name": "%s-sample" % project,
+                    "name": "%s-sample" % project_name,
                     "new_cluster": {
                         "spark_version": "7.3.x-scala2.12",
                         "node_type_id": "n1-standard-4",
@@ -138,12 +139,12 @@ DEPLOYMENT = {
                     },
                     "max_retries": 0,
                     "spark_python_task": {
-                        "python_file": "%s/jobs/sample/entrypoint.py" % project,
+                        "python_file": "%s/jobs/sample/entrypoint.py" % project_slug,
                         "parameters": ["--conf-file", "conf/test/sample.json"],
                     },
                 },
                 {
-                    "name": "%s-sample-integration-test" % project,
+                    "name": "%s-sample-integration-test" % project_name,
                     "new_cluster": {
                         "spark_version": "7.3.x-scala2.12",
                         "node_type_id": "n1-standard-4",
@@ -172,7 +173,7 @@ DEPLOYMENT = {
 def replace_vars(file_path: str):
     _path = Path(file_path)
     content = _path.read_text().format(
-        project_name=project, environment=environment, profile=profile
+        project_name=project_name, environment=environment, profile=profile
     )
     _path.write_text(content)
 

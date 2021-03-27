@@ -1,7 +1,7 @@
 stages:
     - unit-testing
     - integration-testing
-    - deployment
+    - release
 
 unit-testing:
   stage: unit-testing
@@ -11,7 +11,6 @@ unit-testing:
     - apt-get update
     - apt-get install default-jdk -y
     - pip install -r unit-requirements.txt
-    - pip install dbx
     - pip install -e .
     - echo "Launching unit tests"
     - pytest tests/unit
@@ -22,19 +21,14 @@ integration-testing:
   script:
     - echo "Install dependencies"
     - pip install -r unit-requirements.txt
-    - pip install dbx
     - pip install -e .
-    - echo "Preparing profile"
-    - echo "[{{cookiecutter.profile}}]" >> ~/.databrickscfg
-    - echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
-    - echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
     - echo "Deploying tests"
-    - dbx deploy --jobs={project_name}-integration-test
+    - dbx deploy --jobs={project_name}-integration-test --files-only
     - echo "Running tests"
-    - dbx launch --job={project_name}-integration-test --trace
+    - dbx launch --job={project_name}-integration-test --as-run-submit --trace
 
-deployment:
-  stage: deployment
+release:
+  stage: release
   image: python:3.7-stretch
   only:
     refs:
@@ -42,11 +36,6 @@ deployment:
   script:
     - echo "Install dependencies"
     - pip install -r unit-requirements.txt
-    - pip install dbx
     - pip install -e .
-    - echo "Preparing profile"
-    - echo "[{{cookiecutter.profile}}]" >> ~/.databrickscfg
-    - echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
-    - echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
     - echo "Deploying Job"
     - dbx deploy --jobs={project_name}-sample

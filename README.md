@@ -2,25 +2,30 @@
 
 This repository provides a template for automated Databricks CI/CD pipeline creation and deployment.
 
-## Table of Contents
-* [Databricks Labs CI/CD Templates](#databricks-labs-cicd-templates)
-    * [Table of Contents](#table-of-contents)
-    * [Sample project structure (with GitHub Actions)](#sample-project-structure-with-github-actions)
-    * [Sample project structure (with Azure DevOps)](#sample-project-structure-with-azure-devops)
-    * [Sample project structure (with GitLab)](#sample-project-structure-with-gitlab)
-    * [Note on dbx](#note-on-dbx)
-    * [Quickstart](#quickstart)
-        * [Local steps](#local-steps)
-        * [Setting up CI/CD pipeline on GitHub Actions](#setting-up-cicd-pipeline-on-github-actions)
-        * [Setting up CI/CD pipeline on Azure DevOps](#setting-up-cicd-pipeline-on-azure-devops)
-        * [Setting up CI/CD pipeline on Gitlab](#setting-up-cicd-pipeline-on-gitlab)
-    * [Deployment file structure](#deployment-file-structure)
-    * [Troubleshooting](#troubleshooting)
-    * [FAQ](#faq)
-    * [Legal Information](#legal-information)
-    * [Feedback](#feedback)
-    * [Contributing](#contributing)
-    * [Kudos](#kudos)
+Table of Contents
+=================
+
+   * [Databricks Labs CI/CD Templates](#databricks-labs-cicd-templates)
+      * [Table of Contents](#table-of-contents)
+      * [Sample project structure (with GitHub Actions)](#sample-project-structure-with-github-actions)
+      * [Sample project structure (with Azure DevOps)](#sample-project-structure-with-azure-devops)
+      * [Sample project structure (with GitLab)](#sample-project-structure-with-gitlab)
+      * [Note on dbx](#note-on-dbx)
+      * [Quickstart](#quickstart)
+         * [Local steps](#local-steps)
+         * [Setting up CI/CD pipeline on GitHub Actions](#setting-up-cicd-pipeline-on-github-actions)
+         * [Setting up CI/CD pipeline on Azure DevOps](#setting-up-cicd-pipeline-on-azure-devops)
+         * [Setting up CI/CD pipeline on Gitlab](#setting-up-cicd-pipeline-on-gitlab)
+      * [Deployment file structure](#deployment-file-structure)
+      * [Different deployment types](#different-deployment-types)
+         * [Deployment for Run Submit API](#deployment-for-run-submit-api)
+         * [Deployment for Run Now API](#deployment-for-run-now-api)
+      * [Troubleshooting](#troubleshooting)
+      * [FAQ](#faq)
+      * [Legal Information](#legal-information)
+      * [Feedback](#feedback)
+      * [Contributing](#contributing)
+      * [Kudos](#kudos)
     
 ## Sample project structure (with GitHub Actions)
 ```
@@ -157,6 +162,10 @@ Perform the following actions in your development environment:
 conda create -n <your-environment-name> python=3.7.5
 conda activate <your-environment-name>
 ```
+- If you would like to be able to run local unit tests, you'll need JDK. If you don't have one, It can be installed via:
+```
+conda install -c anaconda "openjdk=8.0.152"
+```
 - Install cookiecutter and path:
 ```bash
 pip install cookiecutter path
@@ -165,9 +174,13 @@ pip install cookiecutter path
 ```
 cookiecutter https://github.com/databrickslabs/cicd-templates
 ```
-- Install `dbx`:
+- Install development dependencies:
 ```bash
-pip install dbx
+pip install -r unit-requirements.txt
+```
+- Install generated package in development mode:
+```
+pip install -e .
 ```
 - In the generated directory you'll have a sample job with testing and launch configurations around it.
 - Launch and debug your code on an interactive cluster via the following command. Job name could be found in `conf/deployment.json`:
@@ -249,6 +262,45 @@ When you run `dbx deploy` with a given deployment file (by default it takes the 
 Important thing about referencing is that you can also reference arbitrary local files. This is very handy for `python_file` section.
 In the example above, the entrypoint file and the job configuration will be added to the job definition and uploaded to `dbfs` automatically. No explicit file upload is needed.
 
+## Different deployment types
+
+Databricks Jobs API provides two methods for launching a particular workload:
+- [Run Submit API](https://docs.databricks.com/dev-tools/api/latest/jobs.html#runs-submit)
+- [Run Now API](https://docs.databricks.com/dev-tools/api/latest/jobs.html#run-now)
+
+Main logical difference between these methods is that Run Submit API allows to submit a workload directly without creating a job.
+Therefore, we have two deployment types - one for Run Submit API, and one for Run Now API. 
+
+### Deployment for Run Submit API
+
+To deploy only the files and not to override the job definitions, do the following:
+
+```bash
+dbx deploy --files-only
+```
+
+To launch the file-based deployment:
+```
+dbx launch --as-run-submit --trace
+```
+
+This type of deployment is handy for working in different branches, and it won't affect the job definition.
+
+### Deployment for Run Now API
+
+To deploy files and update the job definitions:
+
+```bash
+dbx deploy
+```
+
+To launch the file-based deployment:
+```
+dbx launch --job=<job-name>
+```
+
+This type of deployment shall be mainly used in automated way during new release. 
+`dbx deploy` will change the job definition (unless `--files-only` option is provided).
 
 ## Troubleshooting
 
@@ -354,4 +406,5 @@ Issues with template? Found a bug? Have a great idea for an addition? Feel free 
 Have a great idea that you want to add? Fork the repo and submit a PR!
 
 ## Kudos
-Project based on the [cookiecutter datascience project](https://drivendata.github.io/cookiecutter-data-science).
+- Project based on the [cookiecutter datascience project](https://drivendata.github.io/cookiecutter-data-science)
+- README.md ToC generated via [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
