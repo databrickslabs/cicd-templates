@@ -30,7 +30,7 @@ dbx execute --cluster-name=<name of interactive cluster> --job={{cookiecutter.pr
 
 For a test on an automated job cluster, deploy the job files and then launch:
 ```
-dbx deploy --job={{cookiecutter.project_name}}-sample-integration-test --files-only
+dbx deploy --jobs={{cookiecutter.project_name}}-sample-integration-test --files-only
 dbx launch --job={{cookiecutter.project_name}}-sample-integration-test --as-run-submit --trace
 ```
 
