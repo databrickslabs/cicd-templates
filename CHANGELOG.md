@@ -44,3 +44,7 @@ Fixed multiple issues with run status checks:
 - Switch generated top-level folder name to project_name variable, not project_slug.
 - Add `.coveragerc` to the generated project
 - Explicitly include support for `dbutils` in the `common.py` file
+
+## Release 1.0.10
+
+- Remove `init_adapter` logic, now all parameters are directly passed from the `deployment.json` file.
