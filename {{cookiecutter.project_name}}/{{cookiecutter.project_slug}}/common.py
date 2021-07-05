@@ -5,18 +5,11 @@ from logging import Logger
 from typing import Dict, Any
 
 from pyspark.sql import SparkSession
+import sys
 
 
 # abstract class for jobs
 class Job(ABC):
-    @abstractmethod
-    def init_adapter(self):
-        """
-        Init adapter is an abstract method to perform some particular settings in the Job subclass.
-        Method is called after creation of the SparkSession.
-        :return:
-        """
-        pass
 
     def __init__(self, spark=None, init_conf=None):
         self.spark = self._prepare_spark(spark)
@@ -26,7 +19,6 @@ class Job(ABC):
             self.conf = init_conf
         else:
             self.conf = self._provide_config()
-        self.init_adapter()
         self._log_conf()
 
     @staticmethod
@@ -77,7 +69,7 @@ class Job(ABC):
     def _get_conf_file():
         p = ArgumentParser()
         p.add_argument("--conf-file", required=False, type=str)
-        namespace = p.parse_known_args()[0]
+        namespace = p.parse_known_args(sys.argv[1:])[0]
         return namespace.conf_file
 
     def _read_config(self, conf_file) -> Dict[str, Any]:
