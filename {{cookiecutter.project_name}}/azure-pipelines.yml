@@ -40,7 +40,7 @@ stages:
       displayName: 'Install dependencies'
 
     - script: |
-        pytest tests/unit
+        pytest tests/unit --junitxml=test-unit.xml
       displayName: 'Run Unit tests'
 
     - script: |
@@ -50,6 +50,13 @@ stages:
     - script: |
         dbx launch --job={{cookiecutter.project_name}}-sample-integration-test --as-run-submit --trace
       displayName: 'Launch integration on test'
+
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/test-*.xml' 
+        failTaskOnFailedTests: true
 
 - stage: onRelease
   condition: |
@@ -83,9 +90,16 @@ stages:
         displayName: 'Install dependencies'
 
       - script: |
-          pytest tests/unit
+          pytest tests/unit --junitxml=test-unit.xml
         displayName: 'Run Unit tests'
 
       - script: |
           dbx deploy --jobs={{cookiecutter.project_name}}-sample
         displayName: 'Deploy the job'
+
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '**/test-*.xml' 
+          failTaskOnFailedTests: true
