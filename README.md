@@ -209,7 +209,18 @@ dbx launch --job <your-job-name> --trace
 
 - Create a new repository on GitHub
 - Connect the repository to Azure DevOps
-- Configure `DATABRICKS_HOST` and `DATABRICKS_TOKEN` secrets for your project in [Azure DevOps](https://docs.microsoft.com/en-us/azure/devops/pipelines/release/azure-key-vault?view=azure-devops)
+- Configure `DATABRICKS_HOST` and `DATABRICKS_TOKEN` secrets for your project in [Azure DevOps](https://docs.microsoft.com/en-us/azure/devops/pipelines/release/azure-key-vault?view=azure-devops). Note that secret variables must be mapped to env as mentioned [here](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch#secret-variables) using the syntax `env:` for example:
+```
+variables:
+- group: Databricks-environment
+stages:
+...
+...
+    - script: |
+        dbx deploy
+      env:
+        DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+```
 - Add a remote origin to the local repo
 - Push the code 
 - Open the Azure DevOps UI to check the deployment status 
