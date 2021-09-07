@@ -48,3 +48,7 @@ Fixed multiple issues with run status checks:
 ## Release 1.0.10
 
 - Remove `init_adapter` logic, now all parameters are directly passed from the `deployment.json` file.
+
+## Release 1.0.11
+
+- Fixed issue with project name in Gitlab CI.
