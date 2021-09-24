@@ -1,0 +1,165 @@
+trigger:
+- Production
+
+variables:
+- group: Databricks-environment
+
+jobs:
+- job: 'DeployAzureRepositoryInsideDatabricksAndGenerateToken'
+  pool:
+    vmImage: windows-latest
+  steps:
+  #Your build pipeline references an undefined variable named ‘servicePrincipalSecret’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+  - task: DataThirstLtd.databricksDeployScriptsTasks.databricksDeployScriptsTask.databricksDeployScripts@0
+    displayName: 'Databricks Notebooks deployment'
+    inputs:
+      authMethod: servicePrincipal
+      applicationId: '{applicationId}'
+      spSecret: '$(servicePrincipalSecret)'
+      resourceGroup: '{resourceGroup}'
+      workspace: '{workspace}'
+      subscriptionId: '{subscriptionId}'
+      tenantId: '{tenantId}'
+      region: eastus2
+      localPath: '$(System.DefaultWorkingDirectory)/'
+      databricksPath: '/Devops/AzureRepos/Feature_Engineering'
+      clean: true
+
+
+  #Your build pipeline references an undefined variable named ‘servicePrincipalSecret’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+  - task: DataThirstLtd.databricksDeployScriptsTasks.databricksDeployCreateBearer.databricksDeployCreateBearer@0
+    displayName: 'Databricks Bearer Token'
+    inputs:
+      applicationId: '{applicationId}'
+      spSecret: '$(servicePrincipalSecret)'
+      resourceGroup: '{resourceGroup}'
+      workspace: '{workspace}'
+      subscriptionId: '{subscriptionId}'
+      tenantId: '{tenantId}'
+      region: eastus2
+
+  - powershell: echo "##vso[task.setvariable variable=outputVariableBearerToken;isOutput=true]$(BearerToken)"
+    name: setvarStep
+  - script: echo 'BearerToken :\t' $(setvarStep.outputVariableBearerToken)
+    name: echoTheTokenWhichWasSet
+
+
+- job: DeployDatabricksJobs
+  dependsOn: ['DeployAzureRepositoryInsideDatabricksAndGenerateToken']
+  pool:
+    vmImage: 'ubuntu-latest'
+  variables:
+    BearerToken: $[ dependencies.DeployAzureRepositoryInsideDatabricksAndGenerateToken.outputs['setvarStep.outputVariableBearerToken'] ]
+
+  steps:
+    - task: UsePythonVersion@0
+      displayName: 'Use Python 3.7'
+      inputs:
+        versionSpec: 3.7
+
+    - script: |
+        echo "BearerToken:"$(BearerToken)
+      displayName: 'echo  BearerToken'
+
+    - script: pip install databricks-cli
+      displayName: 'Install Databricks CLI'
+
+    - script: |
+        echo "
+        $(ProductionDatabricksHost)
+        $(BearerToken)" | databricks configure --token --debug
+      displayName: 'Configure SOURCE CLI'
+
+    - script: sudo apt-get install -y jq
+      displayName: 'Installation of jq library'
+    - task: PythonScript@0
+      inputs:
+        scriptSource: 'inline'
+        script: |
+          import subprocess
+          import json
+          import os
+
+          # Parse and Clean the file name. As part of cleaning we will remove whitespace and lowercase the job name. This will help avoid visual duplicates
+          def normalize_file_name(file_name: str) -> str:
+              return file_name.replace(" ", "_").lower()
+
+
+          # Datatbricks jobs files path in the packages directory
+          datatbricks_jobs_files_path_in_the_packages_directory = "databricks_jobs/"
+          """
+          function: subprocess.getoutput
+          Return output (stdout or stderr) of executing cmd in a shell.
+
+          Like getstatusoutput(), except the exit status is ignored and the return
+          value is a string containing the command's output.  Example:
+
+          >>> import subprocess
+          >>> subprocess.getoutput('ls /bin/ls')
+          '/bin/ls'
+          """
+          # Identify the Job files which need to be updated or created in Databricks Jobs
+          pwd = subprocess.getoutput("""PWD=$(pwd) && echo $PWD""")
+          str_of_job_json_files = subprocess.getoutput(
+              f"""LIST_OF_JOB_JSON_FILES=$(ls {pwd}/{datatbricks_jobs_files_path_in_the_packages_directory}) && echo $LIST_OF_JOB_JSON_FILES"""
+          )
+          print(f"Command line output of $LIST_OF_JOB_JSON_FILES: {str_of_job_json_files}")
+          # Split on the space to identify each file name
+          list_of_job_json_files = str_of_job_json_files.split(" ")
+          print(f"list_of_job_json_files: {list_of_job_json_files}")
+
+          dict_of_jobs_which_need_to_be_replaced_or_created = dict()
+          for json_file_name in list_of_job_json_files:
+              job_name = normalize_file_name(json_file_name.replace(".json", ""))
+              json_file_path = (
+                  f"{pwd}/{datatbricks_jobs_files_path_in_the_packages_directory}{json_file_name}"
+              )
+              dict_of_jobs_which_need_to_be_replaced_or_created[job_name] = json_file_path
+
+          print(
+              f"dict_of_jobs_which_need_to_be_replaced_or_created: {dict_of_jobs_which_need_to_be_replaced_or_created.items()}"
+          )
+
+          # Find the list of existing jobs in Databricks via CLI (List information about available jobs)
+          # Documentation: https://docs.databricks.com/dev-tools/cli/jobs-cli.html#list-information-about-available-jobs
+          subprocess = subprocess.Popen(
+              "databricks jobs list --output JSON", shell=True, stdout=subprocess.PIPE
+          )
+          subprocess_return = subprocess.stdout.read()
+          subprocess_return_utf8 = subprocess_return.decode("utf-8")
+          # Load the CLI response into a Python Dictionary
+          databricks_list_jobs_response = json.loads(subprocess_return_utf8)
+          list_of_jobs = databricks_list_jobs_response["jobs"]
+          # Create a dictionary on the job name to enforce uniqueness of the job name
+          dict_of_existing_jobs_with_unique_job_name = dict()
+          for job in list_of_jobs:
+              job_id = job["job_id"]
+              job_name = normalize_file_name(job["settings"]["name"])
+              print(f"job_id: {job_id} and job_name: {job_name}")
+              dict_of_existing_jobs_with_unique_job_name[job_name] = job_id
+          # Our  dictionary of existing jobs with unique job names looks like
+          print(
+              f"Our  dictionary of existing jobs with unique job names looks like: {dict_of_existing_jobs_with_unique_job_name.items()}"
+          )
+
+          for index, (job_name, json_file_path) in enumerate(
+              dict_of_jobs_which_need_to_be_replaced_or_created.items()
+          ):
+              print(f"Processes: job_name {job_name} and json_file_path: {json_file_path}")
+              if job_name in dict_of_existing_jobs_with_unique_job_name:
+                  # Then replace the job
+                  job_id = dict_of_existing_jobs_with_unique_job_name[job_name]
+                  print(f'Found existing job_id: {job_id} \n job_name: {job_name} \n json_file_path: {json_file_path}')
+                  #databricks jobs reset --json "$SETTINGS_JSON"  --debug
+                  # Reset the job via Databricks CLI
+                  databricks_reset_job_response = os.popen(
+                      f"""JOBS_JSON_DEFINTION=$(jq .settings {json_file_path}) && echo "jq_parsed_jobs_json_defintion:\n"$JOBS_JSON_DEFINTION'\n' && databricks_create_job_response=$(databricks jobs reset --job-id {job_id} --json "$JOBS_JSON_DEFINTION") --debug && echo $databricks_create_job_response"""
+                  ).read()
+                  print(f"databricks_reset_job_response: {databricks_reset_job_response}")
+
+              else:
+                  # Create the job via Databricks CLI
+                  databricks_create_job_response = os.popen(
+                      f"""JOBS_JSON_DEFINTION=$(jq .settings {json_file_path}) && echo "jq_parsed_jobs_json_defintion:\n"$JOBS_JSON_DEFINTION'\n' && databricks_create_job_response=$(databricks jobs create --json "$JOBS_JSON_DEFINTION") --debug && echo $databricks_create_job_response"""
+                  ).read()
+                  print(f"databricks_create_job_response: {databricks_create_job_response}")
