@@ -9,13 +9,15 @@ Table of Contents
       * [Table of Contents](#table-of-contents)
       * [Sample project structure (with GitHub Actions)](#sample-project-structure-with-github-actions)
       * [Sample project structure (with Azure DevOps)](#sample-project-structure-with-azure-devops)
+      * [Sample project structure (with Azure DevOps using short-lived Bearer token)](#sample-project-structure-with-azure-devops-using-short-lived-bearer-token)
       * [Sample project structure (with GitLab)](#sample-project-structure-with-gitlab)
       * [Note on dbx](#note-on-dbx)
       * [Quickstart](#quickstart)
          * [Local steps](#local-steps)
          * [Setting up CI/CD pipeline on GitHub Actions](#setting-up-cicd-pipeline-on-github-actions)
          * [Setting up CI/CD pipeline on Azure DevOps](#setting-up-cicd-pipeline-on-azure-devops)
-         * [Setting up CI/CD pipeline on Gitlab](#setting-up-cicd-pipeline-on-gitlab)
+        * [Setting up CI/CD pipeline on Azure DevOps using short-lived Bearer token)](#setting-up-cicd-pipeline-on-azure-devops-using-short-lived-bearer-token) 
+        * [Setting up CI/CD pipeline on Gitlab](#setting-up-cicd-pipeline-on-gitlab)
       * [Deployment file structure](#deployment-file-structure)
       * [Different deployment types](#different-deployment-types)
          * [Deployment for Run Submit API](#deployment-for-run-submit-api)
@@ -103,6 +105,43 @@ Some explanations regarding structure:
 - `tests` - directory with your package tests
 - `conf/deployment.json` - deployment configuration file. Please read the [following section](#deployment-file-structure) for a full reference.
 - `azure-pipelines.yml` - Azure DevOps Pipelines workflow definition
+
+## Sample project structure (with Azure DevOps using short-lived Bearer token)
+```
+.
+├── .dbx
+│   └── project.json
+├── .gitignore
+├── README.md
+├── azure-pipelines-using-short-lived-bearer-token.yml
+├── conf
+│   ├── deployment.json
+│   └── test
+│       └── sample.json
+├── pytest.ini
+├── sample_project_azure_dev_ops
+│   ├── __init__.py
+│   ├── common.py
+│   └── jobs
+│       ├── __init__.py
+│       └── sample
+│           ├── __init__.py
+│           └── entrypoint.py
+├── setup.py
+├── tests
+│   ├── integration
+│   │   └── sample_test.py
+│   └── unit
+│       └── sample_test.py
+└── unit-requirements.txt
+```
+
+Some explanations regarding structure:
+- `.dbx` folder is an auxiliary folder, where metadata about environments and execution context is located.
+- `sample_project_azure_dev_ops` - Python package with your code (the directory name will follow your project name)
+- `tests` - directory with your package tests
+- `conf/deployment.json` - deployment configuration file. Please read the [following section](#deployment-file-structure) for a full reference.
+- `azure-pipelines-using-short-lived-bearer-token.yml` - Azure DevOps Pipelines workflow definition which will also created a short-lived bearer token which will futher to be used by dbx or databricks cli.
 
 ## Sample project structure (with GitLab)
 ```
