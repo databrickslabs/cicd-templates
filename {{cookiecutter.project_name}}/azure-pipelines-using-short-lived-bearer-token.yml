@@ -1,0 +1,136 @@
+variables:
+- group: Databricks-environment
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - '*'
+
+  tags:
+    include:
+      - v*.*
+      - prod
+
+stages:
+- stage: onPush
+  jobs:
+  - job: 'GenerateShortLivedBearerToken'
+    pool:
+      vmImage: windows-latest
+    steps:
+      # This script which generates short-lived bearer token can only run on a Windows machine
+      # Your build pipeline references an undefined variable named ‘servicePrincipalSecret’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+      # Source code which creates the token can be found at https://github.com/DataThirstLtd/databricks.vsts.tools/blob/master/deployCreateBearer/vstsDeployCreateBearer.ps1
+      - task: DataThirstLtd.databricksDeployScriptsTasks.databricksDeployCreateBearer.databricksDeployCreateBearer@0
+        displayName: 'Databricks Bearer Token'
+        inputs:
+          applicationId: '$(applicationId)'
+          spSecret: '$(servicePrincipalSecret)'
+          resourceGroup: '$(resourceGroup)'
+          workspace: '$(workspace)'
+          subscriptionId: '$(subscriptionId)'
+          tenantId: '$(tenantId)'
+          region: '$(region)'
+
+      # Set the token so that it can be passed to the next azure job
+      - powershell: echo "##vso[task.setvariable variable=outputVariableBearerToken;isOutput=true]$(BearerToken)"
+        name: setvarStep
+
+  - job: onPushJob
+    dependsOn: ['GenerateShortLivedBearerToken']
+    pool:
+      vmImage: 'ubuntu-18.04'
+    variables:
+      BearerToken: $[ dependencies.GenerateShortLivedBearerToken.outputs['setvarStep.outputVariableBearerToken'] ]
+
+    steps:
+    - script: env | sort
+      displayName: 'Environment / Context'
+
+    - task: UsePythonVersion@0
+      displayName: 'Use Python 3.7'
+      inputs:
+        versionSpec: 3.7
+
+    - checkout: self
+      persistCredentials: true
+      clean: true
+      displayName: 'Checkout & Build.Reason: $(Build.Reason) & Build.SourceBranchName: $(Build.SourceBranchName)'
+
+    - script: |
+        python -m pip install --upgrade pip
+        pip install -r unit-requirements.txt
+        pip install -e .
+      displayName: 'Install dependencies'
+
+    - script: |
+        echo "
+        $(DATABRICKS_HOST)
+        $(BearerToken)" | databricks configure --token --debug
+      displayName: 'Configure SOURCE CLI'
+
+    - script: |
+        pytest tests/unit --junitxml=test-unit.xml
+      displayName: 'Run Unit tests'
+
+    - script: |
+        dbx deploy --jobs={{cookiecutter.project_name}}-sample-integration-test --files-only
+      displayName: 'Deploy integration test'
+
+    - script: |
+        dbx launch --job={{cookiecutter.project_name}}-sample-integration-test --as-run-submit --trace
+      displayName: 'Launch integration on test'
+
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/test-*.xml' 
+        failTaskOnFailedTests: true
+
+- stage: onRelease
+  condition: |
+    or(
+      startsWith(variables['Build.SourceBranch'], 'refs/heads/releases'),
+      startsWith(variables['Build.SourceBranch'], 'refs/tags/v')
+    )
+  jobs:
+  - job: onReleaseJob
+    pool:
+      vmImage: 'ubuntu-18.04'
+
+    steps:
+      - script: env | sort
+        displayName: 'Environment / Context'
+
+      - task: UsePythonVersion@0
+        displayName: 'Use Python 3.7'
+        inputs:
+          versionSpec: 3.7
+
+      - checkout: self
+        persistCredentials: true
+        clean: true
+        displayName: 'Checkout & Build.Reason: $(Build.Reason) & Build.SourceBranchName: $(Build.SourceBranchName)'
+
+      - script: |
+          python -m pip install --upgrade pip
+          pip install -r unit-requirements.txt
+          pip install -e .
+        displayName: 'Install dependencies'
+
+      - script: |
+          pytest tests/unit --junitxml=test-unit.xml
+        displayName: 'Run Unit tests'
+
+      - script: |
+          dbx deploy --jobs={{cookiecutter.project_name}}-sample
+        displayName: 'Deploy the job'
+
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '**/test-*.xml' 
+          failTaskOnFailedTests: true
