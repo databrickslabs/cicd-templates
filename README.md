@@ -1,6 +1,10 @@
-# Databricks Labs CI/CD Templates
+# [DEPRECATED] Databricks Labs CI/CD Templates
 
 This repository provides a template for automated Databricks CI/CD pipeline creation and deployment.
+
+> **_NOTE:_**  This repository is **deprecated** and provided for maintenance purposes only. Please use the [dbx init](https://dbx.readthedocs.io/en/latest/templates/python_basic.html) functionality instead.
+
+
 
 Table of Contents
 =================
